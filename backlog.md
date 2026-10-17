@@ -267,10 +267,15 @@
   - Authored 5 integration tests in `tests/integration/owner-menu.test.ts` passing 100%.
 
 ### SPRINT-3.4: Owner Weekly Hours & Closures Management (`src/app/owner/hours/page.tsx`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Weekly schedule editor with non-overlapping interval validation, overnight rule instructions, one-off closure manager. Transition `hours_status` to `set`.
 - **Acceptance Criteria:**
-  - O6 tests passing.
+-   - O6 tests passing.
+- **Completion Details:**
+  - Implemented `src/owner/hours-ops.ts` (`getOwnerHoursAndClosures`, `saveOwnerWeeklyHours`, `addOwnerClosure`, `removeOwnerClosure`, `ClosureNotFoundError`) with strict validation (non-overlapping shifts, identical time checks, future/today closure date constraint, and automatic filtering out of past closures).
+  - Enforced transition of `hours_status = 'set'` upon saving hours for the first time.
+  - Implemented Next.js Owner Hours UI (`src/app/owner/hours/page.tsx`, `HoursManager.tsx`, `actions.ts`) with clear instructions on overnight shifts and 24h intervals, weekday shift controls, and scheduled closure management with audit trails.
+  - Authored 4 integration tests in `tests/integration/owner-hours.test.ts` passing 100%.
 
 ### SPRINT-3.5: Owner Pause, Resume & Self-Service Account (`src/app/owner/account/page.tsx`)
 - **Status:** `[ ] TODO`
