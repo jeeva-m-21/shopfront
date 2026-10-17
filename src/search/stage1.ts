@@ -383,3 +383,96 @@ export async function executeStage1(options: SearchStage1Options): Promise<Stage
     };
   });
 }
+
+export interface RelaxationHint {
+  constraint: 'radius' | 'max_price' | 'open_now' | 'category';
+  relaxed_to: string;
+  would_return: number;
+}
+
+export async function generateRelaxationHints(
+  options: SearchStage1Options
+): Promise<RelaxationHint[]> {
+  // Triggered only when a location anchor is present (PRD 11.2, Architecture 5.4)
+  if (!options.anchor) {
+    return [];
+  }
+
+  const activeConstraints: Array<{
+    constraint: 'radius' | 'max_price' | 'open_now' | 'category';
+    relaxed_to: string;
+    relaxedOptions: SearchStage1Options;
+  }> = [];
+
+  const currentRadius = options.radiusKm ?? 5;
+  if (currentRadius < 25) {
+    activeConstraints.push({
+      constraint: 'radius',
+      relaxed_to: '25 km',
+      relaxedOptions: { ...options, radiusKm: 25 },
+    });
+  }
+
+  if (options.maxPriceInr != null) {
+    activeConstraints.push({
+      constraint: 'max_price',
+      relaxed_to: 'any price',
+      relaxedOptions: { ...options, maxPriceInr: null },
+    });
+  }
+
+  if (options.openNow === true) {
+    activeConstraints.push({
+      constraint: 'open_now',
+      relaxed_to: 'all hours',
+      relaxedOptions: { ...options, openNow: false },
+    });
+  }
+
+  if (options.category != null) {
+    activeConstraints.push({
+      constraint: 'category',
+      relaxed_to: 'all categories',
+      relaxedOptions: { ...options, category: null },
+    });
+  }
+
+  if (activeConstraints.length === 0) {
+    return [];
+  }
+
+  const config = getConfig();
+
+  const hintResults = await Promise.all(
+    activeConstraints.map(async ({ constraint, relaxed_to, relaxedOptions }) => {
+      const candidates = await getCandidatePool({
+        ...relaxedOptions,
+        limit: config.CANDIDATE_POOL_SIZE,
+      });
+
+      if (candidates.length === 0) {
+        return null;
+      }
+
+      let count = candidates.length;
+      if (relaxedOptions.openNow === true) {
+        const now = relaxedOptions.now ?? new Date();
+        count = candidates.filter(
+          (c) => evaluateOpenNow(c.hours_status, c.hours_json, c.closures_json, now) === true
+        ).length;
+      }
+
+      if (count > 0) {
+        return {
+          constraint,
+          relaxed_to,
+          would_return: count,
+        };
+      }
+      return null;
+    })
+  );
+
+  return hintResults.filter((h): h is RelaxationHint => h !== null);
+}
+

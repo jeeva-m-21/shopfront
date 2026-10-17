@@ -319,10 +319,14 @@
   - Authored integration tests in `tests/integration/search-stage1-query2.test.ts` verifying H6 open-now filtering in IST context, unknown hours exclusion, scheduled closure filtering, and accurate top 5 items retrieval.
 
 ### SPRINT-4.3: Relaxation Hints Generator (`src/search/stage1.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Fast count-pass relaxing radius (to 25km), max price, open now, or category when results are 0 and location is present.
 - **Acceptance Criteria:**
   - Integration tests verifying correct relaxation suggestions.
+- **Completion Details:**
+  - Implemented `generateRelaxationHints` in `src/search/stage1.ts` running targeted single-constraint relaxation count passes in parallel across active constraints (radius to 25 km, max_price to null, open_now to false, category to null).
+  - Enforced gating: only triggers when a location anchor is present, only relaxes active constraints, and omits hints where `would_return === 0`.
+  - Authored integration tests in `tests/integration/search-relaxation.test.ts` verifying radius, max price, and open-now relaxations with 100% pass rate.
 
 ### SPRINT-4.4: Search Orchestrator & Telemetry (`src/search/search-shops.ts`)
 - **Status:** `[ ] TODO`
