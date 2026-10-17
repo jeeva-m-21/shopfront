@@ -340,10 +340,14 @@
   - Authored integration tests in `tests/integration/search-orchestrator.test.ts` passing 100%.
 
 ### SPRINT-4.5: Stateless MCP Server Setup & `POST /mcp` (`src/mcp/server.ts`, `src/app/mcp/route.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** MCP SDK v1.x `StreamableHTTPServerTransport` stateless route handler (`sessionIdGenerator: undefined`, fresh server per request). Reject GET/DELETE with 405. Sliding window rate limit check.
 - **Acceptance Criteria:**
   - Protocol conformance tests: stateless lifecycle, HTTP 405 on GET, rate limiting.
+- **Completion Details:**
+  - Implemented Next.js MCP route handler in `src/app/mcp/route.ts` with `POST` (handling MCP JSON-RPC 2.0 with `WebStandardStreamableHTTPServerTransport` and `sessionIdGenerator: undefined`), and rejecting `GET` and `DELETE` requests with HTTP 405 and `Allow: POST` header.
+  - Implemented `createShopfrontMcpServer` in `src/mcp/server.ts` binding IP-based sliding window rate limiter (60 req/min), returning `{ isError: true, content: [{ type: "text", text: "..." }] }` on rate limiting and recording telemetry.
+  - Authored protocol conformance tests in `tests/integration/mcp-protocol.test.ts` verifying stateless headers, HTTP 405 methods, initialize handshake, and rate limiting.
 
 ### SPRINT-4.6: MCP Tools Implementation (`src/mcp/tools/*`)
 - **Status:** `[ ] TODO`
