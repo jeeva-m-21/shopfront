@@ -469,10 +469,15 @@
   - Authored 4 integration tests in `tests/integration/public-shop-page.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-6.3: Health Check & Maintenance Scripts (`src/app/api/health/route.ts`, `scripts/purge-logs.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** `GET /api/health` checking database connectivity. `scripts/purge-logs.ts` deleting `search_logs` older than `LOG_RETENTION_DAYS`.
 - **Acceptance Criteria:**
   - Health check returns 200 on DB up, 503 on DB down. Purge script deletes stale rows.
+- **Completion Details:**
+  - Implemented `src/logger.ts` structured JSON stdout logger with level, ISO timestamp, route/tool, duration, error code, and recursive secret redaction for sensitive keys (passwords, tokens, authorization headers, api keys).
+  - Implemented `GET /api/health` route handler in `src/app/api/health/route.ts` checking DB connectivity with `SELECT 1;`, returning HTTP 200 `{ status: "ok" }` on success, and HTTP 503 `{ status: "error", error: message }` on failure.
+  - Implemented `scripts/purge-logs.ts` with `purgeOldSearchLogs(retentionDays?)` deleting rows from `search_logs` where `created_at < NOW() - INTERVAL 'X days'` based on `LOG_RETENTION_DAYS` (90 days), preserving recent logs, and leaving `audit_log` untouched indefinitely.
+  - Authored 4 integration tests in `tests/integration/health-and-maintenance.test.ts` and 3 unit tests in `tests/unit/logger.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-6.4: Docker Compose & Production Containerization (`Dockerfile`, `docker-compose.yml`)
 - **Status:** `[ ] TODO`
