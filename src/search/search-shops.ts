@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { isInServiceArea } from '../config.js';
+import { isInServiceArea, parseConfig } from '../config.js';
 import { resolveLocality, CHENNAI_LOCALITIES } from '../domain/localities.js';
 import { formatPriceDisplay, computePriceRange } from '../domain/pricing.js';
 import {
@@ -8,6 +8,7 @@ import {
   type ShopCategory,
   type RelaxationHint,
 } from './stage1.js';
+import { rerankShops } from './rerank/shop-reranker.js';
 import { writeSearchLog } from './telemetry.js';
 
 export interface SearchShopsInput {
@@ -257,7 +258,7 @@ export async function searchShops(
   // 5. Stage 1 retrieval
   try {
     const stage1Start = Date.now();
-    const candidates = await executeStage1({
+    const stage1Candidates = await executeStage1({
       query: input.query,
       category: input.category,
       anchor,
@@ -267,6 +268,20 @@ export async function searchShops(
       showSampleData: input.show_sample_data,
     });
     const stage1Ms = Date.now() - stage1Start;
+
+    // 6. Stage 2 Reranking
+    const rerankResult = await rerankShops({
+      query: input.query || '',
+      candidates: stage1Candidates,
+      startTime,
+    });
+
+    const candidates = rerankResult.shops;
+    const reranked = rerankResult.reranked;
+    const fallbackReason = rerankResult.fallback_reason;
+    const jevMs = rerankResult.jev_ms;
+    const config = parseConfig();
+    const jevModel = reranked ? config.JEV_MODEL : null;
 
     const limit = input.limit ?? 5;
     const topShops = candidates.slice(0, limit);
@@ -298,14 +313,14 @@ export async function searchShops(
         open_now: shop.open_now,
         hours_status: shop.hours_status,
         price_range_inr: priceRange,
-        relevance_score: null, // Un-reranked Stage 1
+        relevance_score: shop.relevance_score ?? null,
         matching_items: matchingItems,
         menu_updated_at: shop.menu_updated_at ? shop.menu_updated_at.toISOString() : null,
         action_mode: shop.action_mode,
       };
     });
 
-    // 6. Compute relaxation hints if 0 results and location present
+    // 7. Compute relaxation hints if 0 results and location present
     let relaxationHints: RelaxationHint[] = [];
     if (topShops.length === 0 && anchor) {
       relaxationHints = await generateRelaxationHints({
@@ -321,7 +336,7 @@ export async function searchShops(
 
     const totalMs = Date.now() - startTime;
 
-    // 7. Write telemetry log
+    // 8. Write telemetry log
     await writeSearchLog({
       channel,
       tool: 'find_shops',
@@ -329,26 +344,26 @@ export async function searchShops(
       locality_id: localityId,
       category: input.category ?? null,
       shop_id: null,
-      candidate_count: candidates.length,
+      candidate_count: stage1Candidates.length,
       result_count: topShops.length,
-      reranked: false,
-      jev_model: null,
-      fallback_reason: 'not_applicable',
+      reranked,
+      jev_model: jevModel,
+      fallback_reason: fallbackReason,
       error_code: null,
       stage1_ms: stage1Ms,
-      jev_ms: null,
+      jev_ms: jevMs,
       total_ms: totalMs,
     });
 
     return {
       success: true,
       data: {
-        reranked: false,
-        jev_model: null,
-        fallback_reason: 'not_applicable',
+        reranked,
+        jev_model: jevModel,
+        fallback_reason: fallbackReason,
         location_resolved: locationResolved,
         location_warning: locationWarning,
-        candidate_count: candidates.length,
+        candidate_count: stage1Candidates.length,
         shops: mappedShops,
         relaxation_hints: relaxationHints,
       },

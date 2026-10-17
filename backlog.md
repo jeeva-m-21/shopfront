@@ -386,10 +386,17 @@
   - Authored 14 unit tests in `tests/unit/search/jev-client.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-5.2: Shop Reranker Orchestrator & Fail-Open Fallback (`src/search/rerank/shop-reranker.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Parallel candidate dispatch, prompt truncation guards, expected score calculation $E[\text{score}]$, tie-breaking with baseline rank, all-or-nothing fallback on any single failure.
 - **Acceptance Criteria:**
   - Unit tests verifying fallback reasons (`budget`, `timeout`, `http_error`, `invalid_schema`, `not_applicable`, `disabled`).
+- **Completion Details:**
+  - Implemented `rerankShops` in `src/search/rerank/shop-reranker.ts` enforcing gate conditions: empty query or < 2 candidates (`not_applicable`), disabled flag or missing API key (`disabled`), and dynamic remaining budget < 150ms (`budget`).
+  - Implemented parallel candidate dispatch sharing single `AbortController` bounded by `jevTimeoutMs`.
+  - Implemented all-or-nothing fail-open fallback: any timeout (`timeout`), HTTP/network error (`http_error`), or schema failure (`invalid_schema`) discards Stage 2 results, logs warning, and seamlessly returns Stage 1 order with `reranked: false`.
+  - Computed $E[\text{score}]$, sorted by expected score rounded to 4 decimals DESC with deterministic `baseline_rank` tie-breaking ASC, and formatted 2-decimal `relevance_score`.
+  - Integrated `rerankShops` into `src/search/search-shops.ts` (`find_shops`), recording telemetry with accurate `reranked`, `jev_model`, `fallback_reason`, and `jev_ms`.
+  - Authored 10 unit tests in `tests/unit/search/shop-reranker.test.ts` and integration test in `tests/integration/search-orchestrator.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-5.3: Evaluation Harness & Metrics (`eval/metrics.ts`, `eval/run-benchmark.ts`)
 - **Status:** `[ ] TODO`

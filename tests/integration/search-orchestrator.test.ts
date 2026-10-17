@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { query } from '../../src/db.js';
 import { searchShops, type SearchShopsInput } from '../../src/search/search-shops.js';
 import { createAdminShop, makeShopLive } from '../../src/admin/shop-ops.js';
@@ -180,6 +180,129 @@ describe('Search Orchestrator & Telemetry (Integration Tests)', () => {
         expect(res.data.location_warning).toBeNull();
         expect(res.data.shops).toHaveLength(0);
         expect(res.data.relaxation_hints.length).toBeGreaterThanOrEqual(1);
+      }
+    });
+
+    it('executes Stage 2 reranking when enabled, ordering candidates by relevance score and logging to search_logs', async () => {
+      const ts = Date.now();
+      // Create two live shops in Adyar
+      const shopA = await createAdminShop({
+        name: 'Alpha Phone Repairs',
+        slug: `s1-orch-rerank-a-${ts}`.slice(0, 30),
+        category: 'repair_service',
+        description: 'Screen repair and battery service.',
+        address: '11 LB Road, Adyar, Chennai',
+        locality_id: 1,
+        latitude: 13.0012,
+        longitude: 80.2565,
+        phone: '+914424410702',
+        whatsapp: '+919840123456',
+        action_mode: 'whatsapp',
+        is_sample_data: false,
+        actor: adminActor,
+      });
+      await query(
+        `INSERT INTO catalog_items (shop_id, group_name, name, kind, price_type, price_inr, available)
+         VALUES ($1, 'General', 'Screen Fix', 'service', 'fixed', 1500, TRUE);`,
+        [shopA.id]
+      );
+      await makeShopLive({ shopId: shopA.id, actor: adminActor });
+
+      const shopB = await createAdminShop({
+        name: 'Beta Battery Center',
+        slug: `s1-orch-rerank-b-${ts}`.slice(0, 30),
+        category: 'repair_service',
+        description: 'Battery specialists.',
+        address: '12 LB Road, Adyar, Chennai',
+        locality_id: 1,
+        latitude: 13.0012,
+        longitude: 80.2565,
+        phone: '+914424410703',
+        whatsapp: '+919840123457',
+        action_mode: 'whatsapp',
+        is_sample_data: false,
+        actor: adminActor,
+      });
+      await query(
+        `INSERT INTO catalog_items (shop_id, group_name, name, kind, price_type, price_inr, available)
+         VALUES ($1, 'General', 'Battery Replacement', 'service', 'fixed', 900, TRUE);`,
+        [shopB.id]
+      );
+      await makeShopLive({ shopId: shopB.id, actor: adminActor });
+
+      // Enable reranking for this test
+      process.env.RERANK_ENABLED = 'true';
+      process.env.JEV_API_KEY = 'test-key';
+      process.env.JEV_MODEL = 'jev-1.13-20260917';
+
+      // Mock fetch for Jev Decisions API
+      const originalFetch = global.fetch;
+      global.fetch = vi.fn().mockImplementation(async (url: any, opts: any) => {
+        const body = JSON.parse(opts.body);
+        const isBeta = body.state.shop.name.includes('Beta');
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            model: 'jev-1.13-20260917',
+            distribution: isBeta
+              ? [
+                  { level: 0, probability: 0.0 },
+                  { level: 1, probability: 0.0 },
+                  { level: 2, probability: 0.1 },
+                  { level: 3, probability: 0.9 },
+                ] // E[score] = 2.9
+              : [
+                  { level: 0, probability: 0.2 },
+                  { level: 1, probability: 0.6 },
+                  { level: 2, probability: 0.2 },
+                  { level: 3, probability: 0.0 },
+                ], // E[score] = 1.0
+          }),
+        };
+      });
+
+      try {
+        const res = await searchShops(
+          {
+            query: 'battery replacement',
+            locality: 'Adyar',
+            show_sample_data: false,
+          },
+          'mcp'
+        );
+
+        expect(res.success).toBe(true);
+        if (res.success) {
+          expect(res.data.reranked).toBe(true);
+          expect(res.data.jev_model).toBe('jev-1.13-20260917');
+          expect(res.data.fallback_reason).toBeNull();
+          expect(res.data.shops.length).toBeGreaterThanOrEqual(2);
+
+          // Beta shop should be reranked to top
+          const firstShop = res.data.shops[0]!;
+          expect(firstShop.slug).toBe(shopB.slug);
+          expect(firstShop.relevance_score).toBe(2.9);
+        }
+
+        // Check telemetry search_logs
+        const logRes = await query<{
+          reranked: boolean;
+          jev_model: string;
+          fallback_reason: string | null;
+        }>(
+          `SELECT reranked, jev_model, fallback_reason
+           FROM search_logs
+           WHERE tool = 'find_shops'
+           ORDER BY id DESC LIMIT 1;`
+        );
+        expect(logRes.rows[0]?.reranked).toBe(true);
+        expect(logRes.rows[0]?.jev_model).toBe('jev-1.13-20260917');
+        expect(logRes.rows[0]?.fallback_reason).toBeNull();
+      } finally {
+        global.fetch = originalFetch;
+        process.env.RERANK_ENABLED = 'false';
+        delete process.env.JEV_API_KEY;
       }
     });
   });
