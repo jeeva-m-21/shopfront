@@ -516,10 +516,15 @@
 ## Sprint 7: Pilot Onboarding, Operations & Launch Gate (M7)
 
 ### SPRINT-7.1: Operations & Backup Runbook (`docs/operations.md`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Author crontab setup, nightly `pg_dump` backup, retention policy, and tested restore verification steps.
 - **Acceptance Criteria:**
   - Backup and restore cycle verified against test database.
+- **Completion Details:**
+  - Authored comprehensive operations runbook in `docs/operations.md` covering Docker Compose service commands, crontab setup (`/etc/cron.d/shopfront`) for 02:15 IST search log purge and 03:00 IST nightly backup with 7-day retention.
+  - Documented automated backup script `/usr/local/bin/shopfront-backup.sh` utilizing PostgreSQL custom format (`pg_dump -Fc`).
+  - Executed and verified database backup and restore cycle against live test database `shopfront_restore_test`, verifying 100% preservation of relations, PostGIS geometry fields, and constraints.
+  - Documented step-by-step disaster recovery runbook, health check monitoring (`/api/health`), structured JSON log formats, and incident response procedures.
 
 ### SPRINT-7.2: Pilot Onboarding Verification Log (`docs/pilot-log.md`)
 - **Status:** `[ ] TODO`
