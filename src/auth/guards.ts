@@ -59,6 +59,14 @@ export async function requireOwner(currentPath?: string): Promise<SessionValidat
   return sessionResult;
 }
 
+export class CsrfValidationError extends Error {
+  readonly status = 403;
+  constructor(message = 'CSRF origin validation failed: Origin header missing or mismatched.') {
+    super(message);
+    this.name = 'CsrfValidationError';
+  }
+}
+
 /**
  * Verifies that the Origin header host matches APP_BASE_URL for CSRF protection (PRD Section 13.3).
  */
@@ -81,3 +89,17 @@ export function verifyCsrfOrigin(
     return false;
   }
 }
+
+/**
+ * Asserts that the Origin header matches APP_BASE_URL for CSRF protection.
+ * Throws CsrfValidationError if origin is missing or mismatched.
+ */
+export function assertCsrfOrigin(
+  headers: Headers,
+  expectedBaseUrl?: string
+): void {
+  if (!verifyCsrfOrigin(headers, expectedBaseUrl)) {
+    throw new CsrfValidationError();
+  }
+}
+

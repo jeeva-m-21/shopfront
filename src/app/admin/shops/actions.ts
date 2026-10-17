@@ -1,8 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { requireAdmin } from '../../../auth/guards.js';
+import { requireAdmin, assertCsrfOrigin } from '../../../auth/guards.js';
 import {
   createAdminShop,
   updateAdminShop,
@@ -22,6 +23,9 @@ export async function createShopAction(
   _prevState: ShopActionState | null,
   formData: FormData
 ): Promise<ShopActionState> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireAdmin();
 
   try {
@@ -82,6 +86,9 @@ export async function updateShopAction(
   _prevState: ShopActionState | null,
   formData: FormData
 ): Promise<ShopActionState> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireAdmin();
 
   try {
@@ -144,6 +151,9 @@ export async function updateShopAction(
 }
 
 export async function makeShopLiveAction(shopId: string): Promise<{ success: boolean; error?: string }> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireAdmin();
   try {
     await makeShopLive({
@@ -159,6 +169,9 @@ export async function makeShopLiveAction(shopId: string): Promise<{ success: boo
 }
 
 export async function pauseShopAction(shopId: string): Promise<{ success: boolean; error?: string }> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireAdmin();
   try {
     await pauseShop({
@@ -177,6 +190,9 @@ export async function deleteShopAction(
   shopId: string,
   confirmationSlug: string
 ): Promise<{ success: boolean; error?: string }> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireAdmin();
   try {
     await deleteShop({

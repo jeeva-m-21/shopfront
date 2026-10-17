@@ -1,9 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { requireAdmin } from '../../../auth/guards.js';
+import { requireAdmin, assertCsrfOrigin } from '../../../auth/guards.js';
 import { deleteSession, SESSION_COOKIE_NAME } from '../../../auth/sessions.js';
 import {
   createOwnerAccount,
@@ -23,6 +23,9 @@ export async function createOwnerAction(
   _prevState: CreateOwnerActionState | null,
   formData: FormData
 ): Promise<CreateOwnerActionState> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireAdmin();
 
   const username = formData.get('username')?.toString() ?? '';
@@ -51,6 +54,9 @@ export async function createOwnerAction(
 export async function resetOwnerPasswordAction(
   ownerId: string
 ): Promise<{ temporaryPassword?: string; error?: string }> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireAdmin();
 
   try {
@@ -69,6 +75,9 @@ export async function toggleOwnerStatusAction(
   ownerId: string,
   targetStatus: 'enable' | 'disable'
 ): Promise<{ success: boolean; error?: string }> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireAdmin();
 
   try {

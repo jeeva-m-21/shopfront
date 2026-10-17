@@ -2,7 +2,7 @@
 
 import { headers, cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
-import { requireOwner, verifyCsrfOrigin } from '../../../auth/guards.js';
+import { requireOwner, assertCsrfOrigin } from '../../../auth/guards.js';
 import { SESSION_COOKIE_NAME } from '../../../auth/sessions.js';
 import { changeOwnerPasswordSelfService } from '../../../owner/account-ops.js';
 import { pauseOwnerShop, resumeOwnerShop } from '../../../owner/shop-ops.js';
@@ -17,7 +17,7 @@ export async function changeOwnerPasswordAction(
   formData: FormData
 ): Promise<ChangePasswordFormState> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/account');
   const cookieStore = await cookies();
@@ -53,7 +53,7 @@ export async function changeOwnerPasswordAction(
 
 export async function pauseListingAction(): Promise<{ success: boolean; error?: string }> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/account');
 
@@ -78,7 +78,7 @@ export async function pauseListingAction(): Promise<{ success: boolean; error?: 
 
 export async function resumeListingAction(): Promise<{ success: boolean; error?: string }> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/account');
 

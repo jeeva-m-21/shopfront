@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
-import { requireOwner, verifyCsrfOrigin } from '../../../auth/guards.js';
+import { requireOwner, assertCsrfOrigin } from '../../../auth/guards.js';
 import {
   saveOwnerWeeklyHours,
   addOwnerClosure,
@@ -14,7 +14,7 @@ export async function saveWeeklyHoursAction(
   intervals: ShopHourInterval[]
 ): Promise<{ success: boolean; error?: string }> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/hours');
 
@@ -42,7 +42,7 @@ export async function addClosureAction(
   reason?: string
 ): Promise<{ success: boolean; error?: string }> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/hours');
 
@@ -70,7 +70,7 @@ export async function removeClosureAction(
   closureId: string
 ): Promise<{ success: boolean; error?: string }> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/hours');
 

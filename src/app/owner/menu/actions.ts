@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
-import { requireOwner, verifyCsrfOrigin } from '../../../auth/guards.js';
+import { requireOwner, assertCsrfOrigin } from '../../../auth/guards.js';
 import {
   createOwnerMenuItem,
   updateOwnerMenuItem,
@@ -23,7 +23,7 @@ export async function createMenuItemAction(
   formData: FormData
 ): Promise<MenuItemActionState> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/menu');
 
@@ -95,7 +95,7 @@ export async function updateMenuItemAction(
   formData: FormData
 ): Promise<MenuItemActionState> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/menu');
 
@@ -169,7 +169,7 @@ export async function toggleMenuItemAvailableAction(
   available: boolean
 ): Promise<{ success: boolean; error?: string }> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/menu');
 
@@ -195,7 +195,7 @@ export async function deleteMenuItemAction(
   itemId: string
 ): Promise<{ success: boolean; error?: string }> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/menu');
 

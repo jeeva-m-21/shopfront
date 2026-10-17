@@ -2,7 +2,7 @@
 
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
-import { requireOwner, verifyCsrfOrigin } from '../../../auth/guards.js';
+import { requireOwner, assertCsrfOrigin } from '../../../auth/guards.js';
 import { updateOwnerShopDetails } from '../../../owner/shop-ops.js';
 import type { ActionMode } from '../../../admin/shop-ops.js';
 
@@ -16,7 +16,7 @@ export async function updateOwnerShopAction(
   formData: FormData
 ): Promise<UpdateOwnerShopState> {
   const reqHeaders = await headers();
-  verifyCsrfOrigin(reqHeaders);
+  assertCsrfOrigin(reqHeaders);
 
   const { user } = await requireOwner('/owner/shop');
 

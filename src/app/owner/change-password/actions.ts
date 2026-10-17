@@ -1,8 +1,8 @@
 'use server';
 
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { requireOwner } from '../../../auth/guards.js';
+import { requireOwner, assertCsrfOrigin } from '../../../auth/guards.js';
 import { SESSION_COOKIE_NAME } from '../../../auth/sessions.js';
 import { forceChangeOwnerPassword } from '../../../owner/account-ops.js';
 
@@ -15,6 +15,9 @@ export async function changePasswordAction(
   _prevState: ChangePasswordState | null,
   formData: FormData
 ): Promise<ChangePasswordState> {
+  const reqHeaders = await headers();
+  assertCsrfOrigin(reqHeaders);
+
   const { user } = await requireOwner('/owner/change-password');
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
