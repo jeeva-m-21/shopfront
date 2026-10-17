@@ -480,10 +480,17 @@
   - Authored 4 integration tests in `tests/integration/health-and-maintenance.test.ts` and 3 unit tests in `tests/unit/logger.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-6.4: Docker Compose & Production Containerization (`Dockerfile`, `docker-compose.yml`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Multi-stage production `Dockerfile`, `docker-compose.yml` linking app and `postgis/postgis:15-3.4` with persistent volume and healthchecks.
 - **Acceptance Criteria:**
   - `docker compose up` starts healthy database and application containers.
+- **Completion Details:**
+  - Configured webpack extension alias in `next.config.mjs` (`.js` -> `[.ts, .tsx, .js]`) ensuring seamless resolution of TypeScript modules across Next.js build.
+  - Verified `npm run build` succeeds generating optimized production bundles for all 20 static and dynamic routes.
+  - Created `.dockerignore` excluding unnecessary directories (`node_modules`, `.next`, `.git`, `.env*`, `tests`, `eval/cache`).
+  - Authored multi-stage production `Dockerfile` (`base`, `deps`, `builder`, `runner`) on `node:22-bookworm-slim` with non-root `nextjs` user, healthcheck tool `wget`, and optimized layer caching.
+  - Authored `docker-compose.yml` orchestrating `db` (`postgis/postgis:16-3.4` with persistent volume and `pg_isready` healthcheck) and `app` (linking to db health, injecting environment variables, exposing 3000, and checking `/api/health`).
+  - Verified `docker compose config` syntax validation. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-6.5: Playwright Full Lifecycle E2E Test (`tests/e2e/lifecycle.spec.ts`)
 - **Status:** `[ ] TODO`
