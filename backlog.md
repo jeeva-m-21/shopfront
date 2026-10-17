@@ -255,10 +255,16 @@
   - Authored 5 integration tests in `tests/integration/owner-shop.test.ts` passing 100%.
 
 ### SPRINT-3.3: Owner Menu & Catalog Management (`src/app/owner/menu/page.tsx`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Catalog CRUD with grouping, sort order, available toggle, 100-item limit enforcement, and D13 live-shop invariant enforcement.
 - **Acceptance Criteria:**
-  - O5 tests passing; deleting or toggling last available item on live shop rejected.
+-   - O5 tests passing; deleting or toggling last available item on live shop rejected.
+- **Completion Details:**
+  - Implemented `src/owner/menu-ops.ts` (`listOwnerMenuItems`, `createOwnerMenuItem`, `updateOwnerMenuItem`, `toggleOwnerMenuItemAvailable`, `deleteOwnerMenuItem`, `ItemNotFoundError`) with full validation (price kinds, INR bounds, services-only duration, food-only diet, max 10 tags lowercased).
+  - Enforced 100-item ceiling per shop rejecting adds beyond 100 with `"Menu limit reached (100 items)"`.
+  - Enforced D13 live shop invariant: rejecting deletion or availability toggle if the shop is `live` and the action would leave zero available items, returning `"A live shop needs at least one available item. Pause your listing first."`.
+  - Implemented Next.js Owner Menu UI (`src/app/owner/menu/page.tsx`, `MenuManager.tsx`, `actions.ts`) with group-based sectioning, sort ordering, add/edit modals, availability toggle, and audit logging on all mutations.
+  - Authored 5 integration tests in `tests/integration/owner-menu.test.ts` passing 100%.
 
 ### SPRINT-3.4: Owner Weekly Hours & Closures Management (`src/app/owner/hours/page.tsx`)
 - **Status:** `[ ] TODO`
