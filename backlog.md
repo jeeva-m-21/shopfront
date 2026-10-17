@@ -160,10 +160,14 @@
   - Authored 11 unit tests in `tests/unit/auth/passwords.test.ts` passing 100%.
 
 ### SPRINT-2.2: Session Management & Rate Limiting (`src/auth/sessions.ts`, `src/rate-limit.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Secure cookies (`sf_session`), SHA-256 token hashing, 7-day expiration, sliding window in-memory rate limiter (60 req/min/IP).
 - **Acceptance Criteria:**
   - Integration tests for session creation, validation, expiration, and rate-limit tripping.
+- **Completion Details:**
+  - Implemented in-memory sliding window rate limiter in `src/rate-limit.ts` (60 req/min/IP default, configurable limits, auto-cleanup of stale windows).
+  - Implemented session manager in `src/auth/sessions.ts` with 32-byte CSPRNG hex tokens, SHA-256 token hashing for DB persistence, 7-day expiration, `createSession`, `validateSession`, `deleteSession`, and `deleteAllUserSessions`.
+  - Authored 4 unit tests in `tests/unit/rate-limit.test.ts` and 4 integration tests in `tests/integration/sessions.test.ts` passing 100%.
 
 ### SPRINT-2.3: Lockout Guard & Login Flow (`src/auth/lockout.ts`, `src/app/login/page.tsx`)
 - **Status:** `[ ] TODO`
