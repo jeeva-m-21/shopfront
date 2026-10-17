@@ -217,10 +217,16 @@
   - Authored 5 integration tests in `tests/integration/admin-shops.test.ts` passing 100%.
 
 ### SPRINT-2.7: Admin Telemetry & Audit Log Viewers (`src/app/admin/logs/page.tsx`, `src/app/admin/audit/page.tsx`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Filterable search logs viewer with p50/p95 latency summary strip and CSV export. Filterable audit log viewer with JSON diff formatting.
 - **Acceptance Criteria:**
   - A8, A9 acceptance tests passing.
+- **Completion Details:**
+  - Implemented `src/admin/telemetry-ops.ts` with `getSearchLogs` (aggregating query count, rerank rate %, fallback rate %, and PostgreSQL `percentile_cont` p50/p95 latency for `find_shops`), `exportSearchLogsCsv` (RFC-compliant CSV serializer with header columns), and `getAuditLogs` with actor/entity filters and state diff parsing.
+  - Implemented Next.js CSV export route handler `src/app/api/admin/logs/export/route.ts` with admin session verification and `Content-Disposition: attachment`.
+  - Implemented telemetry logs page `src/app/admin/logs/page.tsx` with top summary statistics strip, channel/tool/fallback filters, CSV export trigger, and responsive table.
+  - Implemented audit logs page `src/app/admin/audit/page.tsx` with actor/entity filters and side-by-side JSON before/after state diff cards.
+  - Authored 4 integration tests in `tests/integration/admin-logs.test.ts` passing 100%. Milestone M2 exit gate achieved.
 
 ---
 
