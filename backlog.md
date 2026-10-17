@@ -18,12 +18,17 @@
 ## Sprint 0: Foundation, Scaffolding & Frozen Spikes (M0)
 
 ### SPRINT-0.1: Repository Scaffolding & Pinned Dependencies
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Create `package.json` with exact pinned dependencies (Next.js App Router, `@modelcontextprotocol/sdk` v1.x, `zod`, `pg`, `argon2`, `vitest`, `@playwright/test`, `typescript`). Configure `tsconfig.json` with `strict: true`, `noUncheckedIndexedAccess: true`. Setup `vitest.config.ts` and `next.config.mjs` with security headers.
 - **Acceptance Criteria:**
   - `npm test` runs cleanly.
   - `npm run typecheck` and `npm run lint` pass.
   - Zero unpinned (`^`, `~`) dependencies in `package.json`.
+- **Completion Details:**
+  - Exact pinned versions in `package.json`: Next.js 15.5.28, @modelcontextprotocol/sdk 1.32.1, zod 3.25.76, argon2 0.45.1, pg 8.23.1, vitest 3.2.7, typescript 5.8.3, playwright 1.64.1.
+  - Strict compiler and security configs created (`tsconfig.json`, `vitest.config.ts`, `next.config.mjs`, `eslint.config.mjs`).
+  - Baseline Next.js shell files created in `src/app/` (`layout.tsx`, `page.tsx`).
+  - Unit test verification test passed.
 
 ### SPRINT-0.2: Configuration & Environment Module (`src/config.ts`)
 - **Status:** `[ ] TODO`

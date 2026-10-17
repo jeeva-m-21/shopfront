@@ -1,0 +1,45 @@
+{
+  "name": "shopfront",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "migrate": "tsx scripts/migrate.ts",
+    "seed:localities": "tsx scripts/seed-localities.ts",
+    "seed:sample": "tsx scripts/seed-sample.ts",
+    "create-admin": "tsx scripts/create-admin.ts",
+    "reset-admin-password": "tsx scripts/reset-admin-password.ts",
+    "purge-logs": "tsx scripts/purge-logs.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "lint": "next lint",
+    "eval": "tsx eval/run-benchmark.ts",
+    "eval:injection": "tsx eval/run-benchmark.ts --injection"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "argon2": "0.45.1",
+    "next": "15.5.28",
+    "pg": "8.23.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "22.13.10",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
+    "eslint": "9.22.0",
+    "eslint-config-next": "15.5.28",
+    "tsx": "4.23.15",
+    "typescript": "5.8.3",
+    "vitest": "3.2.7"
+  }
+}
