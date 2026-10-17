@@ -329,10 +329,15 @@
   - Authored integration tests in `tests/integration/search-relaxation.test.ts` verifying radius, max price, and open-now relaxations with 100% pass rate.
 
 ### SPRINT-4.4: Search Orchestrator & Telemetry (`src/search/search-shops.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Pre-flight validation (near me check, coordinates bounding box, locality resolution), search budget tracking (700ms), telemetry writer to `search_logs`.
 - **Acceptance Criteria:**
   - MCP and web queries logged to `search_logs` with stage timings.
+- **Completion Details:**
+  - Implemented `searchShops` in `src/search/search-shops.ts` orchestrating strict pre-flight validation in order: Zod schema, location parameter conflict checks (both locality and lat/lng prohibited, both lat and lng required), "near me" location prompt (`location_required` with 32 localities), locality fuzzy resolution (`locality_not_found` with 3 suggestions), and bounding box checks (`outside_service_area`).
+  - Implemented city-wide fallback with `location_warning`, candidate mapping with INR price ranges and top 3 matching items, and conditional relaxation hint execution when 0 shops are found.
+  - Implemented `writeSearchLog` in `src/search/telemetry.ts` logging all executions to `search_logs` with stage timings, channel, and error codes.
+  - Authored integration tests in `tests/integration/search-orchestrator.test.ts` passing 100%.
 
 ### SPRINT-4.5: Stateless MCP Server Setup & `POST /mcp` (`src/mcp/server.ts`, `src/app/mcp/route.ts`)
 - **Status:** `[ ] TODO`
