@@ -204,10 +204,17 @@
   - Authored 5 integration tests in `tests/integration/admin-owners.test.ts` and 3 unit tests in `tests/unit/auth/guards.test.ts` passing 100%.
 
 ### SPRINT-2.6: Admin Portal Shop Management (`src/app/admin/shops/*`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Admin shop creation, editing, Make Live (with >= 1 available item check), Pause (`admin_locked = true`), Delete with double confirmation slug typing.
 - **Acceptance Criteria:**
   - A3, A4, A5 flow tests passing.
+- **Completion Details:**
+  - Implemented `src/admin/shop-ops.ts` (`createAdminShop`, `updateAdminShop`, `makeShopLive`, `pauseShop`, `deleteShop`, `listAdminShops`, `getAdminShopById`) enforcing Chennai bounding box constraints, action mode invariants, draft initial status, and audit logging on mutations.
+  - Implemented `makeShopLive` invariant requiring at least 1 available catalog item (rejecting with exact PRD message `"Add at least one available menu item first"`).
+  - Implemented `pauseShop` setting status to `paused` and `admin_locked = TRUE`.
+  - Implemented `deleteShop` requiring exact slug match confirmation before executing transactional cascade deletion.
+  - Implemented Next.js Admin Shops UI: list table (`src/app/admin/shops/page.tsx`, `ShopsTable.tsx`), creation form with locality coordinates auto-population (`src/app/admin/shops/new/page.tsx`, `NewShopForm.tsx`), and edit/manage interface (`src/app/admin/shops/[id]/page.tsx`, `EditShopForm.tsx`).
+  - Authored 5 integration tests in `tests/integration/admin-shops.test.ts` passing 100%.
 
 ### SPRINT-2.7: Admin Telemetry & Audit Log Viewers (`src/app/admin/logs/page.tsx`, `src/app/admin/audit/page.tsx`)
 - **Status:** `[ ] TODO`

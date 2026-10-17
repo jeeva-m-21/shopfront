@@ -59,6 +59,18 @@ export const SERVICE_AREA = {
   MAX_LNG: 80.40,
 } as const;
 
+/**
+ * Checks whether coordinates fall inside the Chennai service area bounding box.
+ */
+export function isInServiceArea(lat: number, lng: number): boolean {
+  return (
+    lat >= SERVICE_AREA.MIN_LAT &&
+    lat <= SERVICE_AREA.MAX_LAT &&
+    lng >= SERVICE_AREA.MIN_LNG &&
+    lng <= SERVICE_AREA.MAX_LNG
+  );
+}
+
 // Lazy singleton config getter for runtime access
 let cachedConfig: Config | null = null;
 export function getConfig(): Config {
