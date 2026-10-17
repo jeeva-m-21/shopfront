@@ -66,10 +66,14 @@
   - Created `scripts/migrate.ts` with transactional migration runner and `schema_migrations` tracking. Tested idempotency against live container.
 
 ### SPRINT-1.2: Database Pool & Statement Timeout Wrapper (`src/db.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Singleton `pg.Pool` with connection lifecycle management, `withTransaction` helper, and `withStatementTimeout` executing `SET LOCAL statement_timeout`.
 - **Acceptance Criteria:**
   - Integration test verifies transaction rollback on error and statement timeout enforcement.
+- **Completion Details:**
+  - Implemented `src/db.ts` with singleton `pg.Pool`, parameterized `query()`, `withTransaction()` with automatic commit/rollback, `withStatementTimeout()` scoped transactionally, and `closePool()`.
+  - Configured `tests/setup.ts` and `vitest.config.ts` for clean environment variable initialization.
+  - Authored integration tests in `tests/integration/db.test.ts` verifying queries, commit, rollback on error, and statement timeout cancellation.
 
 ### SPRINT-1.3: Reference Seed & Locality Verification (`db/seeds/localities.sql`, `docs/locality-check.md`)
 - **Status:** `[ ] TODO`
