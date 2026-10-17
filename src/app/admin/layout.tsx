@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { requireAdmin } from '../../auth/guards.js';
 import { logoutAction } from './owners/actions.js';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminLayout({
   children,
 }: {

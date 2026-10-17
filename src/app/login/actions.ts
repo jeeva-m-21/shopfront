@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { authenticateUser } from '../../auth/lockout.js';
 import { SESSION_COOKIE_NAME } from '../../auth/sessions.js';
 import { publicRateLimiter } from '../../rate-limit.js';
+import { getConfig } from '../../config.js';
 
 export interface LoginActionState {
   error?: string;
@@ -41,7 +42,7 @@ export async function loginAction(
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, result.token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: getConfig().APP_BASE_URL.startsWith('https://'),
     sameSite: 'lax',
     path: '/',
     expires: result.expiresAt,

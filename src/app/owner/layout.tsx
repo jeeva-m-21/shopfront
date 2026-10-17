@@ -4,6 +4,8 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { validateSession, deleteSession, SESSION_COOKIE_NAME } from '../../auth/sessions.js';
 
+export const dynamic = 'force-dynamic';
+
 async function ownerLogoutAction(): Promise<void> {
   'use server';
   const cookieStore = await cookies();
