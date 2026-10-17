@@ -456,10 +456,17 @@
   - Authored 5 integration tests in `tests/integration/api-search.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-6.2: Public Shop Detail Page (`src/app/shop/[slug]/page.tsx`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Shop details (W2, W3), weekly hours schedule, upcoming closures, full menu grouped by category, action link Contact button with disclaimer.
 - **Acceptance Criteria:**
   - Renders live shops; returns 404 for draft/paused/sample shops.
+- **Completion Details:**
+  - Implemented Next.js Server Component `/shop/[slug]` in `src/app/shop/[slug]/page.tsx` invoking `executeGetShopInfo`, `executeGetCatalog`, and `executeGetActionLink`.
+  - Enforced 404 via `notFound()` for missing, draft, or paused shops, and sample shops when `SHOW_SAMPLE_DATA=false`.
+  - Rendered complete shop profile, category and status badges, address with locality, today's operating hours and full weekly schedule, 30-day closures, menu offerings grouped by `group_name` with formatted rupee prices, dietary tags, duration, and `menu_updated_at`.
+  - Rendered direct enquiry Contact button linking to `action_url` with dynamic channel action text, phone display, and PRD-mandated disclaimer (`"Opens direct enquiry with the business; not an automatic confirmed booking."`).
+  - Recorded search log telemetry for `get_action_link` on the web channel.
+  - Authored 4 integration tests in `tests/integration/public-shop-page.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-6.3: Health Check & Maintenance Scripts (`src/app/api/health/route.ts`, `scripts/purge-logs.ts`)
 - **Status:** `[ ] TODO`
