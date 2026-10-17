@@ -55,11 +55,15 @@
 ## Sprint 1: Database Architecture, Migrations & Pure Domain (M1)
 
 ### SPRINT-1.1: Migration Runner & Initial Schema (`db/migrations/0001_initial_schema.sql`, `scripts/migrate.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Create `scripts/migrate.ts` supporting transactional execution and `schema_migrations` tracking. Author authoritative DDL `0001_initial_schema.sql` (PostGIS, pg_trgm, pgcrypto, all 10 tables, triggers, and indices).
 - **Acceptance Criteria:**
   - `npm run migrate` runs idempotently on fresh Postgres container.
   - PostGIS geography spatial indices and trigram GIN indices created successfully.
+- **Completion Details:**
+  - Configured `docker-compose.yml` with `postgis/postgis:16-3.4` container.
+  - Authored authoritative DDL `db/migrations/0001_initial_schema.sql` creating PostGIS, pg_trgm, pgcrypto, 8 ENUM types, 10 primary tables, updated_at triggers, search_text triggers, GIST spatial index, GIN trigram indices, and FTS GIN indices.
+  - Created `scripts/migrate.ts` with transactional migration runner and `schema_migrations` tracking. Tested idempotency against live container.
 
 ### SPRINT-1.2: Database Pool & Statement Timeout Wrapper (`src/db.ts`)
 - **Status:** `[ ] TODO`
