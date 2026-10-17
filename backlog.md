@@ -148,10 +148,16 @@
 ## Sprint 2: Authentication, Security & Admin Portal (M2)
 
 ### SPRINT-2.1: Password Management & CSPRNG Temp Passwords (`src/auth/passwords.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Argon2id hashing & verification, dummy hash timing equalization, 12-char CSPRNG temporary password generator.
 - **Acceptance Criteria:**
   - Unit tests verifying hash verification and CSPRNG character set distribution.
+- **Completion Details:**
+  - Implemented `src/auth/passwords.ts` with Argon2id password hashing and verification.
+  - Implemented timing-equalization `verifyDummyPassword` against unknown user probes.
+  - Implemented CSPRNG 12-character temporary password generator using the 58 unambiguous character alphabet.
+  - Implemented password complexity validator enforcing 8–128 chars, letters, digits, and no match with username/old password.
+  - Authored 11 unit tests in `tests/unit/auth/passwords.test.ts` passing 100%.
 
 ### SPRINT-2.2: Session Management & Rate Limiting (`src/auth/sessions.ts`, `src/rate-limit.ts`)
 - **Status:** `[ ] TODO`
