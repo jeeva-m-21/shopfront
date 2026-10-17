@@ -444,10 +444,16 @@
 ## Sprint 6: Public Web UI, Deployment & E2E Testing (M6)
 
 ### SPRINT-6.1: Public Web Search Page (`src/app/page.tsx`, `src/app/api/search/route.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Search UI (W1, W4) with query input, locality dropdown, category filter, max price, open now checkbox, result cards with price ranges, relaxation hints display, mobile responsive design.
 - **Acceptance Criteria:**
   - Accessible inputs, keyboard navigation, empty state hints.
+- **Completion Details:**
+  - Implemented `/api/search` route handler in `src/app/api/search/route.ts` with `GET` and `POST`, 60 req/min/IP sliding window rate limiting, input validation, and search telemetry logging.
+  - Implemented accessible interactive search UI in `src/app/SearchInterface.tsx` with query text input (max 200 chars), alphabetical 32 Chennai localities dropdown, category filter, optional max price INR ceiling, open-now toggle, and responsive cards with price ranges, badges, and top offerings.
+  - Implemented clickable relaxation hints display on 0-result states with immediate filter application.
+  - Implemented SSR home page in `src/app/page.tsx` resolving search parameters on load.
+  - Authored 5 integration tests in `tests/integration/api-search.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-6.2: Public Shop Detail Page (`src/app/shop/[slug]/page.tsx`)
 - **Status:** `[ ] TODO`
