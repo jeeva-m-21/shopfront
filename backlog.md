@@ -192,10 +192,16 @@
   - Authored 6 integration tests in `tests/integration/admin-cli.test.ts` passing 100%. Verified CLI execution end-to-end.
 
 ### SPRINT-2.5: Admin Portal Layout, Guards & Owner Management (`src/app/admin/owners/*`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** `requireAdmin` guard, CSRF Origin check, Owners list, New Owner creation with one-time temporary password display, reset password, disable/enable owner.
 - **Acceptance Criteria:**
   - A1, A2, A6, A7 flow tests passing. Audit logs recorded for every mutation.
+- **Completion Details:**
+  - Implemented `src/audit.ts` structured audit logging with strict redaction of passwords, hashes, and session tokens.
+  - Implemented `src/auth/owner-ops.ts` (`createOwnerAccount`, `resetOwnerPassword`, `disableOwnerAccount`, `enableOwnerAccount`, `listOwnersWithShops`) enforcing 12-char CSPRNG unambiguous passwords, session invalidation on disable/reset, and shop locking.
+  - Implemented `src/auth/guards.ts` with `requireAdmin`, `requireOwner`, and `verifyCsrfOrigin` against `APP_BASE_URL`.
+  - Implemented Next.js Admin Layout (`src/app/admin/layout.tsx`), root redirect (`src/app/admin/page.tsx`), owners table (`src/app/admin/owners/page.tsx`, `src/app/admin/owners/OwnersTable.tsx`), and new owner form (`src/app/admin/owners/new/page.tsx`, `src/app/admin/owners/new/NewOwnerForm.tsx`) with server actions in `src/app/admin/owners/actions.ts`.
+  - Authored 5 integration tests in `tests/integration/admin-owners.test.ts` and 3 unit tests in `tests/unit/auth/guards.test.ts` passing 100%.
 
 ### SPRINT-2.6: Admin Portal Shop Management (`src/app/admin/shops/*`)
 - **Status:** `[ ] TODO`
