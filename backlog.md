@@ -5,7 +5,7 @@
 | Sprint | Milestone Reference | Focus Area | Status | Target Deliverable |
 | :--- | :--- | :--- | :--- | :--- |
 | **Sprint 0** | **M0: Decisions & Spikes** | Scaffolding, Strict Tooling & Config | `[x] COMPLETED` | Pinned `package.json`, TypeScript `strict: true`, Vitest, ESLint, `docs/jev-api-notes.md` |
-| **Sprint 1** | **M1: Database & Domain** | Postgres Schema, Seeds & Pure Domain Modules | `[ ] TODO` | `0001_initial_schema.sql`, migration runner, 32 localities seed, pure domain modules (`text`, `localities`, `pricing`, `hours`, `action-links`) + unit tests |
+| **Sprint 1** | **M1: Database & Domain** | Postgres Schema, Seeds & Pure Domain Modules | `[x] COMPLETED` | `0001_initial_schema.sql`, migration runner, 32 localities seed, pure domain modules (`text`, `localities`, `pricing`, `hours`, `action-links`) + unit tests |
 | **Sprint 2** | **M2: Auth & Admin Portal** | Authentication, Sessions, Lockout & Admin UI | `[ ] TODO` | Argon2id auth, timing-safe login, CSRF origin guard, lockout, `create-admin` CLI, `/admin` routes (A1–A9), audit log |
 | **Sprint 3** | **M3: Owner Portal** | Owner Dashboard, Menu & Hours Management | `[ ] TODO` | First login forced password change (O1), `/owner` routes (O1–O9), D13 invariant, 100-item limit, IDOR protection |
 | **Sprint 4** | **M4: Search Stage 1 & MCP Server** | PostGIS Pipeline & Stateless MCP Tools | `[ ] TODO` | Stage 1 SQL (H1–H5), H6 `open_now` filter, relaxation hints, `POST /mcp` stateless transport, 5 MCP tools, search telemetry |
@@ -134,10 +134,14 @@
   - Authored unit test suite in `tests/unit/domain/action-links.test.ts` passing all 7 test cases.
 
 ### SPRINT-1.9: Benchmark Dataset Seed (`db/seeds/sample.sql`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Author SQL seed for 36 contrastive shops across 4 localities (Anna Nagar, Adyar, Velachery, T. Nagar) with ~400 catalog items, contrastive distractors, overnight hours, closures, and 1 adversarial injection shop.
 - **Acceptance Criteria:**
   - `npm run seed:sample` populates benchmark data with `is_sample_data = true`.
+- **Completion Details:**
+  - Implemented `scripts/seed-sample.ts` and generated `db/seeds/sample.sql` with 36 synthetic contrastive shops (12 repair, 12 salon, 12 food) across Anna Nagar, Adyar, Velachery, and T. Nagar.
+  - Included 3 shops with unknown hours, 2 shops with overnight intervals, 2 shops with scheduled closures, 2 shops with `on_request` pricing, and 1 shop with adversarial prompt injection in item description.
+  - Successfully seeded live PostGIS database and verified data integrity.
 
 ---
 
