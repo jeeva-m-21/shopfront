@@ -1,0 +1,318 @@
+# Project Backlog: Shopfront (MCP & Web Local Business Directory)
+
+## Sprint Overview
+
+| Sprint | Milestone Reference | Focus Area | Status | Target Deliverable |
+| :--- | :--- | :--- | :--- | :--- |
+| **Sprint 0** | **M0: Decisions & Spikes** | Scaffolding, Strict Tooling & Config | `[ ] TODO` | Pinned `package.json`, TypeScript `strict: true`, Vitest, ESLint, `docs/jev-api-notes.md` |
+| **Sprint 1** | **M1: Database & Domain** | Postgres Schema, Seeds & Pure Domain Modules | `[ ] TODO` | `0001_initial_schema.sql`, migration runner, 32 localities seed, pure domain modules (`text`, `localities`, `pricing`, `hours`, `action-links`) + unit tests |
+| **Sprint 2** | **M2: Auth & Admin Portal** | Authentication, Sessions, Lockout & Admin UI | `[ ] TODO` | Argon2id auth, timing-safe login, CSRF origin guard, lockout, `create-admin` CLI, `/admin` routes (A1–A9), audit log |
+| **Sprint 3** | **M3: Owner Portal** | Owner Dashboard, Menu & Hours Management | `[ ] TODO` | First login forced password change (O1), `/owner` routes (O1–O9), D13 invariant, 100-item limit, IDOR protection |
+| **Sprint 4** | **M4: Search Stage 1 & MCP Server** | PostGIS Pipeline & Stateless MCP Tools | `[ ] TODO` | Stage 1 SQL (H1–H5), H6 `open_now` filter, relaxation hints, `POST /mcp` stateless transport, 5 MCP tools, search telemetry |
+| **Sprint 5** | **M5: Stage 2 Reranker & Eval** | Jev API Reranking & Offline Benchmark | `[ ] TODO` | Parallel Jev client, fail-open fallback, 40 benchmark queries, labels, `NDCG@5`/`MRR@5`/`Recall@10`/bootstrap CI harness, prompt-injection test |
+| **Sprint 6** | **M6: Public Web & Operations** | Public Search UI, Docker & E2E Tests | `[ ] TODO` | Web search page (`/`), shop detail (`/shop/[slug]`), `/api/health`, Docker Compose, purge-logs cron, Playwright full lifecycle suite |
+| **Sprint 7** | **M7: Pilot, Packaging & Launch** | Onboarding Real Shops & Documentation | `[ ] TODO` | `pilot-log.md` (10 real Chennai shops), `README.md` with Claude Desktop config, verified launch checklist |
+
+---
+
+## Sprint 0: Foundation, Scaffolding & Frozen Spikes (M0)
+
+### SPRINT-0.1: Repository Scaffolding & Pinned Dependencies
+- **Status:** `[ ] TODO`
+- **Scope:** Create `package.json` with exact pinned dependencies (Next.js App Router, `@modelcontextprotocol/sdk` v1.x, `zod`, `pg`, `argon2`, `vitest`, `@playwright/test`, `typescript`). Configure `tsconfig.json` with `strict: true`, `noUncheckedIndexedAccess: true`. Setup `vitest.config.ts` and `next.config.mjs` with security headers.
+- **Acceptance Criteria:**
+  - `npm test` runs cleanly.
+  - `npm run typecheck` and `npm run lint` pass.
+  - Zero unpinned (`^`, `~`) dependencies in `package.json`.
+
+### SPRINT-0.2: Configuration & Environment Module (`src/config.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Implement Zod-validated environment config in `src/config.ts` validating all variables listed in PRD Section 15.
+- **Acceptance Criteria:**
+  - Missing required variable aborts process with descriptive error.
+  - Valid defaults populated for timeouts, limits, and boolean flags.
+  - Unit tests verify boundary parsing.
+
+### SPRINT-0.3: Jev API Contract & Latency Spike Documentation (`docs/jev-api-notes.md`)
+- **Status:** `[ ] TODO`
+- **Scope:** Author `docs/jev-api-notes.md` freezing the Jev Decisions API request payload schema, scoring levels (0–3), probability distribution rules, and timeout parameters.
+- **Acceptance Criteria:**
+  - Schema documentation matches D6, D14, D17 requirements.
+
+---
+
+## Sprint 1: Database Architecture, Migrations & Pure Domain (M1)
+
+### SPRINT-1.1: Migration Runner & Initial Schema (`db/migrations/0001_initial_schema.sql`, `scripts/migrate.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Create `scripts/migrate.ts` supporting transactional execution and `schema_migrations` tracking. Author authoritative DDL `0001_initial_schema.sql` (PostGIS, pg_trgm, pgcrypto, all 10 tables, triggers, and indices).
+- **Acceptance Criteria:**
+  - `npm run migrate` runs idempotently on fresh Postgres container.
+  - PostGIS geography spatial indices and trigram GIN indices created successfully.
+
+### SPRINT-1.2: Database Pool & Statement Timeout Wrapper (`src/db.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Singleton `pg.Pool` with connection lifecycle management, `withTransaction` helper, and `withStatementTimeout` executing `SET LOCAL statement_timeout`.
+- **Acceptance Criteria:**
+  - Integration test verifies transaction rollback on error and statement timeout enforcement.
+
+### SPRINT-1.3: Reference Seed & Locality Verification (`db/seeds/localities.sql`, `docs/locality-check.md`)
+- **Status:** `[ ] TODO`
+- **Scope:** Populate all 32 Chennai localities with OpenStreetMap centroids and aliases. Author script `scripts/seed-localities.ts` / `npm run seed:localities`. Document verification in `docs/locality-check.md`.
+- **Acceptance Criteria:**
+  - All 32 localities seeded. Point coordinates fall within `12.75 <= lat <= 13.30` and `79.95 <= lng <= 80.40`.
+
+### SPRINT-1.4: Pure Domain Module: Text Sanitization (`src/domain/text.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Implement `cleanInputText` and `normalizeSearchQuery` (stripping control chars, collapsing spaces, removing `/\bnear\s+me\b/i`).
+- **Acceptance Criteria:**
+  - Unit tests verify control char removal, length truncation, and regex query normalization.
+
+### SPRINT-1.5: Pure Domain Module: Locality Resolution (`src/domain/localities.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Implement locality resolution: alphanumeric normalization, exact match, alias lookup, 3-gram similarity scoring with `>= 0.6` threshold and `>= 0.1` separation, suggestion of 3 closest on failure.
+- **Acceptance Criteria:**
+  - Unit tests covering `"T. Nagar"`, `"t nagar"`, `"OMR"`, typos, ambiguous inputs, and unknown localities.
+
+### SPRINT-1.6: Pure Domain Module: Hours & `open_now` Engine (`src/domain/hours.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Implement `Asia/Kolkata` datetime evaluation, split shift intervals, overnight intervals (`close_time < open_time`), 24h intervals (`00:00` to `23:59`), calendar closures cancelling overnight intervals, overlap validation.
+- **Acceptance Criteria:**
+  - Comprehensive unit tests: standard daytime, overnight across midnight, split shifts, closure cancellation of overnight tails, unknown hours returning `null`, weekday wrap (Sunday->Monday).
+
+### SPRINT-1.7: Pure Domain Module: Pricing Display (`src/domain/pricing.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Implement `formatPriceDisplay` with Indian digit grouping (`₹1,00,000`), price range computation over matching items.
+- **Acceptance Criteria:**
+  - Unit tests verifying `fixed`, `starting_from`, `range`, `on_request`, and price ceiling comparisons.
+
+### SPRINT-1.8: Pure Domain Module: Action Links & WhatsApp Templates (`src/domain/action-links.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Generate sanitized enquiry URLs and message templates for `whatsapp`, `external_url`, and `phone_only` across `repair_service`, `salon_wellness`, and `food_beverage`.
+- **Acceptance Criteria:**
+  - Unit tests verifying URI encoding, note sanitization, and fallback phone/URL links.
+
+### SPRINT-1.9: Benchmark Dataset Seed (`db/seeds/sample.sql`)
+- **Status:** `[ ] TODO`
+- **Scope:** Author SQL seed for 36 contrastive shops across 4 localities (Anna Nagar, Adyar, Velachery, T. Nagar) with ~400 catalog items, contrastive distractors, overnight hours, closures, and 1 adversarial injection shop.
+- **Acceptance Criteria:**
+  - `npm run seed:sample` populates benchmark data with `is_sample_data = true`.
+
+---
+
+## Sprint 2: Authentication, Security & Admin Portal (M2)
+
+### SPRINT-2.1: Password Management & CSPRNG Temp Passwords (`src/auth/passwords.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Argon2id hashing & verification, dummy hash timing equalization, 12-char CSPRNG temporary password generator.
+- **Acceptance Criteria:**
+  - Unit tests verifying hash verification and CSPRNG character set distribution.
+
+### SPRINT-2.2: Session Management & Rate Limiting (`src/auth/sessions.ts`, `src/rate-limit.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Secure cookies (`sf_session`), SHA-256 token hashing, 7-day expiration, sliding window in-memory rate limiter (60 req/min/IP).
+- **Acceptance Criteria:**
+  - Integration tests for session creation, validation, expiration, and rate-limit tripping.
+
+### SPRINT-2.3: Lockout Guard & Login Flow (`src/auth/lockout.ts`, `src/app/login/page.tsx`)
+- **Status:** `[ ] TODO`
+- **Scope:** 5-failure / 15-minute sliding window lockout on `login_attempts`. Unified `/login` route handler and page with constant-time response.
+- **Acceptance Criteria:**
+  - Integration tests verifying lockout triggers at 5 failures and unblocks after 15 minutes.
+
+### SPRINT-2.4: Admin CLI Scripts (`scripts/create-admin.ts`, `scripts/reset-admin-password.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** CLI scripts to securely create admin accounts and reset passwords with hidden prompts.
+- **Acceptance Criteria:**
+  - Scripts execute cleanly from CLI creating valid admin user in database.
+
+### SPRINT-2.5: Admin Portal Layout, Guards & Owner Management (`src/app/admin/owners/*`)
+- **Status:** `[ ] TODO`
+- **Scope:** `requireAdmin` guard, CSRF Origin check, Owners list, New Owner creation with one-time temporary password display, reset password, disable/enable owner.
+- **Acceptance Criteria:**
+  - A1, A2, A6, A7 flow tests passing. Audit logs recorded for every mutation.
+
+### SPRINT-2.6: Admin Portal Shop Management (`src/app/admin/shops/*`)
+- **Status:** `[ ] TODO`
+- **Scope:** Admin shop creation, editing, Make Live (with >= 1 available item check), Pause (`admin_locked = true`), Delete with double confirmation slug typing.
+- **Acceptance Criteria:**
+  - A3, A4, A5 flow tests passing.
+
+### SPRINT-2.7: Admin Telemetry & Audit Log Viewers (`src/app/admin/logs/page.tsx`, `src/app/admin/audit/page.tsx`)
+- **Status:** `[ ] TODO`
+- **Scope:** Filterable search logs viewer with p50/p95 latency summary strip and CSV export. Filterable audit log viewer with JSON diff formatting.
+- **Acceptance Criteria:**
+  - A8, A9 acceptance tests passing.
+
+---
+
+## Sprint 3: Owner Portal (M3)
+
+### SPRINT-3.1: Forced First-Login Password Change Gate (`src/app/owner/change-password/page.tsx`)
+- **Status:** `[ ] TODO`
+- **Scope:** Redirect gate when `must_change_password = true`, password validation (8–128 chars, 1 letter, 1 digit, no username/old password match), session revocation.
+- **Acceptance Criteria:**
+  - O1 acceptance tests passing.
+
+### SPRINT-3.2: Owner Dashboard & IDOR-Guarded Shop Details (`src/app/owner/page.tsx`, `src/app/owner/shop/page.tsx`)
+- **Status:** `[ ] TODO`
+- **Scope:** Owner dashboard with status badges and hours alert. Shop details editing strictly resolved via `owner_id = session.user.id`. Read-only restricted fields.
+- **Acceptance Criteria:**
+  - O3, O4 tests passing; cross-tenant IDOR attack returns 404.
+
+### SPRINT-3.3: Owner Menu & Catalog Management (`src/app/owner/menu/page.tsx`)
+- **Status:** `[ ] TODO`
+- **Scope:** Catalog CRUD with grouping, sort order, available toggle, 100-item limit enforcement, and D13 live-shop invariant enforcement.
+- **Acceptance Criteria:**
+  - O5 tests passing; deleting or toggling last available item on live shop rejected.
+
+### SPRINT-3.4: Owner Weekly Hours & Closures Management (`src/app/owner/hours/page.tsx`)
+- **Status:** `[ ] TODO`
+- **Scope:** Weekly schedule editor with non-overlapping interval validation, overnight rule instructions, one-off closure manager. Transition `hours_status` to `set`.
+- **Acceptance Criteria:**
+  - O6 tests passing.
+
+### SPRINT-3.5: Owner Pause, Resume & Self-Service Account (`src/app/owner/account/page.tsx`)
+- **Status:** `[ ] TODO`
+- **Scope:** Owner pause/resume (blocked when `admin_locked = true`), self-service password change.
+- **Acceptance Criteria:**
+  - O7, O8 tests passing.
+
+---
+
+## Sprint 4: Search Engine Stage 1 & MCP Server (M4)
+
+### SPRINT-4.1: Stage 1 Candidate Pool SQL Query (`src/search/stage1.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Implement SQL Query 1 enforcing H1 (live/sample), H2 (category), H3 (PostGIS ST_DWithin), H4 (item count >= 1), H5 (price ceiling on query-matching items), trigram text ranking, statement timeout 250ms.
+- **Acceptance Criteria:**
+  - Integration tests for each filter H1–H5 in isolation and combined.
+
+### SPRINT-4.2: H6 Open-Now Node Filter & Item Fetch SQL Query (`src/search/stage1.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Node.js IST `open_now` filtering over candidate pool, slicing to top 10 candidates. SQL Query 2 fetching top 5 items and `menu_updated_at`.
+- **Acceptance Criteria:**
+  - Integration tests confirming open/closed filtering and accurate top 5 items ranking.
+
+### SPRINT-4.3: Relaxation Hints Generator (`src/search/stage1.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Fast count-pass relaxing radius (to 25km), max price, open now, or category when results are 0 and location is present.
+- **Acceptance Criteria:**
+  - Integration tests verifying correct relaxation suggestions.
+
+### SPRINT-4.4: Search Orchestrator & Telemetry (`src/search/search-shops.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Pre-flight validation (near me check, coordinates bounding box, locality resolution), search budget tracking (700ms), telemetry writer to `search_logs`.
+- **Acceptance Criteria:**
+  - MCP and web queries logged to `search_logs` with stage timings.
+
+### SPRINT-4.5: Stateless MCP Server Setup & `POST /mcp` (`src/mcp/server.ts`, `src/app/mcp/route.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** MCP SDK v1.x `StreamableHTTPServerTransport` stateless route handler (`sessionIdGenerator: undefined`, fresh server per request). Reject GET/DELETE with 405. Sliding window rate limit check.
+- **Acceptance Criteria:**
+  - Protocol conformance tests: stateless lifecycle, HTTP 405 on GET, rate limiting.
+
+### SPRINT-4.6: MCP Tools Implementation (`src/mcp/tools/*`)
+- **Status:** `[ ] TODO`
+- **Scope:** Implement 5 tools: `find_shops`, `get_shop_info`, `get_catalog` (cursor-paginated), `search_catalog`, `get_action_link`. All declare `readOnlyHint: true`.
+- **Acceptance Criteria:**
+  - Integration tests for all 5 tools covering success, schema errors, and error codes (`invalid_input`, `location_required`, `locality_not_found`, `outside_service_area`, `shop_not_found`, `item_not_found`).
+
+---
+
+## Sprint 5: Stage 2 Reranker & Offline Evaluation Framework (M5)
+
+### SPRINT-5.1: Jev Decisions API Client (`src/search/rerank/jev-client.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Shared `AbortController`, strict budget timeout calculation (`min(450ms, remaining - 30)`), probability distribution validation (`sum = 1.0 +- 0.01`).
+- **Acceptance Criteria:**
+  - Mocked network tests verifying timeout abort, error handling, and distribution validation.
+
+### SPRINT-5.2: Shop Reranker Orchestrator & Fail-Open Fallback (`src/search/rerank/shop-reranker.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Parallel candidate dispatch, prompt truncation guards, expected score calculation $E[\text{score}]$, tie-breaking with baseline rank, all-or-nothing fallback on any single failure.
+- **Acceptance Criteria:**
+  - Unit tests verifying fallback reasons (`budget`, `timeout`, `http_error`, `invalid_schema`, `not_applicable`, `disabled`).
+
+### SPRINT-5.3: Evaluation Harness & Metrics (`eval/metrics.ts`, `eval/run-benchmark.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Implement `NDCG@5`, `MRR@5`, `Recall@10`, seeded Mulberry32 10k bootstrap CI, Cohen's kappa. Create offline cache-backed evaluation runner.
+- **Acceptance Criteria:**
+  - Unit tests on toy rankings with hand-computed values.
+
+### SPRINT-5.4: Benchmark Queries & Hand Labels (`eval/benchmark_queries.json`, `eval/labels.json`)
+- **Status:** `[ ] TODO`
+- **Scope:** Author 40 queries across 4 categories (30 dev, 10 held-out) and complete 0–3 relevance ground-truth labels for candidate pairs.
+- **Acceptance Criteria:**
+  - `npm run eval` executes against cached evaluation set and outputs `eval/results/latest-report.md`.
+
+### SPRINT-5.5: Adversarial Prompt Injection Test (`eval/run-benchmark.ts:injection`)
+- **Status:** `[ ] TODO`
+- **Scope:** Verify shop with adversarial injection prompt in item description scores $E[\text{score}] < 1.5$ on unrelated query and does not displace legitimate exact matches.
+- **Acceptance Criteria:**
+  - `npm run eval:injection` passes.
+
+---
+
+## Sprint 6: Public Web UI, Deployment & E2E Testing (M6)
+
+### SPRINT-6.1: Public Web Search Page (`src/app/page.tsx`, `src/app/api/search/route.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Search UI (W1, W4) with query input, locality dropdown, category filter, max price, open now checkbox, result cards with price ranges, relaxation hints display, mobile responsive design.
+- **Acceptance Criteria:**
+  - Accessible inputs, keyboard navigation, empty state hints.
+
+### SPRINT-6.2: Public Shop Detail Page (`src/app/shop/[slug]/page.tsx`)
+- **Status:** `[ ] TODO`
+- **Scope:** Shop details (W2, W3), weekly hours schedule, upcoming closures, full menu grouped by category, action link Contact button with disclaimer.
+- **Acceptance Criteria:**
+  - Renders live shops; returns 404 for draft/paused/sample shops.
+
+### SPRINT-6.3: Health Check & Maintenance Scripts (`src/app/api/health/route.ts`, `scripts/purge-logs.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** `GET /api/health` checking database connectivity. `scripts/purge-logs.ts` deleting `search_logs` older than `LOG_RETENTION_DAYS`.
+- **Acceptance Criteria:**
+  - Health check returns 200 on DB up, 503 on DB down. Purge script deletes stale rows.
+
+### SPRINT-6.4: Docker Compose & Production Containerization (`Dockerfile`, `docker-compose.yml`)
+- **Status:** `[ ] TODO`
+- **Scope:** Multi-stage production `Dockerfile`, `docker-compose.yml` linking app and `postgis/postgis:15-3.4` with persistent volume and healthchecks.
+- **Acceptance Criteria:**
+  - `docker compose up` starts healthy database and application containers.
+
+### SPRINT-6.5: Playwright Full Lifecycle E2E Test (`tests/e2e/lifecycle.spec.ts`)
+- **Status:** `[ ] TODO`
+- **Scope:** Automated end-to-end user journey: Admin logs in -> creates owner -> creates shop -> owner logs in & changes password -> adds items and hours -> admin makes live -> customer searches on `/` -> views shop -> clicks Contact -> owner pauses shop -> shop disappears from search.
+- **Acceptance Criteria:**
+  - `npm run test:e2e` passes in CI headless mode.
+
+---
+
+## Sprint 7: Pilot Onboarding, Operations & Launch Gate (M7)
+
+### SPRINT-7.1: Operations & Backup Runbook (`docs/operations.md`)
+- **Status:** `[ ] TODO`
+- **Scope:** Author crontab setup, nightly `pg_dump` backup, retention policy, and tested restore verification steps.
+- **Acceptance Criteria:**
+  - Backup and restore cycle verified against test database.
+
+### SPRINT-7.2: Pilot Onboarding Verification Log (`docs/pilot-log.md`)
+- **Status:** `[ ] TODO`
+- **Scope:** Document 10+ real verified Chennai shops with owner consent, verified contact details, >= 6 available items, and set hours.
+- **Acceptance Criteria:**
+  - Pilot requirements (Section 16.3) satisfied.
+
+### SPRINT-7.3: Comprehensive Documentation & Client Config (`README.md`)
+- **Status:** `[ ] TODO`
+- **Scope:** Complete `README.md` with problem statement, system architecture, Claude Desktop setup (`claude_desktop_config.json`), sample transcripts, evaluation results, and known limitations.
+- **Acceptance Criteria:**
+  - Clear, reproducible setup instructions from fresh clone.
+
+### SPRINT-7.4: Launch Gate Verification
+- **Status:** `[ ] TODO`
+- **Scope:** Execute full verification triumvirate:
+  - `npm ci && npm run migrate && npm test && npm run typecheck && npm run lint`
+  - `npm run test:e2e`
+  - `npm run eval`
+- **Acceptance Criteria:**
+  - All items in PRD Section 21.1 Launch Checklist confirmed green.
