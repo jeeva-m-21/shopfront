@@ -115,10 +115,13 @@
   - Authored 16 unit tests in `tests/unit/domain/hours.test.ts` covering all edge cases.
 
 ### SPRINT-1.7: Pure Domain Module: Pricing Display (`src/domain/pricing.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Implement `formatPriceDisplay` with Indian digit grouping (`₹1,00,000`), price range computation over matching items.
 - **Acceptance Criteria:**
   - Unit tests verifying `fixed`, `starting_from`, `range`, `on_request`, and price ceiling comparisons.
+- **Completion Details:**
+  - Implemented `src/domain/pricing.ts` with `formatPriceDisplay`, `formatInrAmount` (en-IN grouping), `computePriceRange`, and `satisfiesPriceCeiling` (excluding `on_request`).
+  - Authored unit tests in `tests/unit/domain/pricing.test.ts` with 100% test coverage.
 
 ### SPRINT-1.8: Pure Domain Module: Action Links & WhatsApp Templates (`src/domain/action-links.ts`)
 - **Status:** `[ ] TODO`
