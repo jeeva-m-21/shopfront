@@ -1,0 +1,536 @@
+{
+  "labels": {
+    "direct-01": {
+      "s1-orch-rerank-b-1792261648241": 1,
+      "s1-q2-items-1792261647350": 1,
+      "ownacc-test-2-1792261649203": 1,
+      "express-gadget-adyar": 3,
+      "mac-specialist-adyar": 3,
+      "s1-test-price-chp-179226164736": 1,
+      "s1-test-price-lux-179226164736": 1,
+      "s1-test-price-onr-179226164736": 1,
+      "s1-orch-rerank-a-1792261648241": 1,
+      "express-gadget-velachery": 1
+    },
+    "direct-02": {
+      "macfix-care-anna-nagar": 3,
+      "quickfix-mobiles-anna-nagar": 1,
+      "bytecraft-desktops-anna-nagar": 0
+    },
+    "direct-03": {
+      "precision-pc-velachery": 3,
+      "precision-pc-adyar": 3,
+      "mac-specialist-velachery": 0,
+      "express-gadget-velachery": 0,
+      "mac-specialist-adyar": 0,
+      "s1-test-price-onr-179226164736": 0,
+      "ownacc-test-2-1792261649203": 0,
+      "s1-orch-rerank-b-1792261648241": 0,
+      "s1-q2-items-1792261647350": 0,
+      "s1-test-price-lux-179226164736": 0
+    },
+    "direct-04": {
+      "gentleman-barber-t-nagar": 3,
+      "metro-family-salon-t-nagar": 2,
+      "divine-hair-spa-t-nagar": 1,
+      "divine-hair-spa-adyar": 1
+    },
+    "direct-05": {
+      "aura-luxury-salon-anna-nagar": 3,
+      "classic-barber-anna-nagar": 0,
+      "urban-family-salon-anna-nagar": 2
+    },
+    "direct-06": {
+      "chennai-degree-kaapi-adyar": 3,
+      "chennai-degree-kaapi-velachery": 3,
+      "chennai-degree-kaapi-t-nagar": 3,
+      "city-treats-bakery-adyar": 1,
+      "green-harvest-bakes-adyar": 0,
+      "city-treats-bakery-velachery": 1,
+      "green-harvest-bakes-velachery": 0,
+      "green-harvest-bakes-t-nagar": 0
+    },
+    "direct-07": {
+      "city-treats-bakery-velachery": 3,
+      "city-treats-bakery-adyar": 3,
+      "green-harvest-bakes-velachery": 2,
+      "chennai-degree-kaapi-velachery": 0,
+      "chennai-degree-kaapi-adyar": 0,
+      "green-harvest-bakes-adyar": 2
+    },
+    "direct-08": {
+      "mac-specialist-velachery": 3,
+      "express-gadget-velachery": 1,
+      "precision-pc-velachery": 0,
+      "mac-specialist-adyar": 3,
+      "s1-orch-rerank-b-1792261648241": 1,
+      "s1-q2-items-1792261647350": 1,
+      "ownacc-test-2-1792261649203": 1,
+      "precision-pc-adyar": 0,
+      "s1-test-price-chp-179226164736": 1,
+      "s1-test-price-lux-179226164736": 1
+    },
+    "direct-09": {
+      "classic-barber-anna-nagar": 3,
+      "urban-family-salon-anna-nagar": 2,
+      "aura-luxury-salon-anna-nagar": 1
+    },
+    "direct-10": {
+      "green-harvest-bakes-t-nagar": 3,
+      "city-treats-bakery-t-nagar": 1,
+      "chennai-degree-kaapi-t-nagar": 0
+    },
+    "symptom-01": {
+      "mac-specialist-velachery": 1,
+      "express-gadget-velachery": 1,
+      "mac-specialist-adyar": 1,
+      "precision-pc-velachery": 1,
+      "s1-q2-items-1792261647350": 1,
+      "precision-pc-adyar": 1,
+      "s1-test-price-onr-179226164736": 1,
+      "s1-orch-rerank-a-1792261648241": 1,
+      "s1-test-price-lux-179226164736": 1,
+      "s1-test-price-chp-179226164736": 1
+    },
+    "symptom-02": {
+      "quickfix-mobiles-anna-nagar": 3,
+      "macfix-care-anna-nagar": 1,
+      "bytecraft-desktops-anna-nagar": 0
+    },
+    "symptom-03": {
+      "precision-pc-t-nagar": 3,
+      "mac-specialist-t-nagar": 0,
+      "precision-pc-adyar": 3,
+      "express-gadget-t-nagar": 0,
+      "mac-specialist-adyar": 0
+    },
+    "symptom-04": {
+      "divine-hair-spa-adyar": 3,
+      "gentleman-barber-adyar": 0,
+      "metro-family-salon-adyar": 2,
+      "divine-hair-spa-t-nagar": 3,
+      "gentleman-barber-velachery": 0,
+      "metro-family-salon-velachery": 2
+    },
+    "symptom-05": {
+      "express-gadget-adyar": 3,
+      "s1-q2-items-1792261647350": 0,
+      "ownacc-test-2-1792261649203": 0,
+      "s1-tools-act2-1792261648472": 0,
+      "s1-orch-rerank-a-1792261648241": 0,
+      "mac-specialist-adyar": 1,
+      "s1-orch-rerank-b-1792261648241": 0,
+      "s1-test-price-chp-179226164736": 0,
+      "s1-test-price-lux-179226164736": 0,
+      "s1-test-price-onr-179226164736": 0
+    },
+    "symptom-06": {
+      "classic-barber-anna-nagar": 3,
+      "urban-family-salon-anna-nagar": 2,
+      "aura-luxury-salon-anna-nagar": 1
+    },
+    "symptom-07": {
+      "precision-pc-velachery": 1,
+      "mac-specialist-velachery": 1,
+      "express-gadget-velachery": 1,
+      "precision-pc-adyar": 1,
+      "mac-specialist-adyar": 1,
+      "s1-test-price-lux-179226164736": 1,
+      "s1-orch-rerank-b-1792261648241": 1,
+      "s1-q2-items-1792261647350": 1,
+      "ownacc-test-2-1792261649203": 1,
+      "s1-test-price-chp-179226164736": 1
+    },
+    "symptom-08": {
+      "gentleman-barber-velachery": 3,
+      "metro-family-salon-velachery": 2,
+      "divine-hair-spa-velachery": 1,
+      "gentleman-barber-adyar": 3,
+      "metro-family-salon-adyar": 2,
+      "divine-hair-spa-adyar": 1
+    },
+    "symptom-09": {
+      "express-gadget-t-nagar": 3,
+      "mac-specialist-t-nagar": 1,
+      "precision-pc-t-nagar": 0,
+      "precision-pc-adyar": 0,
+      "mac-specialist-adyar": 1
+    },
+    "symptom-10": {
+      "gentleman-barber-t-nagar": 0,
+      "metro-family-salon-t-nagar": 2,
+      "divine-hair-spa-t-nagar": 3,
+      "divine-hair-spa-adyar": 3
+    },
+    "constraint-01": {
+      "gentleman-barber-t-nagar": 3,
+      "metro-family-salon-t-nagar": 2
+    },
+    "constraint-02": {
+      "express-gadget-adyar": 3,
+      "s1-q2-items-1792261647350": 0,
+      "express-gadget-t-nagar": 3,
+      "express-gadget-velachery": 3
+    },
+    "constraint-03": {
+      "classic-barber-anna-nagar": 3,
+      "urban-family-salon-anna-nagar": 2
+    },
+    "constraint-04": {
+      "chennai-degree-kaapi-velachery": 3,
+      "chennai-degree-kaapi-adyar": 3
+    },
+    "constraint-05": {
+      "macfix-care-anna-nagar": 1,
+      "quickfix-mobiles-anna-nagar": 1
+    },
+    "constraint-06": {
+      "metro-family-salon-velachery": 1,
+      "gentleman-barber-velachery": 1,
+      "gentleman-barber-adyar": 1,
+      "metro-family-salon-adyar": 1
+    },
+    "constraint-07": {
+      "city-treats-bakery-adyar": 3,
+      "chennai-degree-kaapi-adyar": 0,
+      "chennai-degree-kaapi-velachery": 0,
+      "city-treats-bakery-velachery": 3,
+      "chennai-degree-kaapi-t-nagar": 0
+    },
+    "constraint-08": {
+      "quickfix-mobiles-anna-nagar": 3
+    },
+    "constraint-09": {
+      "metro-family-salon-t-nagar": 1,
+      "gentleman-barber-t-nagar": 1
+    },
+    "constraint-10": {},
+    "specific-01": {
+      "earth-crust-bakery-anna-nagar": 3,
+      "madras-kaapi-tiffin-anna-nagar": 0,
+      "hot-breads-traditional-anna-nagar": 1
+    },
+    "specific-02": {
+      "macfix-care-anna-nagar": 3,
+      "bytecraft-desktops-anna-nagar": 0,
+      "quickfix-mobiles-anna-nagar": 1
+    },
+    "specific-03": {
+      "aura-luxury-salon-anna-nagar": 3,
+      "urban-family-salon-anna-nagar": 2,
+      "classic-barber-anna-nagar": 0
+    },
+    "specific-04": {
+      "precision-pc-velachery": 3,
+      "mac-specialist-velachery": 0,
+      "express-gadget-velachery": 0,
+      "precision-pc-adyar": 3,
+      "mac-specialist-adyar": 0,
+      "ownacc-test-2-1792261649203": 0,
+      "s1-test-price-chp-179226164736": 0,
+      "s1-test-price-lux-179226164736": 0,
+      "s1-orch-rerank-b-1792261648241": 0,
+      "s1-q2-items-1792261647350": 0
+    },
+    "specific-05": {
+      "green-harvest-bakes-adyar": 3,
+      "green-harvest-bakes-velachery": 3,
+      "green-harvest-bakes-t-nagar": 3,
+      "city-treats-bakery-adyar": 1,
+      "chennai-degree-kaapi-adyar": 0,
+      "city-treats-bakery-velachery": 1,
+      "chennai-degree-kaapi-velachery": 0,
+      "chennai-degree-kaapi-t-nagar": 0
+    },
+    "specific-06": {
+      "mac-specialist-adyar": 3,
+      "mac-specialist-velachery": 3,
+      "ownacc-test-2-1792261649203": 1,
+      "express-gadget-adyar": 2,
+      "s1-tools-act2-1792261648472": 1,
+      "s1-test-price-chp-179226164736": 1,
+      "s1-test-price-lux-179226164736": 1,
+      "s1-q2-items-1792261647350": 1,
+      "precision-pc-adyar": 0,
+      "s1-orch-rerank-a-1792261648241": 1
+    },
+    "specific-07": {
+      "divine-hair-spa-t-nagar": 3,
+      "divine-hair-spa-adyar": 3,
+      "metro-family-salon-t-nagar": 2,
+      "gentleman-barber-t-nagar": 0
+    },
+    "specific-08": {
+      "precision-pc-t-nagar": 3,
+      "precision-pc-adyar": 3,
+      "mac-specialist-t-nagar": 0,
+      "express-gadget-t-nagar": 0,
+      "mac-specialist-adyar": 0
+    },
+    "specific-09": {
+      "mac-specialist-t-nagar": 2,
+      "mac-specialist-adyar": 2,
+      "express-gadget-t-nagar": 1,
+      "precision-pc-t-nagar": 0,
+      "precision-pc-adyar": 0
+    },
+    "specific-10": {
+      "green-harvest-bakes-velachery": 3,
+      "city-treats-bakery-velachery": 1,
+      "chennai-degree-kaapi-velachery": 0,
+      "green-harvest-bakes-adyar": 3,
+      "city-treats-bakery-adyar": 1,
+      "chennai-degree-kaapi-adyar": 0
+    }
+  },
+  "second_rater_labels": {
+    "direct-01": {
+      "s1-orch-rerank-b-1792261648241": 2,
+      "s1-test-price-chp-179226164736": 1
+    },
+    "direct-02": {
+      "macfix-care-anna-nagar": 3
+    },
+    "direct-03": {
+      "mac-specialist-velachery": 0,
+      "s1-orch-rerank-b-1792261648241": 0
+    },
+    "direct-04": {
+      "divine-hair-spa-t-nagar": 1
+    },
+    "direct-06": {
+      "chennai-degree-kaapi-adyar": 3,
+      "city-treats-bakery-velachery": 1
+    },
+    "direct-07": {
+      "green-harvest-bakes-velachery": 2
+    },
+    "direct-08": {
+      "express-gadget-velachery": 1,
+      "ownacc-test-2-1792261649203": 2
+    },
+    "direct-09": {
+      "urban-family-salon-anna-nagar": 2
+    },
+    "symptom-01": {
+      "mac-specialist-velachery": 1,
+      "precision-pc-adyar": 1
+    },
+    "symptom-02": {
+      "quickfix-mobiles-anna-nagar": 3
+    },
+    "symptom-03": {
+      "precision-pc-adyar": 3
+    },
+    "symptom-04": {
+      "metro-family-salon-adyar": 2
+    },
+    "symptom-05": {
+      "s1-q2-items-1792261647350": 0,
+      "s1-orch-rerank-b-1792261648241": 0
+    },
+    "symptom-06": {
+      "urban-family-salon-anna-nagar": 2
+    },
+    "symptom-07": {
+      "precision-pc-adyar": 2,
+      "ownacc-test-2-1792261649203": 1
+    },
+    "symptom-08": {
+      "gentleman-barber-adyar": 3
+    },
+    "symptom-09": {
+      "precision-pc-t-nagar": 0
+    },
+    "symptom-10": {
+      "divine-hair-spa-t-nagar": 3
+    },
+    "constraint-02": {
+      "s1-q2-items-1792261647350": 0
+    },
+    "constraint-04": {
+      "chennai-degree-kaapi-velachery": 3
+    },
+    "constraint-06": {
+      "gentleman-barber-velachery": 1
+    },
+    "constraint-07": {
+      "chennai-degree-kaapi-velachery": 0
+    },
+    "constraint-09": {
+      "gentleman-barber-t-nagar": 1
+    },
+    "specific-02": {
+      "bytecraft-desktops-anna-nagar": 1
+    },
+    "specific-04": {
+      "precision-pc-velachery": 3,
+      "ownacc-test-2-1792261649203": 0
+    },
+    "specific-05": {
+      "green-harvest-bakes-adyar": 3,
+      "city-treats-bakery-velachery": 1
+    },
+    "specific-06": {
+      "ownacc-test-2-1792261649203": 1,
+      "s1-q2-items-1792261647350": 1
+    },
+    "specific-07": {
+      "metro-family-salon-t-nagar": 2
+    },
+    "specific-08": {
+      "express-gadget-t-nagar": 0
+    },
+    "specific-09": {
+      "precision-pc-t-nagar": 0
+    }
+  },
+  "all_relevant_shops_by_query": {
+    "direct-01": [
+      "express-gadget-adyar",
+      "mac-specialist-adyar"
+    ],
+    "direct-02": [
+      "macfix-care-anna-nagar"
+    ],
+    "direct-03": [
+      "precision-pc-velachery",
+      "precision-pc-adyar"
+    ],
+    "direct-04": [
+      "gentleman-barber-t-nagar",
+      "metro-family-salon-t-nagar"
+    ],
+    "direct-05": [
+      "aura-luxury-salon-anna-nagar",
+      "urban-family-salon-anna-nagar"
+    ],
+    "direct-06": [
+      "chennai-degree-kaapi-adyar",
+      "chennai-degree-kaapi-velachery",
+      "chennai-degree-kaapi-t-nagar"
+    ],
+    "direct-07": [
+      "city-treats-bakery-velachery",
+      "city-treats-bakery-adyar",
+      "green-harvest-bakes-velachery",
+      "green-harvest-bakes-adyar"
+    ],
+    "direct-08": [
+      "mac-specialist-velachery",
+      "mac-specialist-adyar"
+    ],
+    "direct-09": [
+      "classic-barber-anna-nagar",
+      "urban-family-salon-anna-nagar"
+    ],
+    "direct-10": [
+      "green-harvest-bakes-t-nagar"
+    ],
+    "symptom-01": [],
+    "symptom-02": [
+      "quickfix-mobiles-anna-nagar"
+    ],
+    "symptom-03": [
+      "precision-pc-t-nagar",
+      "precision-pc-adyar"
+    ],
+    "symptom-04": [
+      "divine-hair-spa-adyar",
+      "metro-family-salon-adyar",
+      "divine-hair-spa-t-nagar",
+      "metro-family-salon-velachery"
+    ],
+    "symptom-05": [
+      "express-gadget-adyar"
+    ],
+    "symptom-06": [
+      "classic-barber-anna-nagar",
+      "urban-family-salon-anna-nagar"
+    ],
+    "symptom-07": [],
+    "symptom-08": [
+      "gentleman-barber-velachery",
+      "metro-family-salon-velachery",
+      "gentleman-barber-adyar",
+      "metro-family-salon-adyar"
+    ],
+    "symptom-09": [
+      "express-gadget-t-nagar"
+    ],
+    "symptom-10": [
+      "metro-family-salon-t-nagar",
+      "divine-hair-spa-t-nagar",
+      "divine-hair-spa-adyar"
+    ],
+    "constraint-01": [
+      "gentleman-barber-t-nagar",
+      "metro-family-salon-t-nagar"
+    ],
+    "constraint-02": [
+      "express-gadget-adyar",
+      "express-gadget-t-nagar",
+      "express-gadget-velachery"
+    ],
+    "constraint-03": [
+      "classic-barber-anna-nagar",
+      "urban-family-salon-anna-nagar"
+    ],
+    "constraint-04": [
+      "chennai-degree-kaapi-velachery",
+      "chennai-degree-kaapi-adyar"
+    ],
+    "constraint-05": [],
+    "constraint-06": [],
+    "constraint-07": [
+      "city-treats-bakery-adyar",
+      "city-treats-bakery-velachery"
+    ],
+    "constraint-08": [
+      "quickfix-mobiles-anna-nagar"
+    ],
+    "constraint-09": [],
+    "constraint-10": [],
+    "specific-01": [
+      "earth-crust-bakery-anna-nagar"
+    ],
+    "specific-02": [
+      "macfix-care-anna-nagar"
+    ],
+    "specific-03": [
+      "aura-luxury-salon-anna-nagar",
+      "urban-family-salon-anna-nagar"
+    ],
+    "specific-04": [
+      "precision-pc-velachery",
+      "precision-pc-adyar"
+    ],
+    "specific-05": [
+      "green-harvest-bakes-adyar",
+      "green-harvest-bakes-velachery",
+      "green-harvest-bakes-t-nagar"
+    ],
+    "specific-06": [
+      "mac-specialist-adyar",
+      "mac-specialist-velachery",
+      "express-gadget-adyar"
+    ],
+    "specific-07": [
+      "divine-hair-spa-t-nagar",
+      "divine-hair-spa-adyar",
+      "metro-family-salon-t-nagar"
+    ],
+    "specific-08": [
+      "precision-pc-t-nagar",
+      "precision-pc-adyar"
+    ],
+    "specific-09": [
+      "mac-specialist-t-nagar",
+      "mac-specialist-adyar"
+    ],
+    "specific-10": [
+      "green-harvest-bakes-velachery",
+      "green-harvest-bakes-adyar"
+    ]
+  }
+}

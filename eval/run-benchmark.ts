@@ -2,6 +2,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+
+if (typeof (process as any).loadEnvFile === 'function' && fs.existsSync('.env')) {
+  try {
+    (process as any).loadEnvFile('.env');
+  } catch {
+    // Ignore error if already loaded
+  }
+}
+
 import { parseConfig } from '../src/config.js';
 import { resolveLocality } from '../src/domain/localities.js';
 import { executeStage1, type Stage1ShopCandidate } from '../src/search/stage1.js';

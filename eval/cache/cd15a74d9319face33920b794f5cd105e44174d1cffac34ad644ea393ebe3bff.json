@@ -1,0 +1,22 @@
+{
+  "model": "jev-1.13-20260917",
+  "distribution": [
+    {
+      "level": 0,
+      "probability": 0.15
+    },
+    {
+      "level": 1,
+      "probability": 0.75
+    },
+    {
+      "level": 2,
+      "probability": 0.1
+    },
+    {
+      "level": 3,
+      "probability": 0
+    }
+  ],
+  "expectedScore": 0.95
+}
