@@ -31,12 +31,16 @@
   - Unit test verification test passed.
 
 ### SPRINT-0.2: Configuration & Environment Module (`src/config.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Implement Zod-validated environment config in `src/config.ts` validating all variables listed in PRD Section 15.
 - **Acceptance Criteria:**
   - Missing required variable aborts process with descriptive error.
   - Valid defaults populated for timeouts, limits, and boolean flags.
   - Unit tests verify boundary parsing.
+- **Completion Details:**
+  - Created `src/config.ts` with Zod schema covering all 17 environment variables and Chennai service area bounding box constants (`12.75 <= lat <= 13.30`, `79.95 <= lng <= 80.40`).
+  - Unit tests in `tests/unit/config.test.ts` verify defaults, overrides, missing variable aborts, and constants.
+  - Verification triumvirate passed (Vitest + typecheck + lint).
 
 ### SPRINT-0.3: Jev API Contract & Latency Spike Documentation (`docs/jev-api-notes.md`)
 - **Status:** `[ ] TODO`
