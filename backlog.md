@@ -86,10 +86,13 @@
   - Documented spot-checks in `docs/locality-check.md`.
 
 ### SPRINT-1.4: Pure Domain Module: Text Sanitization (`src/domain/text.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Implement `cleanInputText` and `normalizeSearchQuery` (stripping control chars, collapsing spaces, removing `/\bnear\s+me\b/i`).
 - **Acceptance Criteria:**
   - Unit tests verify control char removal, length truncation, and regex query normalization.
+- **Completion Details:**
+  - Implemented `cleanInputText` and `normalizeSearchQuery` in `src/domain/text.ts` with zero external dependencies.
+  - Authored unit test suite in `tests/unit/domain/text.test.ts` covering ASCII control chars, newlines, multiple space collapse, length truncation, and "near me" phrase stripping.
 
 ### SPRINT-1.5: Pure Domain Module: Locality Resolution (`src/domain/localities.ts`)
 - **Status:** `[ ] TODO`
