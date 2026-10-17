@@ -350,10 +350,18 @@
   - Authored protocol conformance tests in `tests/integration/mcp-protocol.test.ts` verifying stateless headers, HTTP 405 methods, initialize handshake, and rate limiting.
 
 ### SPRINT-4.6: MCP Tools Implementation (`src/mcp/tools/*`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Implement 5 tools: `find_shops`, `get_shop_info`, `get_catalog` (cursor-paginated), `search_catalog`, `get_action_link`. All declare `readOnlyHint: true`.
 - **Acceptance Criteria:**
   - Integration tests for all 5 tools covering success, schema errors, and error codes (`invalid_input`, `location_required`, `locality_not_found`, `outside_service_area`, `shop_not_found`, `item_not_found`).
+- **Completion Details:**
+  - Implemented all 5 tools with `{ annotations: { readOnlyHint: true } }`:
+    - `find_shops`: calls `searchShops` with full filter and city-wide/relaxation support.
+    - `get_shop_info`: retrieves complete shop profile, today/weekly hours, upcoming closures, and contact details with visible-shop enforcement.
+    - `get_catalog`: retrieves available catalog items grouped by category, with formatted rupee prices, dietary tags, duration, and keyset cursor-based pagination (page size 25).
+    - `search_catalog`: searches shop items via trigram similarity and FTS with price ceiling, kind filtering, and similarity ranking.
+    - `get_action_link`: generates WhatsApp deep links, booking URLs, and phone dial links with template-selected enquiry messages, item summaries, and static disclaimer.
+  - Authored comprehensive integration tests in `tests/integration/mcp-tools.test.ts` covering success and all error codes (`invalid_input`, `location_required`, `shop_not_found`, `item_not_found`) with 100% pass rate.
 
 ---
 
