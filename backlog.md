@@ -288,6 +288,12 @@
   - Implemented Next.js Owner Account UI (`src/app/owner/account/page.tsx`, `AccountManager.tsx`, `actions.ts`) with listing status indicator, pause/resume action triggers, and self-service password update form.
   - Authored 3 integration tests in `tests/integration/owner-account.test.ts` passing 100%. Milestone M3 fully implemented.
 
+### Milestone M3 Review Gate
+- **Status:** `[x] APPROVED`
+- **Reviewer:** `sprint-code-reviewer`
+- **Scope:** Commits `5298f31..b6ddf41`.
+- **Verdict:** APPROVED. Zero-trust IDOR protections verified across all owner operations, D13 live shop invariants strictly enforced across all mutating paths, 100-item ceiling enforced, weekly hours validated against overlaps, Argon2id and session revocation verified, and `assertCsrfOrigin` enforced across all owner and admin portal server actions. All 129 tests passing, clean typecheck, and zero ESLint errors/warnings.
+
 ---
 
 ## Sprint 4: Search Engine Stage 1 & MCP Server (M4)
