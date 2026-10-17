@@ -11,6 +11,7 @@
     "seed:localities": "tsx scripts/seed-localities.ts",
     "seed:sample": "tsx scripts/seed-sample.ts",
     "seed:pilot": "tsx scripts/seed-pilot.ts",
+    "mcp:stdio": "tsx scripts/mcp-stdio.ts",
     "create-admin": "tsx scripts/create-admin.ts",
     "reset-admin-password": "tsx scripts/reset-admin-password.ts",
     "purge-logs": "tsx scripts/purge-logs.ts",

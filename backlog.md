@@ -541,10 +541,21 @@
   - Authored comprehensive verification log in `docs/pilot-log.md` detailing store addresses, phone numbers, WhatsApp contacts, owner identities, verification dates, and audit inspection methodologies.
 
 ### SPRINT-7.3: Comprehensive Documentation & Client Config (`README.md`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Complete `README.md` with problem statement, system architecture, Claude Desktop setup (`claude_desktop_config.json`), sample transcripts, evaluation results, and known limitations.
 - **Acceptance Criteria:**
   - Clear, reproducible setup instructions from fresh clone.
+- **Completion Details:**
+  - Implemented stdio MCP transport runner `scripts/mcp-stdio.ts` and npm task `npm run mcp:stdio` supporting standard desktop AI workflows.
+  - Authored comprehensive `README.md` covering:
+    - Problem statement in urban retail discovery.
+    - System architecture diagram and two-stage search pipeline details.
+    - Full MCP tools reference across all 5 declarative tools.
+    - Claude Desktop configuration examples for both local stdio and streamable HTTP.
+    - Realistic multi-turn customer/agent conversation transcript demonstrating discovery, catalog lookup, hours check, and WhatsApp action link generation.
+    - Benchmark results summary (+0.0507 NDCG@5 lift, kappa=0.864, prompt injection resilience).
+    - Step-by-step reproducible setup guide from a fresh clone.
+    - Documented PRD Section 22 known limitations (32 Chennai localities boundary, INR currency, non-autonomous payments, IST hours, fail-open behavior).
 
 ### SPRINT-7.4: Launch Gate Verification
 - **Status:** `[ ] TODO`
