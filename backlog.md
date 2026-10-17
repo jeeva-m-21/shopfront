@@ -505,6 +505,12 @@
   - Authored comprehensive 10-step full lifecycle automated E2E test in `tests/e2e/lifecycle.spec.ts` covering Admin setup, Owner onboarding, catalog & hours management, live publication, customer discovery, public shop page interaction, self-service pause, and customer 404 exclusion.
   - Verified `npm run test:e2e` passes 100% green in 5.5s. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) completely clean.
 
+### Milestone M6 Review Gate
+- **Status:** `[x] APPROVED`
+- **Reviewer:** `sprint-code-reviewer`
+- **Scope:** Commits `0698e09..HEAD`.
+- **Verdict:** APPROVED. Public search page & API rate limiting (60 req/min), input sanitization, category pills, locality selector, open-now filter, relaxation hints, and 2-decimal relevance scores verified. Public shop detail page invariant gating (404 on draft/paused/missing/sample), operating hours, 30-day closures, category-grouped catalog, direct enquiry WhatsApp CTA with PRD disclaimer, and telemetry logging verified. Health check endpoint (`/api/health`), structured JSON logger with recursive secret redaction, and 90-day search log purge script with indefinite audit log retention verified. Production Dockerfile with multi-stage non-root containerization and docker-compose orchestration verified. Full 10-step lifecycle automated E2E test passing 100% in CI headless mode. All 215 tests passing, zero TypeScript errors, zero linter errors/warnings.
+
 ---
 
 ## Sprint 7: Pilot Onboarding, Operations & Launch Gate (M7)
