@@ -149,6 +149,7 @@ describe('Search Stage 1 Step 2 & Query 2 (Integration Tests)', () => {
       openNow: true,
       now: mondayNoon,
       showSampleData: false,
+      limit: 50,
     });
     const openIds = openCandidates.map((c) => c.id);
     expect(openIds).toContain(openShop.id);
@@ -163,6 +164,7 @@ describe('Search Stage 1 Step 2 & Query 2 (Integration Tests)', () => {
       openNow: false,
       now: mondayNoon,
       showSampleData: false,
+      limit: 50,
     });
     const openEntry = allCandidates.find((c) => c.id === openShop.id);
     const closedEntry = allCandidates.find((c) => c.id === closedShop.id);

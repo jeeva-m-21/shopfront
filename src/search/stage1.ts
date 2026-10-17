@@ -361,8 +361,9 @@ export async function executeStage1(options: SearchStage1Options): Promise<Stage
     ? scoredWithOpenNow.filter((entry) => entry.openNow === true)
     : scoredWithOpenNow;
 
-  // Slice to CANDIDATE_COUNT (10)
-  const topCandidates = filtered.slice(0, config.CANDIDATE_COUNT);
+  // Slice to options.limit or CANDIDATE_COUNT (10)
+  const candidateLimit = options.limit ?? config.CANDIDATE_COUNT;
+  const topCandidates = filtered.slice(0, candidateLimit);
   if (topCandidates.length === 0) {
     return [];
   }
