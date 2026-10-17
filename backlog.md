@@ -244,10 +244,15 @@
   - Authored 4 integration tests in `tests/integration/owner-auth.test.ts` passing 100%.
 
 ### SPRINT-3.2: Owner Dashboard & IDOR-Guarded Shop Details (`src/app/owner/page.tsx`, `src/app/owner/shop/page.tsx`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Owner dashboard with status badges and hours alert. Shop details editing strictly resolved via `owner_id = session.user.id`. Read-only restricted fields.
 - **Acceptance Criteria:**
-  - O3, O4 tests passing; cross-tenant IDOR attack returns 404.
+-   - O3, O4 tests passing; cross-tenant IDOR attack returns 404.
+- **Completion Details:**
+  - Implemented `src/owner/shop-ops.ts` (`getOwnerDashboard`, `getOwnerShop`, `updateOwnerShopDetails`, `ShopNotFoundError`, `formatMenuUpdatedDate`) with zero-trust IDOR security: resolving shops strictly by `owner_id = session.user.id` and rejecting any unassigned or cross-tenant shop id reference with 404.
+  - Implemented `/owner` dashboard with shop name, status badge (`Draft`, `Live`, `Paused`), available vs total items count, latest menu updated date, quick navigation cards, and banner alerts (`showUnknownHoursBanner`, `showDraftBanner`, `showAdminLockedBanner`, unassigned owner state).
+  - Implemented `/owner/shop` editing interface with read-only locked fields (category, locality, map position, slug, sample listing) and immediate validation on editable fields with audit logging.
+  - Authored 5 integration tests in `tests/integration/owner-shop.test.ts` passing 100%.
 
 ### SPRINT-3.3: Owner Menu & Catalog Management (`src/app/owner/menu/page.tsx`)
 - **Status:** `[ ] TODO`
