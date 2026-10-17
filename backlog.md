@@ -363,6 +363,12 @@
     - `get_action_link`: generates WhatsApp deep links, booking URLs, and phone dial links with template-selected enquiry messages, item summaries, and static disclaimer.
   - Authored comprehensive integration tests in `tests/integration/mcp-tools.test.ts` covering success and all error codes (`invalid_input`, `location_required`, `shop_not_found`, `item_not_found`) with 100% pass rate.
 
+### Milestone M4 Review Gate
+- **Status:** `[x] APPROVED`
+- **Reviewer:** `sprint-code-reviewer`
+- **Scope:** Commits `de3c3c0..HEAD`.
+- **Verdict:** APPROVED. Zero-ORM raw SQL queries, H1–H5 hard constraint enforcement with PostGIS axis order ($4=lng, $5=lat), Node IST H6 open-now filtering, relaxation hints logic, 60 req/min rate limiting, stateless MCP transport (`sessionIdGenerator: undefined`), 5 readOnlyHint MCP tools, and telemetry logger verified. All 160 tests passing, clean typecheck, and zero ESLint errors/warnings.
+
 ---
 
 ## Sprint 5: Stage 2 Reranker & Offline Evaluation Framework (M5)
