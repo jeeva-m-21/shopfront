@@ -170,10 +170,15 @@
   - Authored 4 unit tests in `tests/unit/rate-limit.test.ts` and 4 integration tests in `tests/integration/sessions.test.ts` passing 100%.
 
 ### SPRINT-2.3: Lockout Guard & Login Flow (`src/auth/lockout.ts`, `src/app/login/page.tsx`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** 5-failure / 15-minute sliding window lockout on `login_attempts`. Unified `/login` route handler and page with constant-time response.
 - **Acceptance Criteria:**
   - Integration tests verifying lockout triggers at 5 failures and unblocks after 15 minutes.
+- **Completion Details:**
+  - Implemented `src/auth/lockout.ts` with `isLockedOut` (5-failure / 15-minute sliding window), `recordLoginAttempt`, and `authenticateUser` adhering to constant-time timing probe equalization, inactive account message delay until after password verification, and session token generation.
+  - Implemented Next.js Server Action `src/app/login/actions.ts` setting `sf_session` cookie (`HttpOnly`, `SameSite=Lax`, `Secure` in prod) and role-based redirects (`/admin` and `/owner`).
+  - Implemented accessible, responsive `/login` UI with WCAG AA contrast error alerts in `src/app/login/LoginForm.tsx` and `src/app/login/page.tsx`.
+  - Authored 8 integration tests in `tests/integration/auth-lockout.test.ts` passing 100%.
 
 ### SPRINT-2.4: Admin CLI Scripts (`scripts/create-admin.ts`, `scripts/reset-admin-password.ts`)
 - **Status:** `[ ] TODO`
