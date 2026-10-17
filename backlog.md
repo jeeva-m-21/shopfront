@@ -233,10 +233,15 @@
 ## Sprint 3: Owner Portal (M3)
 
 ### SPRINT-3.1: Forced First-Login Password Change Gate (`src/app/owner/change-password/page.tsx`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Redirect gate when `must_change_password = true`, password validation (8–128 chars, 1 letter, 1 digit, no username/old password match), session revocation.
 - **Acceptance Criteria:**
-  - O1 acceptance tests passing.
+-   - O1 acceptance tests passing.
+- **Completion Details:**
+  - Implemented `src/owner/account-ops.ts` with `forceChangeOwnerPassword` enforcing complexity rules, distinct new password, clearing `must_change_password = FALSE`, revoking all other active sessions for the user (`deleteAllUserSessions(user.id, currentSessionToken)`), and recording an audit trail.
+  - Implemented Next.js Owner layout (`src/app/owner/layout.tsx`) with strict authentication guards redirecting owners with `must_change_password = true` exclusively to `/owner/change-password`.
+  - Implemented accessible `/owner/change-password` page and form (`src/app/owner/change-password/page.tsx`, `ChangePasswordForm.tsx`, `actions.ts`).
+  - Authored 4 integration tests in `tests/integration/owner-auth.test.ts` passing 100%.
 
 ### SPRINT-3.2: Owner Dashboard & IDOR-Guarded Shop Details (`src/app/owner/page.tsx`, `src/app/owner/shop/page.tsx`)
 - **Status:** `[ ] TODO`
