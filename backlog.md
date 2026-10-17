@@ -399,10 +399,18 @@
   - Authored 10 unit tests in `tests/unit/search/shop-reranker.test.ts` and integration test in `tests/integration/search-orchestrator.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-5.3: Evaluation Harness & Metrics (`eval/metrics.ts`, `eval/run-benchmark.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Implement `NDCG@5`, `MRR@5`, `Recall@10`, seeded Mulberry32 10k bootstrap CI, Cohen's kappa. Create offline cache-backed evaluation runner.
 - **Acceptance Criteria:**
   - Unit tests on toy rankings with hand-computed values.
+- **Completion Details:**
+  - Implemented `dcgAtK`, `idcgAtK`, and `ndcgAtK` with rule excluding queries with 0 relevant items.
+  - Implemented `mrrAtK` finding reciprocal rank of first candidate with label >= 2 in top 5.
+  - Implemented `recallAtK` computing retrieval coverage against all relevant benchmark shops.
+  - Implemented `mulberry32` deterministic 32-bit PRNG and `bootstrapMeanDifferenceCI` running 10,000 resamples for 95% bootstrap confidence interval.
+  - Implemented `cohensKappa` computing inter-annotator agreement and percentage agreement.
+  - Implemented `eval/run-benchmark.ts` offline cache-backed harness supporting cache mode (`eval/cache/`), live mode (`--live`), and injection mode (`--injection`), outputting structured markdown to `eval/results/latest-report.md`.
+  - Authored 13 unit tests in `tests/unit/eval/metrics.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-5.4: Benchmark Queries & Hand Labels (`eval/benchmark_queries.json`, `eval/labels.json`)
 - **Status:** `[ ] TODO`
