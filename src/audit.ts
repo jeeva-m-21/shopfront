@@ -12,18 +12,36 @@ export interface AuditLogEntry {
   client?: pg.PoolClient;
 }
 
-function sanitizeAuditData(
-  data?: Record<string, unknown> | null
-): Record<string, unknown> | null {
-  if (!data) return null;
-  const sanitized = { ...data };
-  // Strictly redact any sensitive fields from audit logs
-  delete sanitized.password;
-  delete sanitized.password_hash;
-  delete sanitized.temporary_password;
-  delete sanitized.token;
-  delete sanitized.token_hash;
-  return sanitized;
+const REDACTED_KEYS = new Set([
+  'password',
+  'password_hash',
+  'temporary_password',
+  'token',
+  'token_hash',
+]);
+
+function sanitizeAuditData(data?: Record<string, unknown> | null): Record<string, unknown> | null {
+  if (!data || typeof data !== 'object') return null;
+
+  function deepClean(item: unknown): unknown {
+    if (item === null || item === undefined) return item;
+    if (Array.isArray(item)) {
+      return item.map(deepClean);
+    }
+    if (typeof item === 'object') {
+      const cleaned: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(item as Record<string, unknown>)) {
+        if (REDACTED_KEYS.has(k.toLowerCase())) {
+          continue;
+        }
+        cleaned[k] = deepClean(v);
+      }
+      return cleaned;
+    }
+    return item;
+  }
+
+  return deepClean(data) as Record<string, unknown>;
 }
 
 /**
