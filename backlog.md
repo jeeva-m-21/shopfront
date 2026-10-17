@@ -124,10 +124,14 @@
   - Authored unit tests in `tests/unit/domain/pricing.test.ts` with 100% test coverage.
 
 ### SPRINT-1.8: Pure Domain Module: Action Links & WhatsApp Templates (`src/domain/action-links.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Generate sanitized enquiry URLs and message templates for `whatsapp`, `external_url`, and `phone_only` across `repair_service`, `salon_wellness`, and `food_beverage`.
 - **Acceptance Criteria:**
   - Unit tests verifying URI encoding, note sanitization, and fallback phone/URL links.
+- **Completion Details:**
+  - Implemented `src/domain/action-links.ts` with `generateActionLink()`, sanitizing preferred_time and customer_note, and constructing WhatsApp, external URL, and tel: links.
+  - Implemented templates across repair_service, salon_wellness, and food_beverage with exact disclaimer.
+  - Authored unit test suite in `tests/unit/domain/action-links.test.ts` passing all 7 test cases.
 
 ### SPRINT-1.9: Benchmark Dataset Seed (`db/seeds/sample.sql`)
 - **Status:** `[ ] TODO`
