@@ -95,10 +95,14 @@
   - Authored unit test suite in `tests/unit/domain/text.test.ts` covering ASCII control chars, newlines, multiple space collapse, length truncation, and "near me" phrase stripping.
 
 ### SPRINT-1.5: Pure Domain Module: Locality Resolution (`src/domain/localities.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Implement locality resolution: alphanumeric normalization, exact match, alias lookup, 3-gram similarity scoring with `>= 0.6` threshold and `>= 0.1` separation, suggestion of 3 closest on failure.
 - **Acceptance Criteria:**
   - Unit tests covering `"T. Nagar"`, `"t nagar"`, `"OMR"`, typos, ambiguous inputs, and unknown localities.
+- **Completion Details:**
+  - Implemented `src/domain/localities.ts` with immutable static Chennai 32 localities dataset, alphanumeric normalization, exact matching on names and aliases, and pg_trgm-identical 3-gram similarity ranking.
+  - Implemented `>= 0.6` threshold and `>= 0.1` separation rule with 3 closest suggestions fallback.
+  - Unit tests in `tests/unit/domain/localities.test.ts` pass with 100% coverage.
 
 ### SPRINT-1.6: Pure Domain Module: Hours & `open_now` Engine (`src/domain/hours.ts`)
 - **Status:** `[ ] TODO`
