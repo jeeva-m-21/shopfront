@@ -433,6 +433,12 @@
   - Verified adversarial shop achieves $E[\text{score}] = 0.100 < 1.5$ on unrelated query and does not displace legitimate exact match.
   - Authored automated test in `tests/unit/eval/injection.test.ts`. Verified `npm run eval:injection` and `npm test` pass 100%. Gate checks clean.
 
+### Milestone M5 Review Gate
+- **Status:** `[x] APPROVED`
+- **Reviewer:** `sprint-code-reviewer`
+- **Scope:** Commits `4fd1bad..HEAD`.
+- **Verdict:** APPROVED. Strict input truncation and prompt injection boundaries verified (customer query <= 200, name <= 80, desc <= 300, 5 items, tags <= 5 of <= 30, prices/coords/hours omitted, control chars stripped), Jev client with shared AbortController and budget timeout calculation verified, fail-open shop reranker orchestrator with 4-decimal sorting, tie-breaking, and all-or-nothing fallback verified, integration into search pipeline with accurate search_logs telemetry verified, offline evaluation harness with NDCG@5, MRR@5, Recall@10, Mulberry32 10k bootstrap CI, Cohen's kappa verified (+0.0507 NDCG@5 improvement, kappa = 0.864, satisfying PRD 17.6 production decision criteria), and adversarial injection test verified. All 199 tests passing, clean typecheck, and zero ESLint errors/warnings.
+
 ---
 
 ## Sprint 6: Public Web UI, Deployment & E2E Testing (M6)
