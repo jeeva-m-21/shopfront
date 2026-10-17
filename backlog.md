@@ -76,10 +76,14 @@
   - Authored integration tests in `tests/integration/db.test.ts` verifying queries, commit, rollback on error, and statement timeout cancellation.
 
 ### SPRINT-1.3: Reference Seed & Locality Verification (`db/seeds/localities.sql`, `docs/locality-check.md`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Populate all 32 Chennai localities with OpenStreetMap centroids and aliases. Author script `scripts/seed-localities.ts` / `npm run seed:localities`. Document verification in `docs/locality-check.md`.
 - **Acceptance Criteria:**
   - All 32 localities seeded. Point coordinates fall within `12.75 <= lat <= 13.30` and `79.95 <= lng <= 80.40`.
+- **Completion Details:**
+  - Authored `db/seeds/localities.sql` containing all 32 Chennai localities with verified aliases and PostGIS Point geography centroids.
+  - Implemented `scripts/seed-localities.ts` with validation that all 32 records exist and fall within Chennai service area.
+  - Documented spot-checks in `docs/locality-check.md`.
 
 ### SPRINT-1.4: Pure Domain Module: Text Sanitization (`src/domain/text.ts`)
 - **Status:** `[ ] TODO`
