@@ -4,7 +4,7 @@
 
 | Sprint | Milestone Reference | Focus Area | Status | Target Deliverable |
 | :--- | :--- | :--- | :--- | :--- |
-| **Sprint 0** | **M0: Decisions & Spikes** | Scaffolding, Strict Tooling & Config | `[ ] TODO` | Pinned `package.json`, TypeScript `strict: true`, Vitest, ESLint, `docs/jev-api-notes.md` |
+| **Sprint 0** | **M0: Decisions & Spikes** | Scaffolding, Strict Tooling & Config | `[x] COMPLETED` | Pinned `package.json`, TypeScript `strict: true`, Vitest, ESLint, `docs/jev-api-notes.md` |
 | **Sprint 1** | **M1: Database & Domain** | Postgres Schema, Seeds & Pure Domain Modules | `[ ] TODO` | `0001_initial_schema.sql`, migration runner, 32 localities seed, pure domain modules (`text`, `localities`, `pricing`, `hours`, `action-links`) + unit tests |
 | **Sprint 2** | **M2: Auth & Admin Portal** | Authentication, Sessions, Lockout & Admin UI | `[ ] TODO` | Argon2id auth, timing-safe login, CSRF origin guard, lockout, `create-admin` CLI, `/admin` routes (A1–A9), audit log |
 | **Sprint 3** | **M3: Owner Portal** | Owner Dashboard, Menu & Hours Management | `[ ] TODO` | First login forced password change (O1), `/owner` routes (O1–O9), D13 invariant, 100-item limit, IDOR protection |
@@ -43,10 +43,12 @@
   - Verification triumvirate passed (Vitest + typecheck + lint).
 
 ### SPRINT-0.3: Jev API Contract & Latency Spike Documentation (`docs/jev-api-notes.md`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Author `docs/jev-api-notes.md` freezing the Jev Decisions API request payload schema, scoring levels (0–3), probability distribution rules, and timeout parameters.
 - **Acceptance Criteria:**
   - Schema documentation matches D6, D14, D17 requirements.
+- **Completion Details:**
+  - Authored `docs/jev-api-notes.md` freezing endpoint, headers, prompt-injection truncation rules (Section 12.3), schema validation rules, expected score computation, tie-breaking, latency budgets (450ms Jev timeout / 700ms total budget), and offline evaluation cache contract.
 
 ---
 
