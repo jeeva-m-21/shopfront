@@ -374,10 +374,16 @@
 ## Sprint 5: Stage 2 Reranker & Offline Evaluation Framework (M5)
 
 ### SPRINT-5.1: Jev Decisions API Client (`src/search/rerank/jev-client.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Shared `AbortController`, strict budget timeout calculation (`min(450ms, remaining - 30)`), probability distribution validation (`sum = 1.0 +- 0.01`).
 - **Acceptance Criteria:**
   - Mocked network tests verifying timeout abort, error handling, and distribution validation.
+- **Completion Details:**
+  - Implemented `buildJevState` sanitizing and truncating inputs per PRD 12.3: customer query (<= 200 chars), shop name (<= 80), shop description (<= 300), item name (<= 80), item description (<= 160), tags (up to 5 tags, <= 30 chars), strictly omitting prices, coordinates, distances, and opening hours.
+  - Implemented `validateAndExtractDistribution` checking array of 4 levels, non-negativity, and probability sum of $1.0 \pm 0.01$ with IEEE-754 epsilon tolerance.
+  - Implemented `computeExpectedScore` calculating $E[\text{score}] = 0\cdot P(0) + 1\cdot P(1) + 2\cdot P(2) + 3\cdot P(3)$.
+  - Implemented `callJevDecisionsApi` with typed `JevError` classifying failures into `'timeout'`, `'http_error'`, `'invalid_schema'`, and `'disabled'`.
+  - Authored 14 unit tests in `tests/unit/search/jev-client.test.ts` passing 100%. Gate checks (`npm test`, `tsc --noEmit`, `next lint`) clean.
 
 ### SPRINT-5.2: Shop Reranker Orchestrator & Fail-Open Fallback (`src/search/rerank/shop-reranker.ts`)
 - **Status:** `[ ] TODO`
