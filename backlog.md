@@ -105,10 +105,14 @@
   - Unit tests in `tests/unit/domain/localities.test.ts` pass with 100% coverage.
 
 ### SPRINT-1.6: Pure Domain Module: Hours & `open_now` Engine (`src/domain/hours.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Implement `Asia/Kolkata` datetime evaluation, split shift intervals, overnight intervals (`close_time < open_time`), 24h intervals (`00:00` to `23:59`), calendar closures cancelling overnight intervals, overlap validation.
 - **Acceptance Criteria:**
   - Comprehensive unit tests: standard daytime, overnight across midnight, split shifts, closure cancellation of overnight tails, unknown hours returning `null`, weekday wrap (Sunday->Monday).
+- **Completion Details:**
+  - Implemented `src/domain/hours.ts` with `evaluateOpenNow`, `formatTodayHours`, `formatWeeklyHours`, and `validateIntervals`.
+  - Modeled `Asia/Kolkata` evaluation with zero external dependencies, handling standard daytime, split shifts, overnight intervals, 24-hour schedules, and full overnight closure cancellation per rule 7.3.3.
+  - Authored 16 unit tests in `tests/unit/domain/hours.test.ts` covering all edge cases.
 
 ### SPRINT-1.7: Pure Domain Module: Pricing Display (`src/domain/pricing.ts`)
 - **Status:** `[ ] TODO`
