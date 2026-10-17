@@ -278,10 +278,15 @@
   - Authored 4 integration tests in `tests/integration/owner-hours.test.ts` passing 100%.
 
 ### SPRINT-3.5: Owner Pause, Resume & Self-Service Account (`src/app/owner/account/page.tsx`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Owner pause/resume (blocked when `admin_locked = true`), self-service password change.
 - **Acceptance Criteria:**
-  - O7, O8 tests passing.
+-   - O7, O8 tests passing.
+- **Completion Details:**
+  - Implemented `changeOwnerPasswordSelfService` in `src/owner/account-ops.ts` verifying current password against Argon2id hash, enforcing complexity constraints and distinct new password, invalidating all other active sessions, and logging audit trail.
+  - Implemented `pauseOwnerShop` and `resumeOwnerShop` in `src/owner/shop-ops.ts` enforcing lifecycle rules (owner pause sets `admin_locked = FALSE`, owner resume blocked if `admin_locked = TRUE` or if 0 available items with `"Add at least one available menu item first"`).
+  - Implemented Next.js Owner Account UI (`src/app/owner/account/page.tsx`, `AccountManager.tsx`, `actions.ts`) with listing status indicator, pause/resume action triggers, and self-service password update form.
+  - Authored 3 integration tests in `tests/integration/owner-account.test.ts` passing 100%. Milestone M3 fully implemented.
 
 ---
 

@@ -363,3 +363,116 @@ export async function updateOwnerShopDetails(params: UpdateOwnerShopParams): Pro
 
   return updatedShop;
 }
+
+/**
+ * Owner pauses their own live listing (PRD Section 7.1, 9, O7).
+ * Sets status = 'paused', admin_locked = FALSE.
+ */
+export async function pauseOwnerShop(
+  ownerId: string,
+  actor: { id: string; username: string }
+): Promise<OwnerShopRecord> {
+  const shop = await getOwnerShop(ownerId);
+
+  if (shop.status !== 'live') {
+    throw new Error('Only live listings can be paused.');
+  }
+
+  const result = await query<RawShopRow>(
+    `UPDATE shops
+     SET status = 'paused',
+         admin_locked = FALSE,
+         updated_at = now()
+     WHERE id = $1 AND owner_id = $2
+     RETURNING 
+       id, slug, name, category, description, address,
+       locality_id,
+       (SELECT name FROM localities WHERE id = shops.locality_id) as locality_name,
+       ST_Y(location::geometry) as latitude,
+       ST_X(location::geometry) as longitude,
+       phone, whatsapp, booking_url, website_url,
+       action_mode, action_instructions,
+       is_sample_data, data_source_note,
+       owner_id, status, admin_locked, hours_status,
+       created_at, updated_at;`,
+    [shop.id, ownerId]
+  );
+
+  const updatedShop = mapShopRow(result.rows[0]!);
+
+  await logAudit({
+    actorId: actor.id,
+    actorUsername: actor.username,
+    action: 'shop.pause',
+    entityType: 'shop',
+    entityId: updatedShop.id,
+    beforeData: { status: shop.status, admin_locked: shop.admin_locked },
+    afterData: { status: updatedShop.status, admin_locked: updatedShop.admin_locked },
+  });
+
+  return updatedShop;
+}
+
+/**
+ * Owner resumes their own paused listing (PRD Section 7.1, 9, O7).
+ * Blocked if admin_locked = TRUE or if available items count < 1.
+ * Sets status = 'live'.
+ */
+export async function resumeOwnerShop(
+  ownerId: string,
+  actor: { id: string; username: string }
+): Promise<OwnerShopRecord> {
+  const shop = await getOwnerShop(ownerId);
+
+  if (shop.admin_locked) {
+    throw new Error('This listing was paused by admin and cannot be resumed by owner.');
+  }
+
+  if (shop.status !== 'paused') {
+    throw new Error('Only paused listings can be resumed.');
+  }
+
+  // Check invariant: at least 1 available item
+  const countRes = await query<{ count: string }>(
+    `SELECT COUNT(*)::int as count FROM catalog_items WHERE shop_id = $1 AND available = TRUE;`,
+    [shop.id]
+  );
+  const availableCount = Number(countRes.rows[0]?.count ?? 0);
+  if (availableCount < 1) {
+    throw new Error('Add at least one available menu item first');
+  }
+
+  const result = await query<RawShopRow>(
+    `UPDATE shops
+     SET status = 'live',
+         updated_at = now()
+     WHERE id = $1 AND owner_id = $2
+     RETURNING 
+       id, slug, name, category, description, address,
+       locality_id,
+       (SELECT name FROM localities WHERE id = shops.locality_id) as locality_name,
+       ST_Y(location::geometry) as latitude,
+       ST_X(location::geometry) as longitude,
+       phone, whatsapp, booking_url, website_url,
+       action_mode, action_instructions,
+       is_sample_data, data_source_note,
+       owner_id, status, admin_locked, hours_status,
+       created_at, updated_at;`,
+    [shop.id, ownerId]
+  );
+
+  const updatedShop = mapShopRow(result.rows[0]!);
+
+  await logAudit({
+    actorId: actor.id,
+    actorUsername: actor.username,
+    action: 'shop.resume',
+    entityType: 'shop',
+    entityId: updatedShop.id,
+    beforeData: { status: shop.status },
+    afterData: { status: updatedShop.status },
+  });
+
+  return updatedShop;
+}
+
