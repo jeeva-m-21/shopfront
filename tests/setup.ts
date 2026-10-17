@@ -15,3 +15,4 @@ if (!process.env.DATABASE_URL) {
 if (!process.env.APP_BASE_URL) {
   process.env.APP_BASE_URL = 'http://localhost:3000';
 }
+process.env.STAGE1_TIMEOUT_MS = '2000';

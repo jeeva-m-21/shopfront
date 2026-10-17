@@ -1,6 +1,7 @@
 import { withStatementTimeout } from '../db.js';
 import { getConfig } from '../config.js';
 import { normalizeSearchQuery } from '../domain/text.js';
+import { evaluateOpenNow } from '../domain/hours.js';
 
 export type ShopCategory = 'repair_service' | 'salon_wellness' | 'food_beverage';
 
@@ -13,6 +14,11 @@ export interface Stage1QueryParams {
   showSampleData?: boolean;
   limit?: number;
   matchThreshold?: number;
+}
+
+export interface SearchStage1Options extends Stage1QueryParams {
+  openNow?: boolean;
+  now?: Date;
 }
 
 export interface Stage1Candidate {
@@ -31,6 +37,27 @@ export interface Stage1Candidate {
   closures_json: Array<{ closed_on: string; reason: string | null }>;
 }
 
+export interface CandidateTopItem {
+  id: string;
+  name: string;
+  description: string | null;
+  tags: string[];
+  price_type: 'fixed' | 'starting_from' | 'range' | 'on_request';
+  price_inr: number | null;
+  price_max_inr: number | null;
+  duration_min: number | null;
+  sort_order: number;
+  item_sim: number;
+  is_matching: boolean;
+}
+
+export interface Stage1ShopCandidate extends Stage1Candidate {
+  baseline_rank: number;
+  open_now: boolean | null;
+  menu_updated_at: Date | null;
+  top_items: CandidateTopItem[];
+}
+
 interface RawCandidateRow {
   id: string;
   slug: string;
@@ -45,6 +72,12 @@ interface RawCandidateRow {
   baseline_score: string | number;
   hours_json: Array<{ weekday: number; open_time: string; close_time: string }> | null;
   closures_json: Array<{ closed_on: string; reason: string | null }> | null;
+}
+
+interface RawItemsRow {
+  shop_id: string;
+  menu_updated_at: string | Date | null;
+  top_items: CandidateTopItem[] | null;
 }
 
 const QUERY_1_SQL = `
@@ -173,6 +206,52 @@ ORDER BY baseline_score DESC, ss.distance_km ASC NULLS LAST, ss.slug ASC
 LIMIT $9;
 `;
 
+const QUERY_2_SQL = `
+SELECT
+  s_id AS shop_id,
+  (SELECT MAX(updated_at) FROM catalog_items WHERE shop_id = s_id AND available = TRUE) AS menu_updated_at,
+  COALESCE(
+    json_agg(item_row ORDER BY item_row.item_sim DESC, item_row.sort_order ASC, item_row.name ASC)
+    FILTER (WHERE item_row.id IS NOT NULL),
+    '[]'::json
+  ) AS top_items
+FROM unnest($1::uuid[]) AS s_id
+LEFT JOIN LATERAL (
+  SELECT
+    ci.id,
+    ci.name,
+    ci.description,
+    ci.tags,
+    ci.price_type,
+    ci.price_inr,
+    ci.price_max_inr,
+    ci.duration_min,
+    ci.sort_order,
+    CASE WHEN $2::text <> ''
+         THEN GREATEST(similarity(ci.search_text, $2), word_similarity($2, ci.search_text))
+         ELSE 0.0
+    END AS item_sim,
+    CASE WHEN $2::text <> ''
+         THEN (
+           GREATEST(similarity(ci.search_text, $2), word_similarity($2, ci.search_text)) >= $3::real
+           OR to_tsvector('english', ci.search_text) @@ plainto_tsquery('english', $2)
+         )
+         ELSE TRUE
+    END AS is_matching
+  FROM catalog_items ci
+  WHERE ci.shop_id = s_id AND ci.available = TRUE
+  ORDER BY
+    CASE WHEN $2::text <> ''
+         THEN GREATEST(similarity(ci.search_text, $2), word_similarity($2, ci.search_text))
+         ELSE 0.0
+    END DESC,
+    ci.sort_order ASC,
+    ci.name ASC
+  LIMIT 5
+) item_row ON TRUE
+GROUP BY s_id;
+`;
+
 export async function getCandidatePool(params: Stage1QueryParams): Promise<Stage1Candidate[]> {
   const config = getConfig();
 
@@ -214,5 +293,93 @@ export async function getCandidatePool(params: Stage1QueryParams): Promise<Stage
       hours_json: Array.isArray(row.hours_json) ? row.hours_json : [],
       closures_json: Array.isArray(row.closures_json) ? row.closures_json : [],
     }));
+  });
+}
+
+export async function fetchCandidateItems(
+  candidateIds: string[],
+  queryText: string,
+  matchThreshold?: number
+): Promise<Map<string, { menu_updated_at: Date | null; top_items: CandidateTopItem[] }>> {
+  const result = new Map<string, { menu_updated_at: Date | null; top_items: CandidateTopItem[] }>();
+  if (candidateIds.length === 0) {
+    return result;
+  }
+
+  const config = getConfig();
+  const q = normalizeSearchQuery(queryText);
+  const threshold = matchThreshold ?? config.ITEM_MATCH_THRESHOLD;
+
+  const rows = await withStatementTimeout(config.STAGE1_TIMEOUT_MS, async (client) => {
+    const res = await client.query<RawItemsRow>(QUERY_2_SQL, [candidateIds, q, threshold]);
+    return res.rows;
+  });
+
+  for (const row of rows) {
+    result.set(row.shop_id, {
+      menu_updated_at: row.menu_updated_at ? new Date(row.menu_updated_at) : null,
+      top_items: Array.isArray(row.top_items)
+        ? row.top_items.map((item) => ({
+            id: item.id,
+            name: item.name,
+            description: item.description ?? null,
+            tags: Array.isArray(item.tags) ? item.tags : [],
+            price_type: item.price_type,
+            price_inr: item.price_inr != null ? Number(item.price_inr) : null,
+            price_max_inr: item.price_max_inr != null ? Number(item.price_max_inr) : null,
+            duration_min: item.duration_min != null ? Number(item.duration_min) : null,
+            sort_order: Number(item.sort_order),
+            item_sim: Number(item.item_sim),
+            is_matching: Boolean(item.is_matching),
+          }))
+        : [],
+    });
+  }
+
+  return result;
+}
+
+export async function executeStage1(options: SearchStage1Options): Promise<Stage1ShopCandidate[]> {
+  const config = getConfig();
+  const candidates = await getCandidatePool(options);
+
+  const now = options.now ?? new Date();
+
+  // Evaluate H6 Open Now in Node.js IST context
+  const scoredWithOpenNow = candidates.map((candidate) => ({
+    candidate,
+    openNow: evaluateOpenNow(
+      candidate.hours_status,
+      candidate.hours_json,
+      candidate.closures_json,
+      now
+    ),
+  }));
+
+  // Apply H6 filter if openNow === true (excludes false and null)
+  const filtered = options.openNow === true
+    ? scoredWithOpenNow.filter((entry) => entry.openNow === true)
+    : scoredWithOpenNow;
+
+  // Slice to CANDIDATE_COUNT (10)
+  const topCandidates = filtered.slice(0, config.CANDIDATE_COUNT);
+  if (topCandidates.length === 0) {
+    return [];
+  }
+
+  const topIds = topCandidates.map((entry) => entry.candidate.id);
+  const itemsMap = await fetchCandidateItems(topIds, options.query ?? '', options.matchThreshold);
+
+  return topCandidates.map((entry, index) => {
+    const c = entry.candidate;
+    const itemData = itemsMap.get(c.id);
+
+    return {
+      ...c,
+      baseline_rank: index + 1,
+      open_now: entry.openNow,
+      menu_updated_at: itemData?.menu_updated_at ?? null,
+      top_items: itemData?.top_items ?? [],
+    };
   });
 }

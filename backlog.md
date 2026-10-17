@@ -309,10 +309,14 @@
   - Authored comprehensive integration tests in `tests/integration/search-stage1.test.ts` verifying H1, H2, H3, H4, and H5 with 100% pass rate.
 
 ### SPRINT-4.2: H6 Open-Now Node Filter & Item Fetch SQL Query (`src/search/stage1.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Node.js IST `open_now` filtering over candidate pool, slicing to top 10 candidates. SQL Query 2 fetching top 5 items and `menu_updated_at`.
 - **Acceptance Criteria:**
   - Integration tests confirming open/closed filtering and accurate top 5 items ranking.
+- **Completion Details:**
+  - Implemented `fetchCandidateItems` executing Query 2 with lateral item join ranking by text similarity, sort order, and name, returning up to 5 available items and `menu_updated_at`.
+  - Implemented `executeStage1` running H6 open-now evaluation in Node.js IST context via `evaluateOpenNow`, slicing candidate pool to top 10 (`config.CANDIDATE_COUNT`), populating `baseline_rank`, and attaching items.
+  - Authored integration tests in `tests/integration/search-stage1-query2.test.ts` verifying H6 open-now filtering in IST context, unknown hours exclusion, scheduled closure filtering, and accurate top 5 items retrieval.
 
 ### SPRINT-4.3: Relaxation Hints Generator (`src/search/stage1.ts`)
 - **Status:** `[ ] TODO`
