@@ -62,12 +62,16 @@ export async function verifyDummyPassword(password: string): Promise<boolean> {
 export function generateTemporaryPassword(): string {
   const chars = ALLOWED_TEMP_PASSWORD_CHARS;
   const len = 12;
-  let password = '';
-  for (let i = 0; i < len; i++) {
-    const randomIndex = crypto.randomInt(0, chars.length);
-    password += chars[randomIndex];
+  while (true) {
+    let password = '';
+    for (let i = 0; i < len; i++) {
+      const randomIndex = crypto.randomInt(0, chars.length);
+      password += chars[randomIndex];
+    }
+    if (/[a-zA-Z]/.test(password) && /[0-9]/.test(password)) {
+      return password;
+    }
   }
-  return password;
 }
 
 export interface PasswordValidationResult {

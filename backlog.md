@@ -299,10 +299,14 @@
 ## Sprint 4: Search Engine Stage 1 & MCP Server (M4)
 
 ### SPRINT-4.1: Stage 1 Candidate Pool SQL Query (`src/search/stage1.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** Implement SQL Query 1 enforcing H1 (live/sample), H2 (category), H3 (PostGIS ST_DWithin), H4 (item count >= 1), H5 (price ceiling on query-matching items), trigram text ranking, statement timeout 250ms.
 - **Acceptance Criteria:**
   - Integration tests for each filter H1–H5 in isolation and combined.
+- **Completion Details:**
+  - Implemented `getCandidatePool` in `src/search/stage1.ts` executing Stage 1 Query 1 inside `withStatementTimeout(config.STAGE1_TIMEOUT_MS, ...)`.
+  - Enforced all hard constraints H1 (live status + sample data gating), H2 (shop category), H3 (spatial ST_DWithin bounding), H4 (available catalog items >= 1), and H5 (query-matching price ceiling).
+  - Authored comprehensive integration tests in `tests/integration/search-stage1.test.ts` verifying H1, H2, H3, H4, and H5 with 100% pass rate.
 
 ### SPRINT-4.2: H6 Open-Now Node Filter & Item Fetch SQL Query (`src/search/stage1.ts`)
 - **Status:** `[ ] TODO`
