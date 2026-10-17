@@ -181,10 +181,15 @@
   - Authored 8 integration tests in `tests/integration/auth-lockout.test.ts` passing 100%.
 
 ### SPRINT-2.4: Admin CLI Scripts (`scripts/create-admin.ts`, `scripts/reset-admin-password.ts`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:** CLI scripts to securely create admin accounts and reset passwords with hidden prompts.
 - **Acceptance Criteria:**
   - Scripts execute cleanly from CLI creating valid admin user in database.
+- **Completion Details:**
+  - Implemented `src/auth/admin-ops.ts` with `createAdminUser` and `resetAdminPassword` enforcing username regex `^[a-z0-9_]{3,30}$`, display name length guards, password complexity validation, and session invalidation on password reset.
+  - Implemented `scripts/prompt-password.ts` with hidden terminal input (TTY raw mode without stdout echo, graceful fallback for non-TTY).
+  - Implemented executable scripts `scripts/create-admin.ts` and `scripts/reset-admin-password.ts` supporting `--username`, `--display-name`, and `--password` flags or interactive masked prompts.
+  - Authored 6 integration tests in `tests/integration/admin-cli.test.ts` passing 100%. Verified CLI execution end-to-end.
 
 ### SPRINT-2.5: Admin Portal Layout, Guards & Owner Management (`src/app/admin/owners/*`)
 - **Status:** `[ ] TODO`
