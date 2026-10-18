@@ -708,7 +708,7 @@
 ## Sprint 10: "The Shutter Goes Up" Design System & Full UX Overhaul (M10)
 
 ### SPRINT-10.1: Design Tokens, Fonts & Brand Component Primitives
-- **Status:** `[/] IN_PROGRESS`
+- **Status:** `[x] DONE`
 - **Scope:**
   - Configure `next/font/google` in `src/app/fonts.ts` and `layout.tsx` (`Instrument_Serif`, `Geist`, `Geist_Mono`, `Noto_Sans_Tamil`, `Noto_Serif_Tamil`).
   - Configure Tailwind CSS tokens (`tailwind.config.ts`, `globals.css`): Warm Stone neutrals (`stone-25` to `stone-950`), Marina teal brand palette (`marina-50` to `marina-900`, `marina-600` primary `#0E6B66`), Turmeric accent (`turmeric-50` to `turmeric-700`, `turmeric-500` `#F4B000`), Semantic status colours (Open `#1B7F45`, Closed `#C2412D`, Break `#8A5A00`).

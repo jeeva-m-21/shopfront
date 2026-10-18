@@ -38,6 +38,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/developers',
+        destination: '/connect',
+        permanent: true,
+      },
+    ];
+  },
   webpack(config) {
     config.resolve.extensionAlias = {
       '.js': ['.ts', '.tsx', '.js'],

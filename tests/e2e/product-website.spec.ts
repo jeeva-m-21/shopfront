@@ -40,10 +40,10 @@ test.describe('Commercial Product Website User Journeys (SPRINT-8.6)', () => {
   test('2. Developer portal provides interactive MCP playground and copyable configs', async ({ page }) => {
     await page.goto('/developers');
 
-    // Verify headline and config instructions
-    await expect(page.locator('h1:has-text("Connect AI Agents to Chennai Commerce")')).toBeVisible();
+    // Verify 301 redirect to /connect and headline
+    await expect(page).toHaveURL(/.*\/connect/);
+    await expect(page.locator('h1:has-text("Connect")')).toBeVisible();
     await expect(page.locator('text=claude_desktop_config.json').first()).toBeVisible();
-    await expect(page.locator('text=http://localhost:3000/mcp').first()).toBeVisible();
 
     // Verify playground
     await expect(page.locator('text=Interactive MCP Tool Playground')).toBeVisible();
