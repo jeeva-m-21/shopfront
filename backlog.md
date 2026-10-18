@@ -718,7 +718,7 @@
   - Brand mark SVG matches the exact 24x24 specification (Marina 600 container, Turmeric top offset slat, white lower slats).
 
 ### SPRINT-10.2: The 60-Second `/connect` Onboarding Experience
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:**
   - Implement `/connect` route replacing/upgrading developer documentation:
     - 60-second onboarding wizard with client tabs: Claude Desktop, Claude Code (`claude mcp add`), Cursor (`mcp.json`), VS Code, Stdio (`tsx scripts/mcp-stdio.ts`).

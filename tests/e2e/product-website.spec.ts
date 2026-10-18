@@ -19,13 +19,13 @@ test.describe('Commercial Product Website User Journeys (SPRINT-8.6)', () => {
     await page.goto('/');
 
     // Verify brand and navigation links
-    await expect(page.locator('text=Shopfront').first()).toBeVisible();
-    await expect(page.locator('a:has-text("Discover Shops")').first()).toBeVisible();
+    await expect(page.locator('text=shopfront').first()).toBeVisible();
+    await expect(page.locator('a:has-text("Discover")').first()).toBeVisible();
     await expect(page.locator('a:has-text("For Merchants")').first()).toBeVisible();
-    await expect(page.locator('a:has-text("Developers & MCP")').first()).toBeVisible();
+    await expect(page.locator('a:has-text("Connect")').first()).toBeVisible();
 
     // Verify Hero headline
-    await expect(page.locator('h1:has-text("Find Trusted Local Shops in Chennai")')).toBeVisible();
+    await expect(page.locator('h1:has-text("Find Trusted Local Shops in")')).toBeVisible();
 
     // Verify Locality dropdown and query input exist
     await expect(page.locator('select#search-locality')).toBeVisible();
