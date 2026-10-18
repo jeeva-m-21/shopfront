@@ -260,7 +260,7 @@ export function EditShopForm({
               name="slug"
               type="text"
               required
-              pattern="^[a-z0-9-]{3,60}$"
+              pattern="^[a-z0-9\-]{3,60}$"
               defaultValue={shop.slug}
               style={{ width: '100%', padding: '10px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '14px', fontFamily: 'monospace', boxSizing: 'border-box' }}
             />

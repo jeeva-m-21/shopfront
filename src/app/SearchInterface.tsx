@@ -116,13 +116,15 @@ export function SearchInterface({
           setLocationResolved(null);
           setRelaxationHints([]);
         } else {
-          setShops(data.data.shops || []);
-          setLocationWarning(data.data.location_warning || null);
-          setLocationResolved(data.data.location_resolved || null);
-          setRelaxationHints(data.data.relaxation_hints || []);
-          setReranked(Boolean(data.data.reranked));
+          const payload = data.data || data;
+          setShops(payload.shops || []);
+          setLocationWarning(payload.location_warning || null);
+          setLocationResolved(payload.location_resolved || null);
+          setRelaxationHints(payload.relaxation_hints || []);
+          setReranked(Boolean(payload.reranked));
         }
-      } catch {
+      } catch (err) {
+        console.error('executeSearch fetch error:', err);
         setErrorMessage('Failed to connect to search service.');
         setShops([]);
       }

@@ -1,5 +1,13 @@
 import { z } from 'zod';
 
+if (!process.env.DATABASE_URL && typeof process.loadEnvFile === 'function') {
+  try {
+    process.loadEnvFile('.env');
+  } catch {
+    // Ignore if .env is not present in deployment environments
+  }
+}
+
 const booleanPreprocessor = (val: unknown) => {
   if (typeof val === 'string') {
     const lower = val.toLowerCase().trim();

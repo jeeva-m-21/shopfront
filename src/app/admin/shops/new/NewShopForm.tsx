@@ -118,7 +118,7 @@ export function NewShopForm({
             name="slug"
             type="text"
             required
-            pattern="^[a-z0-9-]{3,60}$"
+            pattern="^[a-z0-9\-]{3,60}$"
             value={slug}
             onChange={(e) => {
               setIsSlugManual(true);

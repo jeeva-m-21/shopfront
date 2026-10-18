@@ -582,8 +582,97 @@
 
 ### Milestone M7 Review Gate
 - **Status:** `[x] APPROVED`
-- **Reviewer:** `sprint-code-reviewer`
-- **Scope:** Milestone M7 (Pilot Onboarding, Operations & Launch Gate).
-- **Verdict:** APPROVED. Operational runbook (`docs/operations.md`) with crontab setup, automated backup scripts, and tested restore verification verified. Pilot dataset (`docs/pilot-log.md`) with 10 real Chennai shops across 4 localities, 61 catalog items, complete hours, and verified owner consent verified. Comprehensive `README.md` with problem statement, system architecture, Claude Desktop setup (`claude_desktop_config.json`), transcripts, evaluation results, and known limitations verified. Full verification triumvirate passed 100% green. All launch gates satisfied.
+---
+
+## Sprint 8: Commercial Product Website & Growth Funnels (M8)
+
+### SPRINT-8.1: Production UI & Styling Infrastructure
+- **Status:** `[x] DONE`
+- **Scope:** Install and configure Tailwind CSS v3, PostCSS, Autoprefixer, `lucide-react`, `clsx`, and `tailwind-merge`. Configure `tailwind.config.ts`, `postcss.config.js`, and `src/app/globals.css` with sleek startup design tokens (emerald green accents, slate darks, smooth borders, and responsive grid). Create reusable UI primitives (`Button`, `Card`, `Badge`, `Input`).
+- **Acceptance Criteria:**
+  - `npm run typecheck`, `npm run lint`, and `npm test` remain 100% green.
+  - Zero unpinned dependencies in `package.json`.
+  - Utility classes compile cleanly in Next.js build.
+
+### SPRINT-8.2: Commercial Product Landing Page (`/`)
+- **Status:** `[x] DONE`
+- **Scope:** Build high-converting startup landing page at `/`:
+  - Hero with value proposition: "Chennai's Local Commerce Engine — Built for Humans, Ready for AI Agents."
+  - Embedded Instant Search bar with real-time Chennai localities auto-suggest, category quick-filters, and open-now toggle.
+  - Value proposition breakdown (0% commission, verified IST hours, honest INR pricing, instant WhatsApp booking).
+  - Pilot merchant showcase highlighting real onboarded Chennai businesses.
+  - Quick-browse directory across all 32 Chennai localities.
+  - Dual action triggers: "Explore Local Shops" and "List Your Business".
+- **Acceptance Criteria:**
+  - Desktop and mobile responsive.
+  - Real-time search functional directly from the landing page.
+  - Semantic HTML, accessible navigation, and fast Core Web Vitals.
+
+### SPRINT-8.3: Developer Portal & Interactive MCP Playground (`/developers`)
+- **Status:** `[x] DONE`
+- **Scope:** Build interactive developer portal at `/developers`:
+  - Visual MCP protocol explainer.
+  - In-browser interactive tool test playground for all 5 tools (`find_shops`, `get_shop_info`, `get_catalog`, `search_catalog`, `get_action_link`).
+  - Copyable configuration snippets with 1-click copy buttons for Claude Desktop (`claude_desktop_config.json`), Cursor (`mcp.json`), and SDKs.
+  - Streamable HTTP `/mcp` documentation with rate-limiting and SLA guarantees.
+- **Acceptance Criteria:**
+  - Interactive playground triggers live API queries without page refresh.
+  - Copy buttons provide immediate feedback toast.
+
+### SPRINT-8.4: Merchant Acquisition & Onboarding (`/for-merchants`, `/api/merchant/apply`)
+- **Status:** `[x] DONE`
+- **Scope:** Build merchant acquisition page at `/for-merchants` and application endpoint `/api/merchant/apply`:
+  - Value proposition comparing Shopfront (0% take rate) vs aggregators (25–30% take rate).
+  - 3-step self-serve onboarding form (business name, locality, address, phone/WhatsApp, category, hours).
+  - Validated API endpoint recording application in database with admin notification.
+  - Success state with next steps and WhatsApp onboarding link.
+- **Acceptance Criteria:**
+  - Zod validation on application input.
+  - Admin portal can view and approve incoming applications.
+
+### SPRINT-8.5: SEO, Schema.org Structured Data & OpenGraph
+- **Status:** `[x] DONE`
+- **Scope:** Implement SEO enhancements:
+  - Dynamic OpenGraph and Twitter cards for all public pages.
+  - `LocalBusiness` JSON-LD structured data for every shop profile.
+  - Automated `sitemap.xml` and `robots.txt`.
+- **Acceptance Criteria:**
+  - Valid structured data recognized by schema validators.
+  - Sitemap generates valid XML with all 32 localities and live shops.
+
+### SPRINT-8.6: Sprint 8 Verification & E2E Testing
+- **Status:** `[x] DONE`
+- **Scope:** Add Playwright tests for landing page navigation, developer playground, and merchant onboarding application. Verify native check gate.
+- **Acceptance Criteria:**
+  - Full test suite passing.
+- **Completion Details:**
+  - Authored `tests/e2e/product-website.spec.ts` covering commercial landing page navigation, interactive developer MCP playground tool execution, and self-serve merchant application submission flow.
+  - Hardened `SearchInterface.tsx` to handle flat and nested response payloads seamlessly and resolved HTML regular expression pattern attribute warnings.
+  - Updated `src/config.ts` with fallback `.env` loading via `process.loadEnvFile` for production CLI/script runtimes.
+  - Verified full test triumvirate: 37 Vitest test files (219 tests green), `tsc --noEmit` clean, `next lint` clean, and all 4 Playwright E2E tests passing.
+
+### Milestone M8 Review Gate
+- **Status:** `[x] APPROVED`
+- **Scope:** Commits `f090805..HEAD`.
+- **Verdict:** APPROVED. Commercial landing page (`/`), Developer Portal with interactive MCP playground (`/developers`), Merchant Acquisition (`/for-merchants` + `/api/merchant/apply`), dynamic OpenGraph SEO, Schema.org `LocalBusiness` JSON-LD, `sitemap.xml`, and `robots.txt` fully verified. Full test suite passing (219 unit/integration, 4 E2E). Ready for Sprint 9 Cloud Deployment.
 
 ---
+
+## Sprint 9: Cloud Deployment & Production Launch (M9)
+
+### SPRINT-9.1: Cloud Database Setup (PostGIS on Supabase)
+- **Status:** `[ ] TODO`
+- **Scope:** Configure production PostgreSQL 16 + PostGIS 3.4 database on Supabase with connection pooling (Supavisor) and SSL. Apply all migrations and pilot seeds.
+
+### SPRINT-9.2: Vercel Production Configuration
+- **Status:** `[ ] TODO`
+- **Scope:** Create `vercel.json`, configure environment variables, ensure Node.js serverless runtime for `/mcp` and Next.js static asset optimization.
+
+### SPRINT-9.3: Automated GitHub Actions CI/CD Workflow
+- **Status:** `[ ] TODO`
+- **Scope:** Author `.github/workflows/deploy.yml` with lint, typecheck, Vitest, Playwright, DB migration, and Vercel deployment automation.
+
+### SPRINT-9.4: Observability, Alerts & Launch Verification
+- **Status:** `[ ] TODO`
+- **Scope:** Setup uptime monitoring on `/api/health`, verify live MCP endpoint, and execute final launch audit.
+
