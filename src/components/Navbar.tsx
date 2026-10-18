@@ -2,129 +2,128 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Store, Code2, Menu, X, ArrowRight } from 'lucide-react';
-import { Button } from './ui/button.js';
-import { Badge } from './ui/badge.js';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { ShutterLogo } from './brand/ShutterLogo';
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-stone-200/90 bg-stone-25/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-700 to-brand-500 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-                <Store className="w-5 h-5" />
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl font-bold tracking-tight text-slate-900 group-hover:text-brand-700 transition-colors">
-                    Shopfront
-                  </span>
-                  <Badge variant="brand" className="hidden sm:inline-flex text-[10px] py-0 px-2">
-                    Chennai Live
-                  </Badge>
-                </div>
-                <span className="text-[10px] text-slate-500 font-medium -mt-1 hidden sm:block">
-                  Hyperlocal Commerce & MCP Protocol
-                </span>
-              </div>
-            </Link>
+            <ShutterLogo size={26} showTamilSubtitle={false} />
+            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-medium bg-turmeric-100 text-turmeric-700 border border-turmeric-300">
+              Chennai IST
+            </span>
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-stone-600">
             <Link
               href="/"
-              className="hover:text-brand-600 transition-colors py-1"
+              className="hover:text-marina-600 transition-colors py-1"
             >
-              Discover Shops
+              Discover
+            </Link>
+            <Link
+              href="/connect"
+              className="hover:text-marina-600 transition-colors py-1 flex items-center gap-1.5"
+            >
+              <span>Connect</span>
+              <span className="bg-marina-50 text-marina-700 border border-marina-200 text-[10px] font-mono px-1.5 py-0.5 rounded">
+                MCP
+              </span>
             </Link>
             <Link
               href="/for-merchants"
-              className="hover:text-brand-600 transition-colors py-1 flex items-center gap-1.5"
+              className="hover:text-marina-600 transition-colors py-1 flex items-center gap-1.5"
             >
-              <Store className="w-4 h-4 text-brand-600" />
               <span>For Merchants</span>
-              <span className="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-1.5 py-0.2 rounded-full">
+              <span className="bg-turmeric-50 text-turmeric-700 text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
                 0% Fee
               </span>
             </Link>
             <Link
-              href="/developers"
-              className="hover:text-brand-600 transition-colors py-1 flex items-center gap-1.5"
+              href="/login"
+              className="hover:text-stone-900 transition-colors py-1 text-stone-500"
             >
-              <Code2 className="w-4 h-4 text-slate-500" />
-              <span>Developers & MCP</span>
+              Portal Login
             </Link>
           </nav>
 
-          {/* Action Buttons */}
-          <div className="hidden sm:flex items-center gap-3">
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Owner Login
-              </Button>
-            </Link>
-            <Link href="/for-merchants">
-              <Button variant="primary" size="sm">
-                <span>List Your Business</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-1" />
-              </Button>
+          {/* Actions */}
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/connect"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-lg bg-marina-600 text-white hover:bg-marina-700 transition-colors shadow-paper"
+            >
+              <span>Connect Agent</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          {/* Mobile menu trigger */}
+          {/* Mobile menu button */}
           <div className="flex md:hidden">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none"
-              aria-label="Toggle Menu"
+              className="p-2 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-100 focus:outline-none"
+              aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu panel */}
+      {/* Mobile menu dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-slate-200 bg-white px-4 pt-3 pb-5 space-y-3 shadow-lg">
+        <div className="md:hidden border-b border-stone-200 bg-stone-50 px-4 pt-3 pb-6 space-y-3">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50"
+            className="block text-sm font-medium text-stone-700 hover:text-marina-600 py-1.5"
           >
             Discover Shops
           </Link>
           <Link
-            href="/for-merchants"
+            href="/connect"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50"
+            className="flex items-center justify-between text-sm font-medium text-stone-700 hover:text-marina-600 py-1.5"
           >
-            For Merchants (0% Commission)
+            <span>Connect MCP</span>
+            <span className="bg-marina-50 text-marina-700 text-[10px] font-mono px-1.5 py-0.5 rounded">
+              v2.0.0
+            </span>
           </Link>
           <Link
-            href="/developers"
+            href="/for-merchants"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-50"
+            className="flex items-center justify-between text-sm font-medium text-stone-700 hover:text-marina-600 py-1.5"
           >
-            Developers & MCP Playground
+            <span>For Merchants</span>
+            <span className="bg-turmeric-100 text-turmeric-700 text-[10px] font-semibold px-2 py-0.5 rounded-full">
+              0% Fee
+            </span>
           </Link>
-          <div className="pt-3 border-t border-slate-200 flex flex-col gap-2">
-            <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="outline" size="md" className="w-full">
-                Owner / Admin Login
-              </Button>
-            </Link>
-            <Link href="/for-merchants" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="primary" size="md" className="w-full">
-                List Your Business Free
-              </Button>
+          <Link
+            href="/login"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-sm font-medium text-stone-600 hover:text-stone-900 py-1.5"
+          >
+            Sign In (Admin / Owner)
+          </Link>
+          <div className="pt-2">
+            <Link
+              href="/connect"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs font-semibold rounded-lg bg-marina-600 text-white hover:bg-marina-700"
+            >
+              <span>Connect AI Agent</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

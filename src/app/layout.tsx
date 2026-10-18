@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import React from 'react';
 import './globals.css';
-import { Navbar } from '../components/Navbar.js';
-import { Footer } from '../components/Footer.js';
+import { fontVariables } from './fonts';
+import { Navbar } from '../components/Navbar';
+import { Footer } from '../components/Footer';
 
 export const metadata: Metadata = {
   title: 'Shopfront — Chennai Hyperlocal Commerce & MCP Directory',
   description:
-    'Discover verified local shops, services, and menus across 32 Chennai localities. Connect directly via WhatsApp with zero commission fees.',
+    'Verified local shops, live IST opening hours, and honest menus across 32 Chennai localities. Connect directly via WhatsApp with zero commission fees.',
   keywords: [
     'Chennai local shops',
     'Chennai repair services',
@@ -16,6 +17,10 @@ export const metadata: Metadata = {
     'Model Context Protocol',
     'MCP server Chennai',
   ],
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
@@ -24,11 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={fontVariables}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="min-h-screen flex flex-col bg-surface-50 text-slate-900 antialiased">
+      <body className="min-h-screen flex flex-col bg-stone-25 text-stone-900 font-sans antialiased selection:bg-turmeric-100 selection:text-stone-900">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

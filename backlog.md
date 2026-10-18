@@ -11,7 +11,9 @@
 | **Sprint 4** | **M4: Search Stage 1 & MCP Server** | PostGIS Pipeline & Stateless MCP Tools | `[ ] TODO` | Stage 1 SQL (H1–H5), H6 `open_now` filter, relaxation hints, `POST /mcp` stateless transport, 5 MCP tools, search telemetry |
 | **Sprint 5** | **M5: Stage 2 Reranker & Eval** | Jev API Reranking & Offline Benchmark | `[ ] TODO` | Parallel Jev client, fail-open fallback, 40 benchmark queries, labels, `NDCG@5`/`MRR@5`/`Recall@10`/bootstrap CI harness, prompt-injection test |
 | **Sprint 6** | **M6: Public Web & Operations** | Public Search UI, Docker & E2E Tests | `[ ] TODO` | Web search page (`/`), shop detail (`/shop/[slug]`), `/api/health`, Docker Compose, purge-logs cron, Playwright full lifecycle suite |
-| **Sprint 7** | **M7: Pilot, Packaging & Launch** | Onboarding Real Shops & Documentation | `[ ] TODO` | `pilot-log.md` (10 real Chennai shops), `README.md` with Claude Desktop config, verified launch checklist |
+| **Sprint 8** | **M8: Commercial Site & Funnels** | Commercial Website, SEO & Onboarding | `[x] COMPLETED` | Commercial landing, developer portal, merchant acquisition, JSON-LD, E2E tests |
+| **Sprint 9** | **M9: Cloud Deploy & Registry** | Supabase PostGIS, Vercel & MCP Registry | `[x] COMPLETED` | Cloud DB seeded, Vercel production live, MCP Registry namespace registered |
+| **Sprint 10** | **M10: "The Shutter Goes Up" UX** | Design System & Full Product Redesign | `[/] IN_PROGRESS` | Brand identity, Stone/Marina/Turmeric tokens, 60s /connect, mobile-first /owner, admin command tower, search debugger |
 
 ---
 
@@ -700,5 +702,76 @@
 - **Status:** `[x] APPROVED`
 - **Scope:** Cloud database provisioning on Supabase PostGIS, Vercel configuration, GitHub Actions CI/CD, and full production verification.
 - **Verdict:** APPROVED. Cloud database operational with PostGIS, 32 localities, 10 pilot merchants, and admin credentials. Automated deployment workflows and Vercel configs validated. Ready for production operation.
+
+---
+
+## Sprint 10: "The Shutter Goes Up" Design System & Full UX Overhaul (M10)
+
+### SPRINT-10.1: Design Tokens, Fonts & Brand Component Primitives
+- **Status:** `[/] IN_PROGRESS`
+- **Scope:**
+  - Configure `next/font/google` in `src/app/fonts.ts` and `layout.tsx` (`Instrument_Serif`, `Geist`, `Geist_Mono`, `Noto_Sans_Tamil`, `Noto_Serif_Tamil`).
+  - Configure Tailwind CSS tokens (`tailwind.config.ts`, `globals.css`): Warm Stone neutrals (`stone-25` to `stone-950`), Marina teal brand palette (`marina-50` to `marina-900`, `marina-600` primary `#0E6B66`), Turmeric accent (`turmeric-50` to `turmeric-700`, `turmeric-500` `#F4B000`), Semantic status colours (Open `#1B7F45`, Closed `#C2412D`, Break `#8A5A00`).
+  - Create brand mark & primitive components: `ShutterLogo.tsx`, `ShutterMark.tsx`, `StatusChip.tsx`, `VerifiedBadge.tsx`.
+- **Acceptance Criteria:**
+  - `npm run typecheck`, `npm run lint`, and `npm test` pass.
+  - Brand mark SVG matches the exact 24x24 specification (Marina 600 container, Turmeric top offset slat, white lower slats).
+
+### SPRINT-10.2: The 60-Second `/connect` Onboarding Experience
+- **Status:** `[ ] TODO`
+- **Scope:**
+  - Implement `/connect` route replacing/upgrading developer documentation:
+    - 60-second onboarding wizard with client tabs: Claude Desktop, Claude Code (`claude mcp add`), Cursor (`mcp.json`), VS Code, Stdio (`tsx scripts/mcp-stdio.ts`).
+    - 1-click live server ping test (`POST /mcp` handshake with latency measurement & visual green LED).
+    - Copyable prompt chips with 1-click clipboard feedback.
+    - Interactive tool reference cards with live query trigger.
+    - 301 permanent redirect from `/developers` to `/connect` in `next.config.mjs`.
+- **Acceptance Criteria:**
+  - Fast onboarding under 60 seconds with copy-paste configs.
+  - Live test ping returns 200 OK.
+  - `/developers` safely redirects to `/connect`.
+
+### SPRINT-10.3: Commercial Landing Page (`/`) Modernization
+- **Status:** `[ ] TODO`
+- **Scope:**
+  - Rebuild hero with Instrument Serif headline, Turmeric underline accent, and live proof strip (`10 Verified Shops • 32 Localities • 0% Commission • Live IST Status`).
+  - Unified Command Search Bar with Chennai locality pill selector and instant auto-suggestions.
+  - Redesign shop cards into tactile merchant ledgers with receipt-style monospace pricing and Tamil names.
+- **Acceptance Criteria:**
+  - Full responsive layout across mobile and desktop.
+  - Real-time search and filter interactions preserved.
+
+### SPRINT-10.4: Mobile-First Owner Portal (`/owner`)
+- **Status:** `[ ] TODO`
+- **Scope:**
+  - Eradicate all raw inline CSS from `/owner/*` and replace with Tailwind & design tokens.
+  - Implement mobile-first shell with 4-tab bottom navigation bar (`Today`, `Catalog`, `Hours`, `Insights`).
+  - Giant tactile Shutter Status Control card (Open / Closed / Back at).
+  - Catalog availability 1-thumb switches and data freshness badge.
+- **Acceptance Criteria:**
+  - Touch-friendly controls with >= 48px tap targets on mobile.
+  - Invariants preserved (D13 live shop >= 1 available item).
+
+### SPRINT-10.5: Desktop-First Admin Control Tower & Search Engine Debugger (`/admin`)
+- **Status:** `[ ] TODO`
+- **Scope:**
+  - Eradicate all raw inline CSS from `/admin/*`.
+  - Implement Universal Command Palette (`⌘K`) for rapid navigation and shop lookups.
+  - Implement Two-Stage Search Engine Debugger (`/admin/search-debugger`): H1-H6 criteria pass/fail breakdown and Stage 1 PostGIS SQL vs Stage 2 Jev Decisions rank diff.
+  - Add Data Health dashboard (missing hours, stale menus >30d).
+- **Acceptance Criteria:**
+  - Admin tools styled with unified paper-and-ink Stone/Marina design.
+  - Search debugger correctly shows Stage 1 vs Stage 2 diffs.
+
+### SPRINT-10.6: Shop Detail Ledger (`/shop/[slug]`) & Production Verification
+- **Status:** `[ ] TODO`
+- **Scope:**
+  - Redesign public shop page with receipt-style menu sections, dot leaders, and WhatsApp CTA message preview.
+  - Run full verification triumvirate: `npm test`, `tsc --noEmit`, `next lint`, `npm run test:e2e`.
+  - Deploy to Vercel production.
+- **Acceptance Criteria:**
+  - All unit, integration, and E2E tests pass.
+  - Vercel production deployment verified live.
+
 
 
