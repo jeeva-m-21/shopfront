@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.jeeva-m-21/shopfront",
+  "title": "Shopfront Chennai Local Commerce",
+  "description": "Hyperlocal commerce and verified merchant directory MCP server for Chennai, India.",
+  "version": "2.0.0",
+  "websiteUrl": "https://shopfront-rouge.vercel.app",
+  "repository": {
+    "url": "https://github.com/jeeva-m-21/shopfront",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://shopfront-rouge.vercel.app/mcp"
+    }
+  ]
+}
