@@ -742,7 +742,7 @@
   - Real-time search and filter interactions preserved.
 
 ### SPRINT-10.4: Mobile-First Owner Portal (`/owner`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:**
   - Eradicate all raw inline CSS from `/owner/*` and replace with Tailwind & design tokens.
   - Implement mobile-first shell with 4-tab bottom navigation bar (`Today`, `Catalog`, `Hours`, `Insights`).

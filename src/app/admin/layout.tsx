@@ -2,6 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { requireAdmin } from '../../auth/guards.js';
 import { logoutAction } from './owners/actions.js';
+import { ShutterMark } from '../../components/brand/ShutterMark';
+import { AdminNav } from './AdminNav';
+import { CommandPalette } from './CommandPalette';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,76 +16,48 @@ export default async function AdminLayout({
   const { user } = await requireAdmin();
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-      <header
-        style={{
-          backgroundColor: '#1f2937',
-          color: '#ffffff',
-          padding: '12px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '12px',
-          borderBottom: '1px solid #374151',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-          <span style={{ fontWeight: '700', fontSize: '18px', letterSpacing: '-0.02em' }}>
-            Shopfront Admin
-          </span>
-          <nav style={{ display: 'flex', gap: '16px' }}>
-            <Link
-              href="/admin/shops"
-              style={{ color: '#d1d5db', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}
-            >
-              Shops
-            </Link>
-            <Link
-              href="/admin/owners"
-              style={{ color: '#d1d5db', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}
-            >
-              Owners
-            </Link>
-            <Link
-              href="/admin/logs"
-              style={{ color: '#d1d5db', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}
-            >
-              Logs
-            </Link>
-            <Link
-              href="/admin/audit"
-              style={{ color: '#d1d5db', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}
-            >
-              Audit
-            </Link>
-          </nav>
-        </div>
+    <div className="min-h-screen bg-stone-25 font-sans text-stone-900 flex flex-col">
+      <CommandPalette />
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <span style={{ fontSize: '13px', color: '#9ca3af' }}>
-            {user.display_name} ({user.username})
-          </span>
-          <form action={logoutAction}>
-            <button
-              type="submit"
-              style={{
-                backgroundColor: '#374151',
-                color: '#f3f4f6',
-                border: '1px solid #4b5563',
-                padding: '6px 12px',
-                borderRadius: '4px',
-                fontSize: '13px',
-                cursor: 'pointer',
-              }}
-            >
-              Sign Out
-            </button>
-          </form>
+      {/* Top Header */}
+      <header className="sticky top-0 z-30 border-b border-stone-200 bg-white/95 backdrop-blur-md px-4 sm:px-6 py-3">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Link href="/admin/shops" className="flex items-center gap-2">
+              <ShutterMark size={24} />
+              <div className="flex flex-col">
+                <span className="font-display text-xl font-normal text-stone-900 leading-none">
+                  shopfront
+                </span>
+                <span className="text-[10px] font-mono text-stone-500 uppercase tracking-wider mt-0.5">
+                  Admin Control Tower
+                </span>
+              </div>
+            </Link>
+          </div>
+
+          {/* Navigation Bar */}
+          <AdminNav />
+
+          {/* User profile & Sign Out */}
+          <div className="flex items-center gap-3">
+            <span className="hidden sm:inline-block text-xs font-mono text-stone-600 bg-stone-100 px-2.5 py-1 rounded-md">
+              {user.display_name} ({user.username})
+            </span>
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                className="text-xs font-medium px-3 py-1.5 rounded-lg border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 transition-colors shadow-paper"
+              >
+                Sign Out
+              </button>
+            </form>
+          </div>
         </div>
       </header>
 
-      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
+      {/* Main Body */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-6">
         {children}
       </main>
     </div>

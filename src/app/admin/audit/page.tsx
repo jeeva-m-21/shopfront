@@ -28,13 +28,13 @@ export default async function AdminAuditPage({
   });
 
   return (
-    <div>
-      <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#111827', margin: 0 }}>
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-display text-2xl sm:text-3xl font-normal text-stone-900">
           System Audit Log
         </h1>
-        <p style={{ fontSize: '14px', color: '#6b7280', margin: '4px 0 0 0' }}>
-          Immutable audit record of all admin and owner mutations with before/after state diffs
+        <p className="text-xs text-stone-500 font-sans mt-0.5">
+          Immutable audit record of all admin and owner mutations with before/after state diffs.
         </p>
       </div>
 

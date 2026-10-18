@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { Plus } from 'lucide-react';
 import { requireAdmin } from '../../../auth/guards.js';
 import { listOwnersWithShops } from '../../../auth/owner-ops.js';
 import { OwnersTable } from './OwnersTable.js';
@@ -14,37 +15,22 @@ export default async function AdminOwnersPage() {
   const owners = await listOwnersWithShops();
 
   return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '24px',
-        }}
-      >
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#111827', margin: 0 }}>
+          <h1 className="font-display text-2xl sm:text-3xl font-normal text-stone-900">
             Shop Owners
           </h1>
-          <p style={{ fontSize: '14px', color: '#6b7280', margin: '4px 0 0 0' }}>
-            Manage owner accounts, passwords, and listing assignments
+          <p className="text-xs text-stone-500 font-sans mt-0.5">
+            Manage merchant accounts, credentials, and business assignments.
           </p>
         </div>
         <Link
           href="/admin/owners/new"
-          style={{
-            display: 'inline-block',
-            backgroundColor: '#2563eb',
-            color: '#ffffff',
-            padding: '10px 16px',
-            borderRadius: '6px',
-            fontSize: '14px',
-            fontWeight: '600',
-            textDecoration: 'none',
-          }}
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-marina-600 hover:bg-marina-700 text-white transition-colors shadow-paper self-start sm:self-auto"
         >
-          + New Owner
+          <Plus className="w-4 h-4" />
+          <span>New Owner</span>
         </Link>
       </div>
 

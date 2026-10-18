@@ -37,13 +37,13 @@ export default async function AdminLogsPage({
   }).toString()}`;
 
   return (
-    <div>
-      <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#111827', margin: 0 }}>
-          Search & Tool Logs
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-display text-2xl sm:text-3xl font-normal text-stone-900">
+          Search & Tool Telemetry
         </h1>
-        <p style={{ fontSize: '14px', color: '#6b7280', margin: '4px 0 0 0' }}>
-          Real-time query performance telemetry, fallback rates, and latency percentiles
+        <p className="text-xs text-stone-500 font-sans mt-0.5">
+          Real-time query performance telemetry, Jev fallback rates, and latency percentiles.
         </p>
       </div>
 
