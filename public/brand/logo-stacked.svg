@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280" width="320" height="280" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&amp;display=swap');
+      .heading-brand { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 800; }
+      .text-body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 600; }
+    </style>
+  </defs>
+  <g transform="translate(85, 20) scale(1.9)">
+    <rect x="6" y="44" width="56" height="10" rx="5" fill="#0E6B66"/>
+    <rect x="6" y="27" width="56" height="10" rx="5" fill="#0E6B66"/>
+    <rect x="14" y="10" width="56" height="10" rx="5" fill="#F4B000"/>
+  </g>
+  <g transform="translate(160, 195)">
+    <text class="heading-brand" text-anchor="middle" fill="#111817" font-size="38" letter-spacing="-0.035em">Shopfront</text>
+    <text y="28" class="text-body" text-anchor="middle" fill="#0E6B66" font-size="12" letter-spacing="0.1em">LIVE DATA ENGINE</text>
+  </g>
+</svg>

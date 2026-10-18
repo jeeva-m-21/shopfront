@@ -1,0 +1,433 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1280" width="1920" height="1280">
+  <defs>
+    <!-- Background Canvas -->
+    <rect id="bg-canvas" width="1920" height="1280" fill="#FAF9F6"/>
+
+    <!-- Fonts style -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      .heading-brand { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 800; }
+      .text-title { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 700; }
+      .text-body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 500; }
+      .text-code { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+      .grid-line { stroke: #0E6B66; stroke-opacity: 0.15; stroke-dasharray: 3 3; }
+    </style>
+
+    <!-- Master Shutter Symbol Components -->
+    <!-- 1. Color Mark for Dark/Color Backgrounds (White bottom slats, Yellow accent top) -->
+    <!-- ViewBox: 0 0 80 64 (Slats h=10, gap=7, total h=44, lower slats w=64, top shifted x=+8) -->
+    <g id="mark-color-on-dark">
+      <!-- Lower slats: white -->
+      <rect x="6" y="44" width="56" height="10" rx="5" fill="#FFFFFF"/>
+      <rect x="6" y="27" width="56" height="10" rx="5" fill="#FFFFFF"/>
+      <!-- Top shifted slat: accent warm yellow -->
+      <rect x="14" y="10" width="56" height="10" rx="5" fill="#F4B000"/>
+    </g>
+
+    <!-- 2. Color Mark for Light Backgrounds (Deep Teal bottom slats, Yellow accent top) -->
+    <g id="mark-color-on-light">
+      <!-- Lower slats: deep teal #0E6B66 -->
+      <rect x="6" y="44" width="56" height="10" rx="5" fill="#0E6B66"/>
+      <rect x="6" y="27" width="56" height="10" rx="5" fill="#0E6B66"/>
+      <!-- Top shifted slat: accent warm yellow #F4B000 -->
+      <rect x="14" y="10" width="56" height="10" rx="5" fill="#F4B000"/>
+    </g>
+
+    <!-- 3. Monochrome / Inverted Pure White -->
+    <g id="mark-mono-white">
+      <rect x="6" y="44" width="56" height="10" rx="5" fill="#FFFFFF"/>
+      <rect x="6" y="27" width="56" height="10" rx="5" fill="#FFFFFF"/>
+      <rect x="14" y="10" width="56" height="10" rx="5" fill="#FFFFFF" fill-opacity="0.88"/>
+    </g>
+
+    <!-- 4. Monochrome Pure Black -->
+    <g id="mark-mono-black">
+      <rect x="6" y="44" width="56" height="10" rx="5" fill="#111817"/>
+      <rect x="6" y="27" width="56" height="10" rx="5" fill="#111817"/>
+      <rect x="14" y="10" width="56" height="10" rx="5" fill="#111817" fill-opacity="0.75"/>
+    </g>
+
+    <!-- App Icon Squircle Container 80x80 -->
+    <g id="app-icon-squircle-teal">
+      <rect width="80" height="80" rx="20" fill="#0E6B66"/>
+      <g transform="translate(6, 8) scale(0.85)">
+        <use href="#mark-color-on-dark"/>
+      </g>
+    </g>
+
+    <g id="app-icon-squircle-dark">
+      <rect width="80" height="80" rx="20" fill="#100F0D"/>
+      <g transform="translate(6, 8) scale(0.85)">
+        <use href="#mark-color-on-dark"/>
+      </g>
+    </g>
+
+    <g id="app-icon-squircle-white">
+      <rect width="80" height="80" rx="20" fill="#FFFFFF" stroke="#E6E4DF" stroke-width="1.5"/>
+      <g transform="translate(6, 8) scale(0.85)">
+        <use href="#mark-color-on-light"/>
+      </g>
+    </g>
+
+    <!-- Live indicator badge -->
+    <g id="live-badge">
+      <rect width="64" height="22" rx="11" fill="#0E6B66" fill-opacity="0.1"/>
+      <circle cx="12" cy="11" r="4" fill="#0E6B66"/>
+      <circle cx="12" cy="11" r="7" fill="#0E6B66" fill-opacity="0.25"/>
+      <text x="24" y="15" class="text-code" font-weight="700" fill="#0E6B66" font-size="10" letter-spacing="0.05em">LIVE</text>
+    </g>
+
+    <!-- Card Shadow Filter -->
+    <filter id="card-shadow" x="-6%" y="-6%" width="112%" height="116%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#0E6B66" flood-opacity="0.06"/>
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#0E6B66" flood-opacity="0.04"/>
+    </filter>
+
+    <filter id="dark-shadow" x="-6%" y="-6%" width="112%" height="116%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="12" stdDeviation="20" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Canvas Surface Background -->
+  <rect width="1920" height="1280" fill="#FAF9F6"/>
+
+  <!-- ================= HEADER / BRAND IDENTITY ================= -->
+  <g transform="translate(80, 64)">
+    <!-- Small Category Kicker -->
+    <text x="0" y="0" class="text-code" fill="#0E6B66" font-weight="600" letter-spacing="0.15em">SHOPFRONT DESIGN SYSTEM &bull; BRAND ASSET SPECIFICATION</text>
+    
+    <text x="0" y="38" class="heading-brand" fill="#111817" font-size="34" letter-spacing="-0.03em">Logo Lockups &amp; Multi-View Identity</text>
+    
+    <text x="0" y="66" class="text-body" fill="#6B7280" font-size="15">
+      The kinetic shutter mark engineered for responsive viewports, high-contrast digital surfaces, and partner integrations.
+    </text>
+
+    <!-- Right-aligned Palette Chips -->
+    <g transform="translate(1420, 0)">
+      <!-- Teal -->
+      <circle cx="20" cy="20" r="14" fill="#0E6B66"/>
+      <text x="44" y="17" class="text-title" font-size="12" fill="#111817">Teal Primary</text>
+      <text x="44" y="30" class="text-code" fill="#888888">#0E6B66</text>
+
+      <!-- Warm Yellow -->
+      <circle cx="160" cy="20" r="14" fill="#F4B000"/>
+      <text x="184" y="17" class="text-title" font-size="12" fill="#111817">Motion Accent</text>
+      <text x="184" y="30" class="text-code" fill="#888888">#F4B000</text>
+
+      <!-- Night / Dark Mode -->
+      <circle cx="300" cy="20" r="14" fill="#100F0D"/>
+      <text x="324" y="17" class="text-title" font-size="12" fill="#111817">Pitch Dark</text>
+      <text x="324" y="30" class="text-code" fill="#888888">#100F0D</text>
+    </g>
+  </g>
+
+  <!-- ================= ROW 1: PRIMARY LOCKUPS (LIGHT & DARK CARDS) ================= -->
+
+  <!-- View 1: Primary Horizontal Lockup (Light Surface) -->
+  <g transform="translate(80, 160)">
+    <rect width="860" height="340" rx="24" fill="#FFFFFF" stroke="#ECEAE4" stroke-width="1.5" filter="url(#card-shadow)"/>
+    
+    <!-- Tag & Info -->
+    <text x="44" y="46" class="text-code" fill="#0E6B66" font-weight="700">01 / PRIMARY HORIZONTAL LOCKUP (DEFAULT ON LIGHT)</text>
+    <text x="740" y="46" class="text-code" fill="#9CA3AF">RATIO 4:1</text>
+    <line x1="44" y1="62" x2="816" y2="62" stroke="#F1EFEA" stroke-width="1.5"/>
+
+    <!-- Lockup Content -->
+    <g transform="translate(70, 140)">
+      <!-- Symbol (scale 1.8) -->
+      <g transform="scale(2.0)">
+        <use href="#mark-color-on-light"/>
+      </g>
+
+      <!-- Wordmark -->
+      <g transform="translate(180, 56)">
+        <text class="heading-brand" fill="#111817" font-size="58" letter-spacing="-0.035em">Shopfront</text>
+        <!-- Verified dot badge -->
+        <circle cx="316" cy="-22" r="6" fill="#F4B000"/>
+        <text x="0" y="32" class="text-body" fill="#6B7280" font-size="15" letter-spacing="0.04em">VERIFIED REAL-TIME COMMERCE</text>
+      </g>
+    </g>
+
+    <!-- Spec tags at bottom -->
+    <g transform="translate(44, 298)">
+      <rect width="138" height="24" rx="6" fill="#F4F3EF"/>
+      <text x="10" y="16" class="text-code" fill="#4B5563">mark: teal + yellow</text>
+
+      <g transform="translate(150, 0)">
+        <rect width="130" height="24" rx="6" fill="#F4F3EF"/>
+        <text x="10" y="16" class="text-code" fill="#4B5563">type: 58px / -35 track</text>
+      </g>
+
+      <g transform="translate(292, 0)">
+        <rect width="144" height="24" rx="6" fill="#F4F3EF"/>
+        <text x="10" y="16" class="text-code" fill="#4B5563">min-clearance: 32px</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- View 2: Primary Horizontal Lockup (Brand Deep Teal Background) -->
+  <g transform="translate(980, 160)">
+    <rect width="860" height="340" rx="24" fill="#0E6B66" filter="url(#dark-shadow)"/>
+    
+    <!-- Tag & Info -->
+    <text x="44" y="46" class="text-code" fill="#F4B000" font-weight="700">02 / BRAND CORE LOCKUP (DEEP TEAL HERO)</text>
+    <text x="720" y="46" class="text-code" fill="#88C4C0">HIGH CONTRAST</text>
+    <line x1="44" y1="62" x2="816" y2="62" stroke="#16857F" stroke-width="1.5"/>
+
+    <!-- Lockup Content -->
+    <g transform="translate(70, 140)">
+      <!-- Symbol (scale 2.0) -->
+      <g transform="scale(2.0)">
+        <use href="#mark-color-on-dark"/>
+      </g>
+
+      <!-- Wordmark -->
+      <g transform="translate(180, 56)">
+        <text class="heading-brand" fill="#FFFFFF" font-size="58" letter-spacing="-0.035em">Shopfront</text>
+        <circle cx="316" cy="-22" r="6" fill="#F4B000"/>
+        <text x="0" y="32" class="text-body" fill="#BFE3E0" font-size="15" letter-spacing="0.04em">VERIFIED REAL-TIME COMMERCE</text>
+      </g>
+    </g>
+
+    <!-- Spec tags at bottom -->
+    <g transform="translate(44, 298)">
+      <rect width="138" height="24" rx="6" fill="#0B5753"/>
+      <text x="10" y="16" class="text-code" fill="#FFFFFF">mark: white + yellow</text>
+
+      <g transform="translate(150, 0)">
+        <rect width="130" height="24" rx="6" fill="#0B5753"/>
+        <text x="10" y="16" class="text-code" fill="#FFFFFF">surface: #0E6B66</text>
+      </g>
+
+      <g transform="translate(292, 0)">
+        <rect width="144" height="24" rx="6" fill="#0B5753"/>
+        <text x="10" y="16" class="text-code" fill="#FFFFFF">usage: primary nav / hero</text>
+      </g>
+    </g>
+  </g>
+
+
+  <!-- ================= ROW 2: DIVERSE LAYOUT VIEWS ================= -->
+
+  <!-- View 3: Vertical Stacked / Emblem Lockup (Square ratio for splash & billboards) -->
+  <g transform="translate(80, 530)">
+    <rect width="440" height="420" rx="24" fill="#FFFFFF" stroke="#ECEAE4" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <text x="36" y="44" class="text-code" fill="#0E6B66" font-weight="700">03 / STACKED LOCKUP</text>
+    <text x="330" y="44" class="text-code" fill="#9CA3AF">SPLASH</text>
+    <line x1="36" y1="58" x2="404" y2="58" stroke="#F1EFEA" stroke-width="1.5"/>
+
+    <g transform="translate(155, 110)">
+      <!-- Centered Emblem (scale 2.0) -->
+      <g transform="scale(2.0)">
+        <use href="#mark-color-on-light"/>
+      </g>
+    </g>
+    
+    <g transform="translate(220, 290)">
+      <text class="heading-brand" text-anchor="middle" fill="#111817" font-size="40" letter-spacing="-0.035em">Shopfront</text>
+      <text y="28" class="text-body" text-anchor="middle" fill="#0E6B66" font-weight="600" font-size="13" letter-spacing="0.1em">LIVE DATA ENGINE</text>
+    </g>
+
+    <text x="220" y="385" class="text-code" text-anchor="middle" fill="#9CA3AF">Center-aligned hero splash &amp; packaging</text>
+  </g>
+
+  <!-- View 4: Dark Mode Compact Lockup (Pitch Black #100F0D) -->
+  <g transform="translate(550, 530)">
+    <rect width="460" height="420" rx="24" fill="#100F0D" filter="url(#dark-shadow)"/>
+    <text x="36" y="44" class="text-code" fill="#F4B000" font-weight="700">04 / DARK MODE SURFACE</text>
+    <text x="340" y="44" class="text-code" fill="#6B7280">OLED / NIGHT</text>
+    <line x1="36" y1="58" x2="424" y2="58" stroke="#22211E" stroke-width="1.5"/>
+
+    <!-- Content -->
+    <g transform="translate(50, 170)">
+      <g transform="scale(1.7)">
+        <use href="#mark-color-on-dark"/>
+      </g>
+      <g transform="translate(150, 48)">
+        <text class="heading-brand" fill="#FFFFFF" font-size="44" letter-spacing="-0.03em">Shopfront</text>
+        <g transform="translate(0, 18)">
+          <circle cx="5" cy="5" r="4" fill="#10B981"/>
+          <text x="16" y="9" class="text-code" fill="#9CA3AF">API LIVE &bull; 99.98%</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- Additional micro badge row -->
+    <g transform="translate(50, 310)">
+      <rect width="360" height="60" rx="14" fill="#1A1916" stroke="#262522" stroke-width="1"/>
+      <g transform="translate(16, 12)">
+        <use href="#app-icon-squircle-dark" transform="scale(0.45)"/>
+        <text x="48" y="24" class="text-title" fill="#FFFFFF" font-size="14">Shopfront for macOS &amp; iOS</text>
+        <text x="250" y="24" class="text-code" fill="#F4B000">v2.4.0</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- View 5: Construction Grid & Optical Kinetic Geometry (Vector blueprint) -->
+  <g transform="translate(1040, 530)">
+    <rect width="800" height="420" rx="24" fill="#FFFFFF" stroke="#ECEAE4" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <text x="40" y="44" class="text-code" fill="#0E6B66" font-weight="700">05 / GEOMETRIC BLUEPRINT &amp; KINETIC OFFSET</text>
+    <text x="680" y="44" class="text-code" fill="#9CA3AF">4PX SYSTEM</text>
+    <line x1="40" y1="58" x2="760" y2="58" stroke="#F1EFEA" stroke-width="1.5"/>
+
+    <!-- Grid lines -->
+    <g transform="translate(70, 100)">
+      <!-- Canvas boundary for symbol -->
+      <rect x="0" y="0" width="360" height="250" fill="#FAF9F6" rx="16" stroke="#E3E1DC" stroke-width="1"/>
+      
+      <!-- Coordinate guides -->
+      <line x1="0" y1="40" x2="360" y2="40" class="grid-line"/>
+      <line x1="0" y1="100" x2="360" y2="100" class="grid-line"/>
+      <line x1="0" y1="160" x2="360" y2="160" class="grid-line"/>
+      <line x1="0" y1="220" x2="360" y2="220" class="grid-line"/>
+      <line x1="60" y1="0" x2="60" y2="250" class="grid-line"/>
+      <line x1="160" y1="0" x2="160" y2="250" class="grid-line"/>
+      <line x1="300" y1="0" x2="300" y2="250" class="grid-line"/>
+
+      <!-- Rendered large slats -->
+      <!-- Bottom slat -->
+      <rect x="50" y="170" width="240" height="36" rx="18" fill="#0E6B66"/>
+      <text x="296" y="193" class="text-code" fill="#0E6B66" font-size="10">BASE SLAT (100% W)</text>
+
+      <!-- Middle slat -->
+      <rect x="50" y="112" width="240" height="36" rx="18" fill="#0E6B66"/>
+      <text x="296" y="135" class="text-code" fill="#0E6B66" font-size="10">&Delta;y = 22px GAP</text>
+
+      <!-- Top slat lifted and shifted right -->
+      <!-- Shifted by +36px, raised with accent highlight -->
+      <rect x="86" y="50" width="240" height="36" rx="18" fill="#F4B000"/>
+      <text x="332" y="73" class="text-code" fill="#B45309" font-weight="700" font-size="10">+36px &rarr; KINETIC</text>
+
+      <!-- Dimension indicator arrows -->
+      <line x1="50" y1="40" x2="86" y2="40" stroke="#F4B000" stroke-width="2"/>
+      <circle cx="50" cy="40" r="3" fill="#F4B000"/>
+      <circle cx="86" cy="40" r="3" fill="#F4B000"/>
+    </g>
+
+    <!-- Formula Notes -->
+    <g transform="translate(480, 110)">
+      <text x="0" y="24" class="text-title" font-size="16" fill="#111817">Golden Ratio Motion Offset</text>
+      <text x="0" y="52" class="text-body" font-size="13" fill="#6B7280">The 15% rightward shift creates</text>
+      <text x="0" y="70" class="text-body" font-size="13" fill="#6B7280">an unmistakable active roll-shutter</text>
+      <text x="0" y="88" class="text-body" font-size="13" fill="#6B7280">signature recognizable down to 16px.</text>
+
+      <g transform="translate(0, 120)">
+        <rect width="250" height="36" rx="8" fill="#F4F3EF"/>
+        <text x="14" y="22" class="text-code" fill="#0E6B66">&Delta;x = +15% &bull; &Delta;y = -8px (Lift)</text>
+      </g>
+      <g transform="translate(0, 166)">
+        <rect width="250" height="36" rx="8" fill="#F4F3EF"/>
+        <text x="14" y="22" class="text-code" fill="#0E6B66">Radii = 50% slat height (Pill)</text>
+      </g>
+    </g>
+  </g>
+
+
+  <!-- ================= ROW 3: RESPONSIVE TIERS, MONOCHROME & FAVICONS ================= -->
+
+  <!-- View 6: App Icons & Scales (80px, 48px, 32px, 16px) -->
+  <g transform="translate(80, 980)">
+    <rect width="560" height="230" rx="20" fill="#FFFFFF" stroke="#ECEAE4" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <text x="32" y="36" class="text-code" fill="#0E6B66" font-weight="700">06 / APPLICATION ICONS &amp; SQUIRCLES</text>
+    <text x="440" y="36" class="text-code" fill="#9CA3AF">CROSS-OS</text>
+    <line x1="32" y1="48" x2="528" y2="48" stroke="#F1EFEA" stroke-width="1"/>
+
+    <g transform="translate(40, 75)">
+      <!-- 80px Teal -->
+      <use href="#app-icon-squircle-teal"/>
+      <text x="40" y="100" class="text-code" text-anchor="middle" fill="#6B7280">80px Teal</text>
+    </g>
+
+    <g transform="translate(160, 75)">
+      <!-- 80px Dark -->
+      <use href="#app-icon-squircle-dark"/>
+      <text x="40" y="100" class="text-code" text-anchor="middle" fill="#6B7280">80px Night</text>
+    </g>
+
+    <g transform="translate(280, 75)">
+      <!-- 80px White -->
+      <use href="#app-icon-squircle-white"/>
+      <text x="40" y="100" class="text-code" text-anchor="middle" fill="#6B7280">80px Light</text>
+    </g>
+
+    <g transform="translate(400, 75)">
+      <!-- Micro scales -->
+      <g transform="translate(0, 8)">
+        <rect width="40" height="40" rx="10" fill="#0E6B66"/>
+        <g transform="translate(4, 5) scale(0.42)">
+          <use href="#mark-color-on-dark"/>
+        </g>
+        <text x="50" y="24" class="text-code" fill="#6B7280">40px</text>
+      </g>
+
+      <g transform="translate(0, 56)">
+        <rect width="24" height="24" rx="6" fill="#0E6B66"/>
+        <g transform="translate(2, 3) scale(0.25)">
+          <use href="#mark-color-on-dark"/>
+        </g>
+        <text x="50" y="16" class="text-code" fill="#6B7280">24px Favicon</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- View 7: Monochrome & Print Variants (Single Color Ink / Emboss) -->
+  <g transform="translate(670, 980)">
+    <rect width="560" height="230" rx="20" fill="#FFFFFF" stroke="#ECEAE4" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <text x="32" y="36" class="text-code" fill="#0E6B66" font-weight="700">07 / MONOCHROME &amp; PRODUCTION VARIANTS</text>
+    <text x="420" y="36" class="text-code" fill="#9CA3AF">1-COLOR INK</text>
+    <line x1="32" y1="48" x2="528" y2="48" stroke="#F1EFEA" stroke-width="1"/>
+
+    <!-- Black mono -->
+    <g transform="translate(40, 75)">
+      <rect width="210" height="110" rx="12" fill="#FAF9F6" stroke="#EAE7E0" stroke-width="1"/>
+      <g transform="translate(20, 25)">
+        <use href="#mark-mono-black" transform="scale(0.85)"/>
+        <text x="75" y="36" class="heading-brand" fill="#111817" font-size="24">Shopfront</text>
+      </g>
+      <text x="105" y="94" class="text-code" text-anchor="middle" fill="#6B7280">Pure Carbon Mono</text>
+    </g>
+
+    <!-- Solid White on Black -->
+    <g transform="translate(290, 75)">
+      <rect width="220" height="110" rx="12" fill="#111817"/>
+      <g transform="translate(20, 25)">
+        <use href="#mark-mono-white" transform="scale(0.85)"/>
+        <text x="75" y="36" class="heading-brand" fill="#FFFFFF" font-size="24">Shopfront</text>
+      </g>
+      <text x="110" y="94" class="text-code" text-anchor="middle" fill="#9CA3AF">Inverse 100% White</text>
+    </g>
+  </g>
+
+  <!-- View 8: Navigation Bar & AI Live Agent Integration Mock -->
+  <g transform="translate(1260, 980)">
+    <rect width="580" height="230" rx="20" fill="#FFFFFF" stroke="#ECEAE4" stroke-width="1.5" filter="url(#card-shadow)"/>
+    <text x="32" y="36" class="text-code" fill="#0E6B66" font-weight="700">08 / IN-APP HEADER &amp; AI ASSISTANT EMBED</text>
+    <text x="460" y="36" class="text-code" fill="#9CA3AF">DESKTOP</text>
+    <line x1="32" y1="48" x2="548" y2="48" stroke="#F1EFEA" stroke-width="1"/>
+
+    <!-- Mini Header Bar Simulation -->
+    <g transform="translate(32, 70)">
+      <rect width="516" height="52" rx="12" fill="#FAF9F6" stroke="#EAE7E0" stroke-width="1"/>
+      <!-- Logo in nav -->
+      <g transform="translate(16, 9)">
+        <use href="#mark-color-on-light" transform="scale(0.52)"/>
+        <text x="48" y="24" class="heading-brand" font-size="17" fill="#111817">Shopfront</text>
+        <circle cx="132" cy="14" r="3" fill="#F4B000"/>
+      </g>
+
+      <!-- Nav links -->
+      <text x="210" y="31" class="text-body" font-size="12" fill="#4B5563" font-weight="600">Open Stores</text>
+      <text x="295" y="31" class="text-body" font-size="12" fill="#9CA3AF">Live Map</text>
+      <text x="360" y="31" class="text-body" font-size="12" fill="#9CA3AF">AI Agent API</text>
+
+      <!-- Pill status -->
+      <g transform="translate(436, 15)">
+        <use href="#live-badge"/>
+      </g>
+    </g>
+
+    <text x="32" y="152" class="text-code" fill="#4B5563">Real-time status pill syncs dynamically with shutter symbol motion.</text>
+    <text x="32" y="172" class="text-code" fill="#9CA3AF">Vector viewBox optimized for SVG sprites and React/Next.js components.</text>
+  </g>
+
+</svg>

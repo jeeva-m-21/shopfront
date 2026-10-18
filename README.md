@@ -8,8 +8,11 @@
 [![PostgreSQL 16 / PostGIS 3.4](https://img.shields.io/badge/PostGIS-3.4-336791.svg)]()
 [![MCP SDK 1.32](https://img.shields.io/badge/MCP-1.32.1-orange.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]()
+[![Case Study](https://img.shields.io/badge/Architecture-Technical_Case_Study-0E6B66.svg)](TECHNICAL_CASE_STUDY.md)
 
 Shopfront bridges local Chennai brick-and-mortar businesses (repair services, salons & wellness, food & beverage) with AI agents and human customers. It provides a two-stage discovery search engine, an authoritative Model Context Protocol (MCP) server, role-based administration and merchant portals, and a public discovery web interface.
+
+> 📖 **Looking for the Engineering Deep Dive?** Read our comprehensive [**Technical Case Study & Architecture Blueprint (Problem → Solution)**](TECHNICAL_CASE_STUDY.md) covering the Two-Stage Retrieval Pipeline, PostGIS spatial indexing, Argon2id cryptography, Model Context Protocol integration, and scientific benchmark methodology.
 
 ---
 

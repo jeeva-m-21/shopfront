@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" width="520" height="140" fill="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap');
+      .heading-brand { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 800; }
+      .text-body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 500; }
+    </style>
+  </defs>
+  <g transform="translate(10, 10)">
+    <g transform="scale(1.8)">
+      <rect x="6" y="44" width="56" height="10" rx="5" fill="#0E6B66"/>
+      <rect x="6" y="27" width="56" height="10" rx="5" fill="#0E6B66"/>
+      <rect x="14" y="10" width="56" height="10" rx="5" fill="#F4B000"/>
+    </g>
+    <g transform="translate(160, 52)">
+      <text class="heading-brand" fill="#111817" font-size="52" letter-spacing="-0.035em">Shopfront</text>
+      <circle cx="282" cy="-20" r="5.5" fill="#F4B000"/>
+      <text x="0" y="30" class="text-body" fill="#6B7280" font-size="13" letter-spacing="0.04em">VERIFIED REAL-TIME COMMERCE</text>
+    </g>
+  </g>
+</svg>

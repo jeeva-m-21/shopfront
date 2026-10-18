@@ -91,6 +91,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/brand" className="hover:text-marina-600 transition-colors">
+                  Brand Assets &amp; Logo System
+                </Link>
+              </li>
+              <li>
                 <a
                   href="/mcp"
                   target="_blank"

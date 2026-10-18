@@ -14,7 +14,7 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
-            <ShutterLogo size={26} showTamilSubtitle={false} />
+            <ShutterLogo size={26} showTamilSubtitle={false} showVerifiedDot={true} />
             <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-medium bg-turmeric-100 text-turmeric-700 border border-turmeric-300">
               Chennai IST
             </span>
@@ -36,6 +36,12 @@ export function Navbar() {
               <span className="bg-marina-50 text-marina-700 border border-marina-200 text-[10px] font-mono px-1.5 py-0.5 rounded">
                 MCP
               </span>
+            </Link>
+            <Link
+              href="/brand"
+              className="hover:text-marina-600 transition-colors py-1"
+            >
+              Brand
             </Link>
             <Link
               href="/for-merchants"
@@ -98,6 +104,13 @@ export function Navbar() {
             <span className="bg-marina-50 text-marina-700 text-[10px] font-mono px-1.5 py-0.5 rounded">
               v2.0.0
             </span>
+          </Link>
+          <Link
+            href="/brand"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-sm font-medium text-stone-700 hover:text-marina-600 py-1.5"
+          >
+            Brand Assets
           </Link>
           <Link
             href="/for-merchants"

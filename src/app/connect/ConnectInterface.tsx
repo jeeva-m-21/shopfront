@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { ShutterMark } from '../../components/brand/ShutterMark';
 import { McpPlayground } from '../developers/McpPlayground';
+import Link from 'next/link';
 
 interface ConnectInterfaceProps {
   baseUrl: string;
@@ -224,6 +225,12 @@ export function ConnectInterface({ baseUrl }: ConnectInterfaceProps) {
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-stone-100 border border-stone-200 text-stone-600">
             <span>Transport: Streamable HTTP</span>
           </span>
+          <Link
+            href="/brand"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-stone-100 border border-stone-200 text-stone-700 hover:bg-stone-200 transition-colors"
+          >
+            <span>Brand Assets &amp; SVGs</span>
+          </Link>
         </div>
       </div>
 
