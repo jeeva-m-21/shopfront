@@ -546,6 +546,29 @@ export function SearchInterface({
             ))}
           </div>
         )}
+
+        {/* AI Assistant Banner Strip */}
+        <div className="mt-8 p-4 sm:p-5 rounded-2xl border border-marina-200 bg-marina-50/70 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-paper">
+          <div className="flex items-center gap-3.5 text-left">
+            <div className="w-9 h-9 rounded-xl bg-marina-600 text-white flex items-center justify-center font-mono font-bold text-xs shrink-0 shadow-sm">
+              AI
+            </div>
+            <div>
+              <p className="text-xs sm:text-sm font-semibold text-stone-900">
+                Also available inside your AI assistant.
+              </p>
+              <p className="text-[11px] sm:text-xs text-stone-600 font-sans">
+                Query these verified Chennai shops directly from Claude, Cursor, or ChatGPT via Model Context Protocol.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/connect"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-marina-600 hover:bg-marina-700 text-white text-xs font-semibold transition-all shadow-paper shrink-0 hover:-translate-y-0.5"
+          >
+            <span>Add Shopfront →</span>
+          </Link>
+        </div>
       </section>
 
       {/* 3. 32 Chennai Localities Quick Browse Directory */}

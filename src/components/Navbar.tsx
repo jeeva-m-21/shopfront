@@ -14,7 +14,12 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Brand Logo */}
           <div className="flex items-center gap-3">
-            <ShutterLogo size={26} showTamilSubtitle={false} showVerifiedDot={true} />
+            <ShutterLogo
+              size={26}
+              showTamilSubtitle={false}
+              showVerifiedDot={true}
+              subtitle="Local shops, found by AI"
+            />
             <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-medium bg-turmeric-100 text-turmeric-700 border border-turmeric-300">
               Chennai IST
             </span>

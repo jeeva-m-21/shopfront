@@ -15,6 +15,7 @@ import { requireOwner } from '../../auth/guards.js';
 import { getOwnerDashboard } from '../../owner/shop-ops.js';
 import { StatusChip } from '../../components/brand/StatusChip';
 import { ShutterMark } from '../../components/brand/ShutterMark';
+import { AiPreviewCard } from '../../components/owner/AiPreviewCard';
 
 export default async function OwnerDashboardPage() {
   const { user } = await requireOwner('/owner');
@@ -153,6 +154,14 @@ export default async function OwnerDashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Signature Feature: Persistent AI Preview */}
+      <AiPreviewCard
+        shop={shop}
+        availableItemsCount={available_items_count}
+        totalItemsCount={total_items_count}
+        menuUpdatedText={menu_updated_text}
+      />
 
       {/* Quick Navigation Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

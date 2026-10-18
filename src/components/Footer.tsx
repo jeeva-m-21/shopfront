@@ -9,9 +9,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand & mission */}
           <div className="md:col-span-1 space-y-4">
-            <ShutterLogo size={26} showTamilSubtitle={true} />
+            <ShutterLogo size={26} showTamilSubtitle={true} subtitle="Local shops, found by AI" />
             <p className="text-xs text-stone-600 leading-relaxed font-sans">
-              Chennai&apos;s open hyperlocal merchant discovery and agent commerce engine. Connecting verified neighborhood stores with humans and AI agents.
+              Shopfront makes local businesses visible to AI assistants. Be the answer when people ask AI. Real-time operational ground truth and 0% commission direct WhatsApp commerce.
             </p>
             <div className="flex items-center gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-stone-100 text-stone-700 border border-stone-200">
