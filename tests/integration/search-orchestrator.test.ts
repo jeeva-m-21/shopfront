@@ -293,7 +293,7 @@ describe('Search Orchestrator & Telemetry (Integration Tests)', () => {
         }>(
           `SELECT reranked, jev_model, fallback_reason
            FROM search_logs
-           WHERE tool = 'find_shops'
+           WHERE tool = 'find_shops' AND query_text = 'battery replacement'
            ORDER BY id DESC LIMIT 1;`
         );
         expect(logRes.rows[0]?.reranked).toBe(true);

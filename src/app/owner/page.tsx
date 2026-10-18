@@ -1,7 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
+import {
+  UtensilsCrossed,
+  Clock,
+  Store,
+  Settings,
+  AlertTriangle,
+  Info,
+  CheckCircle2,
+  ChevronRight,
+  Sparkles,
+} from 'lucide-react';
 import { requireOwner } from '../../auth/guards.js';
 import { getOwnerDashboard } from '../../owner/shop-ops.js';
+import { StatusChip } from '../../components/brand/StatusChip';
+import { ShutterMark } from '../../components/brand/ShutterMark';
 
 export default async function OwnerDashboardPage() {
   const { user } = await requireOwner('/owner');
@@ -9,21 +22,12 @@ export default async function OwnerDashboardPage() {
 
   if (!dashboard) {
     return (
-      <div style={{ padding: '32px 0' }}>
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
-            padding: '32px',
-            textAlign: 'center',
-          }}
-        >
-          <h1 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '8px' }}>
-            Owner Dashboard
-          </h1>
-          <p style={{ color: '#6b7280', fontSize: '15px' }}>
-            No shop is assigned to your account yet. Contact the admin.
+      <div className="py-8">
+        <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center max-w-md mx-auto shadow-paper">
+          <Store className="w-10 h-10 text-stone-300 mx-auto mb-3" />
+          <h1 className="font-display text-xl text-stone-900 mb-1">Owner Dashboard</h1>
+          <p className="text-xs text-stone-500 font-sans">
+            No shop is assigned to your account yet. Contact the platform administrator.
           </p>
         </div>
       </div>
@@ -32,41 +36,26 @@ export default async function OwnerDashboardPage() {
 
   const { shop, available_items_count, total_items_count, menu_updated_text, banners } = dashboard;
 
-  const statusColors = {
-    draft: { bg: '#fef3c7', text: '#92400e', label: 'Draft' },
-    live: { bg: '#dcfce7', text: '#15803d', label: 'Live' },
-    paused: { bg: '#fee2e2', text: '#b91c1c', label: 'Paused' },
-  }[shop.status];
+  const isLive = shop.status === 'live';
+  const isPaused = shop.status === 'paused';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div className="space-y-6">
       {/* Top Banner Alerts */}
       {banners.showUnknownHoursBanner && (
         <div
           role="status"
-          style={{
-            backgroundColor: '#eff6ff',
-            border: '1px solid #bfdbfe',
-            color: '#1e40af',
-            padding: '12px 16px',
-            borderRadius: '6px',
-            fontSize: '14px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
+          className="p-4 rounded-xl border border-blue-200 bg-blue-50/80 text-blue-900 flex items-center justify-between gap-4 text-xs font-sans"
         >
-          <span>Add opening hours so customers can find you when you are open</span>
+          <div className="flex items-center gap-2">
+            <Info className="w-4 h-4 text-blue-600 shrink-0" />
+            <span>Add opening hours so customers and AI agents know when you are open.</span>
+          </div>
           <Link
             href="/owner/hours"
-            style={{
-              fontWeight: '600',
-              textDecoration: 'underline',
-              color: '#1d4ed8',
-              marginLeft: '12px',
-            }}
+            className="font-medium underline text-blue-700 hover:text-blue-900 shrink-0 font-mono"
           >
-            Set Hours
+            Set Hours →
           </Link>
         </div>
       )}
@@ -74,169 +63,157 @@ export default async function OwnerDashboardPage() {
       {banners.showDraftBanner && (
         <div
           role="status"
-          style={{
-            backgroundColor: '#fffbeb',
-            border: '1px solid #fde68a',
-            color: '#92400e',
-            padding: '12px 16px',
-            borderRadius: '6px',
-            fontSize: '14px',
-          }}
+          className="p-4 rounded-xl border border-turmeric-300 bg-turmeric-50 text-turmeric-900 flex items-center gap-2.5 text-xs font-sans"
         >
-          Your listing is a draft. Contact the admin to publish it.
+          <AlertTriangle className="w-4 h-4 text-turmeric-700 shrink-0" />
+          <span>Your listing is in <strong>Draft</strong> mode. Contact admin to publish it live.</span>
         </div>
       )}
 
       {banners.showAdminLockedBanner && (
         <div
           role="alert"
-          style={{
-            backgroundColor: '#fef2f2',
-            border: '1px solid #fecaca',
-            color: '#b91c1c',
-            padding: '12px 16px',
-            borderRadius: '6px',
-            fontSize: '14px',
-          }}
+          className="p-4 rounded-xl border border-red-200 bg-red-50 text-red-900 flex items-center gap-2.5 text-xs font-sans"
         >
-          Paused by admin. Contact the admin to resume.
+          <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
+          <span>Paused by administrator. Please contact support to resume your listing.</span>
         </div>
       )}
 
-      {/* Header with Shop Name & Status */}
-      <div
-        style={{
-          backgroundColor: '#ffffff',
-          borderRadius: '8px',
-          border: '1px solid #e5e7eb',
-          padding: '24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-        }}
-      >
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#111827', margin: 0 }}>
-              {shop.name}
-            </h1>
-            <span
-              style={{
-                display: 'inline-block',
-                padding: '4px 10px',
-                borderRadius: '12px',
-                fontSize: '12px',
-                fontWeight: '600',
-                backgroundColor: statusColors.bg,
-                color: statusColors.text,
-              }}
-            >
-              {statusColors.label}
-            </span>
+      {/* Giant Tactile Shutter Status Card */}
+      <div className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-paper space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-stone-100">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2.5">
+              <h1 className="font-display text-2xl sm:text-3xl font-normal text-stone-900">
+                {shop.name}
+              </h1>
+              <StatusChip status={shop.status as 'open' | 'closed' | 'draft' | 'paused' | 'live'} />
+            </div>
+            <p className="text-xs text-stone-500 font-mono">
+              {shop.locality_name} · {shop.address}
+            </p>
           </div>
-          <p style={{ margin: '4px 0 0 0', color: '#6b7280', fontSize: '14px' }}>
-            {shop.locality_name} • {shop.address}
-          </p>
+
+          <Link
+            href={`/shop/${shop.slug}`}
+            target="_blank"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 self-start sm:self-auto transition-colors"
+          >
+            <span>View Public Listing</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
 
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: '14px', fontWeight: '600', color: '#111827' }}>
-            {available_items_count} of {total_items_count} items available
+        {/* Shutter Visual Metaphor & Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Shutter Status */}
+          <div className="p-4 rounded-xl border border-stone-200 bg-stone-50 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center shadow-paper shrink-0">
+              <ShutterMark size={22} dark={isPaused} />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 block">
+                Store Shutter
+              </span>
+              <span className={`text-sm font-semibold ${isLive ? 'text-status-open' : 'text-stone-700'}`}>
+                {isLive ? 'Shutter is UP (Live)' : isPaused ? 'Shutter is DOWN (Paused)' : 'Draft State'}
+              </span>
+            </div>
           </div>
-          <div style={{ fontSize: '13px', color: '#6b7280', marginTop: '2px' }}>
-            {menu_updated_text}
+
+          {/* Menu Freshness */}
+          <div className="p-4 rounded-xl border border-stone-200 bg-stone-50 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center shadow-paper shrink-0 text-marina-600">
+              <Sparkles className="w-5 h-5 text-turmeric-500" />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 block">
+                Catalog Freshness
+              </span>
+              <span className="text-xs font-mono font-medium text-stone-800">
+                {menu_updated_text}
+              </span>
+            </div>
+          </div>
+
+          {/* Item Availability */}
+          <div className="p-4 rounded-xl border border-stone-200 bg-stone-50 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center shadow-paper shrink-0 text-marina-600">
+              <CheckCircle2 className="w-5 h-5 text-status-open" />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 block">
+                Active Catalog
+              </span>
+              <span className="text-xs font-mono font-semibold text-stone-900">
+                {available_items_count} / {total_items_count} items available
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Navigation Cards */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '16px',
-        }}
-      >
-        <Link
-          href="/owner/shop"
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
-            padding: '20px',
-            textDecoration: 'none',
-            color: 'inherit',
-            transition: 'border-color 0.2s',
-          }}
-        >
-          <div style={{ fontWeight: '600', fontSize: '16px', color: '#111827', marginBottom: '6px' }}>
-            Shop Details
-          </div>
-          <div style={{ fontSize: '13px', color: '#6b7280' }}>
-            Edit name, contact phone, WhatsApp, and booking links.
-          </div>
-        </Link>
-
+      {/* Quick Navigation Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Link
           href="/owner/menu"
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
-            padding: '20px',
-            textDecoration: 'none',
-            color: 'inherit',
-            transition: 'border-color 0.2s',
-          }}
+          className="p-5 rounded-2xl border border-stone-200 bg-white hover:border-marina-300 hover:shadow-paper-md transition-all group shadow-paper space-y-2"
         >
-          <div style={{ fontWeight: '600', fontSize: '16px', color: '#111827', marginBottom: '6px' }}>
-            Menu & Catalog
+          <div className="w-9 h-9 rounded-xl bg-stone-100 group-hover:bg-marina-50 flex items-center justify-center text-stone-700 group-hover:text-marina-600 transition-colors">
+            <UtensilsCrossed className="w-4 h-4" />
           </div>
-          <div style={{ fontSize: '13px', color: '#6b7280' }}>
-            Manage services or items, pricing, tags, and item availability.
-          </div>
+          <h3 className="font-semibold text-sm text-stone-900 group-hover:text-marina-700">
+            Catalog & Items
+          </h3>
+          <p className="text-xs text-stone-500 font-sans leading-relaxed">
+            Manage services or items, pricing, tags, and 1-thumb availability switches.
+          </p>
         </Link>
 
         <Link
           href="/owner/hours"
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
-            padding: '20px',
-            textDecoration: 'none',
-            color: 'inherit',
-            transition: 'border-color 0.2s',
-          }}
+          className="p-5 rounded-2xl border border-stone-200 bg-white hover:border-marina-300 hover:shadow-paper-md transition-all group shadow-paper space-y-2"
         >
-          <div style={{ fontWeight: '600', fontSize: '16px', color: '#111827', marginBottom: '6px' }}>
+          <div className="w-9 h-9 rounded-xl bg-stone-100 group-hover:bg-marina-50 flex items-center justify-center text-stone-700 group-hover:text-marina-600 transition-colors">
+            <Clock className="w-4 h-4" />
+          </div>
+          <h3 className="font-semibold text-sm text-stone-900 group-hover:text-marina-700">
             Opening Hours
-          </div>
-          <div style={{ fontSize: '13px', color: '#6b7280' }}>
+          </h3>
+          <p className="text-xs text-stone-500 font-sans leading-relaxed">
             Configure weekly business schedules and planned holiday closures.
+          </p>
+        </Link>
+
+        <Link
+          href="/owner/shop"
+          className="p-5 rounded-2xl border border-stone-200 bg-white hover:border-marina-300 hover:shadow-paper-md transition-all group shadow-paper space-y-2"
+        >
+          <div className="w-9 h-9 rounded-xl bg-stone-100 group-hover:bg-marina-50 flex items-center justify-center text-stone-700 group-hover:text-marina-600 transition-colors">
+            <Store className="w-4 h-4" />
           </div>
+          <h3 className="font-semibold text-sm text-stone-900 group-hover:text-marina-700">
+            Shop Profile
+          </h3>
+          <p className="text-xs text-stone-500 font-sans leading-relaxed">
+            Update phone, address, coordinates, and direct WhatsApp enquiry links.
+          </p>
         </Link>
 
         <Link
           href="/owner/account"
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
-            padding: '20px',
-            textDecoration: 'none',
-            color: 'inherit',
-            transition: 'border-color 0.2s',
-          }}
+          className="p-5 rounded-2xl border border-stone-200 bg-white hover:border-marina-300 hover:shadow-paper-md transition-all group shadow-paper space-y-2"
         >
-          <div style={{ fontWeight: '600', fontSize: '16px', color: '#111827', marginBottom: '6px' }}>
-            Account & Listing Status
+          <div className="w-9 h-9 rounded-xl bg-stone-100 group-hover:bg-marina-50 flex items-center justify-center text-stone-700 group-hover:text-marina-600 transition-colors">
+            <Settings className="w-4 h-4" />
           </div>
-          <div style={{ fontSize: '13px', color: '#6b7280' }}>
-            Update your password or pause/resume your shop listing.
-          </div>
+          <h3 className="font-semibold text-sm text-stone-900 group-hover:text-marina-700">
+            Account & Status
+          </h3>
+          <p className="text-xs text-stone-500 font-sans leading-relaxed">
+            Update password, manage security, or pause/resume your shop listing.
+          </p>
         </Link>
       </div>
     </div>

@@ -732,7 +732,7 @@
   - `/developers` safely redirects to `/connect`.
 
 ### SPRINT-10.3: Commercial Landing Page (`/`) Modernization
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:**
   - Rebuild hero with Instrument Serif headline, Turmeric underline accent, and live proof strip (`10 Verified Shops • 32 Localities • 0% Commission • Live IST Status`).
   - Unified Command Search Bar with Chennai locality pill selector and instant auto-suggestions.

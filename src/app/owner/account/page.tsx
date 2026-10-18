@@ -14,12 +14,12 @@ export default async function OwnerAccountPage() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div className="space-y-6">
       <div>
-        <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#111827', margin: 0 }}>
+        <h1 className="font-display text-2xl font-normal text-stone-900">
           Account Settings
         </h1>
-        <p style={{ margin: '4px 0 0 0', color: '#6b7280', fontSize: '14px' }}>
+        <p className="text-xs text-stone-500 font-sans mt-0.5">
           Manage your account credentials and control your public shop listing visibility.
         </p>
       </div>

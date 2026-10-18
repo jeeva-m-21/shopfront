@@ -1,4 +1,5 @@
 import React from 'react';
+import { Store } from 'lucide-react';
 import { requireOwner } from '../../../auth/guards.js';
 import { listOwnerMenuItems } from '../../../owner/menu-ops.js';
 import { MenuManager } from './MenuManager.js';
@@ -11,20 +12,11 @@ export default async function OwnerMenuPage() {
     result = await listOwnerMenuItems(user.id);
   } catch {
     return (
-      <div style={{ padding: '32px 0' }}>
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
-            padding: '32px',
-            textAlign: 'center',
-          }}
-        >
-          <h1 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '8px' }}>
-            Menu & Catalog
-          </h1>
-          <p style={{ color: '#6b7280', fontSize: '15px' }}>
+      <div className="py-8">
+        <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center max-w-md mx-auto shadow-paper">
+          <Store className="w-10 h-10 text-stone-300 mx-auto mb-3" />
+          <h1 className="font-display text-xl text-stone-900 mb-1">Menu & Catalog</h1>
+          <p className="text-xs text-stone-500 font-sans">
             No shop is assigned to your account yet. Contact the admin.
           </p>
         </div>
@@ -35,13 +27,13 @@ export default async function OwnerMenuPage() {
   const { shop, items } = result;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div className="space-y-6">
       <div>
-        <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#111827', margin: 0 }}>
+        <h1 className="font-display text-2xl font-normal text-stone-900">
           Manage Menu & Services
         </h1>
-        <p style={{ margin: '4px 0 0 0', color: '#6b7280', fontSize: '14px' }}>
-          Add, organize, and price your items. Customers see only items marked available.
+        <p className="text-xs text-stone-500 font-sans mt-0.5">
+          Add, organize, and price your items. Customers and AI agents see only items marked available.
         </p>
       </div>
 
