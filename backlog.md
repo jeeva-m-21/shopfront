@@ -753,7 +753,7 @@
   - Invariants preserved (D13 live shop >= 1 available item).
 
 ### SPRINT-10.5: Desktop-First Admin Control Tower & Search Engine Debugger (`/admin`)
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:**
   - Eradicate all raw inline CSS from `/admin/*`.
   - Implement Universal Command Palette (`⌘K`) for rapid navigation and shop lookups.
@@ -764,7 +764,7 @@
   - Search debugger correctly shows Stage 1 vs Stage 2 diffs.
 
 ### SPRINT-10.6: Shop Detail Ledger (`/shop/[slug]`) & Production Verification
-- **Status:** `[ ] TODO`
+- **Status:** `[x] DONE`
 - **Scope:**
   - Redesign public shop page with receipt-style menu sections, dot leaders, and WhatsApp CTA message preview.
   - Run full verification triumvirate: `npm test`, `tsc --noEmit`, `next lint`, `npm run test:e2e`.

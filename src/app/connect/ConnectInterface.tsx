@@ -9,6 +9,7 @@ import {
   Zap,
   ShieldCheck,
   Wrench,
+  Terminal,
 } from 'lucide-react';
 import { ShutterMark } from '../../components/brand/ShutterMark';
 import { McpPlayground } from '../developers/McpPlayground';
@@ -423,7 +424,19 @@ export function ConnectInterface({ baseUrl }: ConnectInterfaceProps) {
       </div>
 
       {/* 6. Interactive MCP Tool Playground */}
-      <div className="pt-4 border-t border-stone-200">
+      <div className="space-y-4 pt-4 border-t border-stone-200">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-marina-600" />
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-stone-900 font-mono">
+              Interactive MCP Tool Playground
+            </h2>
+          </div>
+          <p className="text-xs text-stone-600 font-sans">
+            Test live JSON-RPC 2.0 tool execution directly against this server&apos;s{' '}
+            <code className="font-mono text-stone-800">/mcp</code> endpoint.
+          </p>
+        </div>
         <McpPlayground />
       </div>
     </div>

@@ -2,10 +2,21 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import {
+  MapPin,
+  Clock,
+  Phone,
+  MessageCircle,
+  ArrowLeft,
+  Calendar,
+  ExternalLink,
+} from 'lucide-react';
 import { executeGetShopInfo } from '@/mcp/tools/get-shop-info';
 import { executeGetCatalog } from '@/mcp/tools/get-catalog';
 import { executeGetActionLink } from '@/mcp/tools/get-action-link';
 import { writeSearchLog } from '@/search/telemetry';
+import { StatusChip } from '@/components/brand/StatusChip';
+import { VerifiedBadge } from '@/components/brand/VerifiedBadge';
 
 export const dynamic = 'force-dynamic';
 
@@ -69,40 +80,12 @@ export default async function ShopPage(props: ShopPageProps) {
     total_ms: Date.now() - startMs,
   });
 
-  // Category labels
   const categoryLabels: Record<string, string> = {
     repair_service: 'Repair & Technical',
-    salon_wellness: 'Salons & Personal Care',
+    salon_wellness: 'Salons & Wellness',
     food_beverage: 'Food & Cafes',
   };
 
-  // Open status label & colors
-  let statusBadge = {
-    text: 'Hours not provided',
-    bg: '#f3f4f6',
-    color: '#4b5563',
-    border: '#e5e7eb',
-  };
-
-  if (shop.hours_status === 'set') {
-    if (shop.open_now === true) {
-      statusBadge = {
-        text: 'Open now',
-        bg: '#ecfdf5',
-        color: '#065f46',
-        border: '#a7f3d0',
-      };
-    } else if (shop.open_now === false) {
-      statusBadge = {
-        text: 'Closed now',
-        bg: '#fef2f2',
-        color: '#991b1b',
-        border: '#fecaca',
-      };
-    }
-  }
-
-  // Format menu updated date
   const menuUpdatedDate = catalog.menu_updated_at || shop.menu_updated_at;
   const formattedMenuUpdated = menuUpdatedDate
     ? new Date(menuUpdatedDate).toLocaleDateString('en-IN', {
@@ -133,160 +116,107 @@ export default async function ShopPage(props: ShopPageProps) {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', padding: '24px 16px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div className="min-h-screen bg-stone-25 py-8 px-4 sm:px-6 lg:px-8 font-sans text-stone-900">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        
+      <div className="max-w-4xl mx-auto space-y-6">
         {/* Navigation Breadcrumb */}
-        <div style={{ marginBottom: '20px' }}>
+        <div>
           <Link
             href="/"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '14px',
-              color: '#4b5563',
-              textDecoration: 'none',
-              fontWeight: '500',
-            }}
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-stone-500 hover:text-stone-900 transition-colors"
           >
-            &larr; Back to Chennai Search
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to Chennai Directory</span>
           </Link>
         </div>
 
         {/* Shop Header Card */}
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            border: '1px solid #e5e7eb',
-            borderRadius: '12px',
-            padding: '28px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-            marginBottom: '24px',
-          }}
-        >
-          {/* Badges strip */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '12px' }}>
-            <span
-              style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                padding: '3px 10px',
-                borderRadius: '9999px',
-                backgroundColor: '#eff6ff',
-                color: '#1e40af',
-                border: '1px solid #bfdbfe',
-              }}
-            >
-              {categoryLabels[shop.category] ?? shop.category}
-            </span>
-
-            <span
-              style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                padding: '3px 10px',
-                borderRadius: '9999px',
-                backgroundColor: statusBadge.bg,
-                color: statusBadge.color,
-                border: `1px solid ${statusBadge.border}`,
-              }}
-            >
-              {statusBadge.text}
-            </span>
-
-            {shop.is_sample_data && (
-              <span
-                style={{
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  padding: '3px 10px',
-                  borderRadius: '9999px',
-                  backgroundColor: '#fffbeb',
-                  color: '#92400e',
-                  border: '1px solid #fde68a',
-                }}
-              >
-                Sample listing
+        <div className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-paper space-y-6">
+          {/* Top meta strip */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[10px] font-mono uppercase tracking-wider font-semibold px-2 py-0.5 rounded bg-stone-100 text-stone-600 border border-stone-200">
+                {categoryLabels[shop.category] ?? shop.category}
               </span>
+              <VerifiedBadge verifiedText="verified merchant" />
+            </div>
+
+            {shop.hours_status === 'set' && (
+              <StatusChip status={shop.open_now ? 'open' : 'closed'} />
             )}
           </div>
 
           {/* Shop Title & Description */}
-          <h1 style={{ fontSize: '28px', fontWeight: '800', color: '#111827', margin: '0 0 10px 0' }}>
-            {shop.name}
-          </h1>
-
-          <p style={{ fontSize: '15px', color: '#4b5563', lineHeight: '1.5', margin: '0 0 18px 0' }}>
-            {shop.description}
-          </p>
-
-          {/* Address & Locality */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#374151', marginBottom: '16px' }}>
-            <span style={{ fontWeight: '600' }}>Address:</span>
-            <span>{shop.address} ({shop.locality})</span>
+          <div className="space-y-2">
+            <h1 className="font-display text-3xl sm:text-4xl font-normal text-stone-900 tracking-[-0.02em]">
+              {shop.name}
+            </h1>
+            <p className="text-sm text-stone-600 leading-relaxed font-sans max-w-2xl">
+              {shop.description}
+            </p>
           </div>
 
-          {/* Action Link Contact Button */}
+          {/* Address & Locality */}
+          <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 flex items-start gap-3 text-xs text-stone-700 font-sans">
+            <MapPin className="w-4 h-4 text-stone-400 shrink-0 mt-0.5" />
+            <div>
+              <span className="font-semibold text-stone-900">{shop.address}</span>
+              <span className="text-stone-500 font-mono ml-2">({shop.locality}, Chennai)</span>
+            </div>
+          </div>
+
+          {/* Contact Action Bar (WhatsApp / Call) */}
           {actionLink && (
-            <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #f3f4f6' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <div id="contact" className="pt-6 border-t border-stone-100 space-y-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <a
                   href={actionLink.action_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '12px 24px',
-                    borderRadius: '8px',
-                    backgroundColor: '#2563eb',
-                    color: '#ffffff',
-                    fontSize: '15px',
-                    fontWeight: '600',
-                    textDecoration: 'none',
-                    cursor: 'pointer',
-                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                  }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold bg-status-open hover:bg-[#156e3b] text-white transition-colors shadow-paper"
                 >
-                  {actionLink.action_mode === 'whatsapp' && 'Chat on WhatsApp'}
-                  {actionLink.action_mode === 'external_url' && 'Book Online'}
-                  {actionLink.action_mode === 'phone_only' && `Call ${actionLink.phone}`}
+                  {actionLink.action_mode === 'whatsapp' && (
+                    <>
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Chat on WhatsApp</span>
+                    </>
+                  )}
+                  {actionLink.action_mode === 'external_url' && (
+                    <>
+                      <ExternalLink className="w-4 h-4" />
+                      <span>Book Online</span>
+                    </>
+                  )}
+                  {actionLink.action_mode === 'phone_only' && (
+                    <>
+                      <Phone className="w-4 h-4" />
+                      <span>Call {actionLink.phone}</span>
+                    </>
+                  )}
                 </a>
 
                 {actionLink.phone && actionLink.action_mode !== 'phone_only' && (
                   <a
                     href={`tel:${actionLink.phone}`}
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      padding: '12px 18px',
-                      borderRadius: '8px',
-                      backgroundColor: '#f3f4f6',
-                      color: '#374151',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      textDecoration: 'none',
-                    }}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-700 transition-colors shadow-paper"
                   >
-                    Call: {actionLink.phone}
+                    <Phone className="w-3.5 h-3.5 text-stone-400" />
+                    <span className="font-mono">{actionLink.phone}</span>
                   </a>
                 )}
               </div>
 
               {actionLink.action_instructions && (
-                <p style={{ fontSize: '13px', color: '#4b5563', marginTop: '10px', fontStyle: 'italic' }}>
+                <p className="text-xs text-stone-500 italic font-sans">
                   {actionLink.action_instructions}
                 </p>
               )}
 
-              {/* Disclaimer */}
-              <p style={{ fontSize: '13px', color: '#6b7280', marginTop: '10px', lineHeight: '1.4' }}>
+              {/* Statutory Disclaimer */}
+              <p className="text-[11px] text-stone-400 font-sans leading-relaxed">
                 {actionLink.disclaimer}
               </p>
             </div>
@@ -294,197 +224,138 @@ export default async function ShopPage(props: ShopPageProps) {
         </div>
 
         {/* Operating Hours & Closures Section */}
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            border: '1px solid #e5e7eb',
-            borderRadius: '12px',
-            padding: '24px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-            marginBottom: '24px',
-          }}
-        >
-          <h2 style={{ fontSize: '18px', fontWeight: '700', color: '#111827', margin: '0 0 16px 0' }}>
-            Operating Hours
-          </h2>
+        <div className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-paper space-y-6">
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-marina-600" />
+            <h2 className="font-display text-xl font-normal text-stone-900">
+              Operating Hours (Asia/Kolkata IST)
+            </h2>
+          </div>
 
           {shop.hours_status === 'unknown' ? (
-            <p style={{ fontSize: '14px', color: '#6b7280', fontStyle: 'italic' }}>
+            <p className="text-xs text-stone-500 italic font-sans">
               Hours not provided by the business.
             </p>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px' }}>
-              {/* Today's Hours */}
-              <div style={{ padding: '12px', backgroundColor: '#f9fafb', borderRadius: '8px', border: '1px solid #f3f4f6' }}>
-                <span style={{ fontSize: '13px', fontWeight: '600', color: '#4b5563' }}>Today: </span>
-                <span style={{ fontSize: '14px', fontWeight: '700', color: '#111827' }}>
+            <div className="space-y-4">
+              {/* Today's Hours Banner */}
+              <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 flex items-center justify-between text-xs">
+                <span className="font-mono text-stone-500 uppercase tracking-wider">
+                  Today&apos;s Schedule:
+                </span>
+                <span className="font-mono font-bold text-stone-900">
                   {shop.today_hours ?? 'Closed'}
                 </span>
               </div>
 
-              {/* Weekly Schedule */}
+              {/* Weekly Schedule Grid */}
               {shop.weekly_hours && shop.weekly_hours.length > 0 && (
-                <div style={{ gridColumn: '1 / -1' }}>
-                  <span style={{ fontSize: '13px', fontWeight: '600', color: '#4b5563', display: 'block', marginBottom: '8px' }}>
-                    Weekly Schedule:
-                  </span>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px' }}>
-                    {shop.weekly_hours.map(([day, hours], i) => (
-                      <div
-                        key={i}
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          padding: '6px 10px',
-                          borderRadius: '6px',
-                          backgroundColor: '#f9fafb',
-                          fontSize: '13px',
-                        }}
-                      >
-                        <span style={{ color: '#4b5563', fontWeight: '500' }}>{day}:</span>
-                        <span style={{ color: '#111827', fontWeight: '600' }}>{hours}</span>
-                      </div>
-                    ))}
-                  </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+                  {shop.weekly_hours.map(([day, hours], i) => (
+                    <div
+                      key={i}
+                      className="p-3 rounded-xl border border-stone-200 bg-white flex flex-col justify-between gap-1 shadow-paper"
+                    >
+                      <span className="text-[10px] font-mono text-stone-400 uppercase">
+                        {day}
+                      </span>
+                      <span className="text-xs font-mono font-semibold text-stone-900 truncate">
+                        {hours}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
           )}
 
-          {/* Upcoming Closures (Next 30 Days) */}
-          <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #f3f4f6' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: '600', color: '#374151', margin: '0 0 8px 0' }}>
-              Upcoming Scheduled Closures (Next 30 Days)
+          {/* Upcoming Closures */}
+          <div className="pt-4 border-t border-stone-100 space-y-2">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-stone-600 flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-stone-400" />
+              <span>Upcoming Scheduled Closures (Next 30 Days)</span>
             </h3>
             {shop.upcoming_closures && shop.upcoming_closures.length > 0 ? (
-              <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '13px', color: '#dc2626' }}>
+              <ul className="space-y-1.5 text-xs text-status-closed font-mono">
                 {shop.upcoming_closures.map((closure, idx) => (
-                  <li key={idx} style={{ marginBottom: '4px' }}>
+                  <li key={idx} className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-status-closed" />
                     <strong>{closure.date}</strong>
-                    {closure.reason ? `: ${closure.reason}` : ' (Closed)'}
+                    <span>{closure.reason ? `: ${closure.reason}` : ' (Closed)'}</span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p style={{ margin: 0, fontSize: '13px', color: '#6b7280' }}>
+              <p className="text-xs text-stone-400 font-sans">
                 No scheduled closures in the next 30 days.
               </p>
             )}
           </div>
         </div>
 
-        {/* Menu & Catalog Section */}
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            border: '1px solid #e5e7eb',
-            borderRadius: '12px',
-            padding: '24px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: '700', color: '#111827', margin: 0 }}>
-              Catalog & Offerings
+        {/* Menu & Catalog Section (Receipt Ledger Style) */}
+        <div className="bg-white border border-stone-200 rounded-2xl p-6 sm:p-8 shadow-paper space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-4 border-b border-stone-100">
+            <h2 className="font-display text-2xl font-normal text-stone-900">
+              Catalog & Service Offerings
             </h2>
             {formattedMenuUpdated && (
-              <span style={{ fontSize: '12px', color: '#6b7280' }}>
-                Menu updated on {formattedMenuUpdated}
+              <span className="text-xs font-mono text-stone-500">
+                Menu verified on {formattedMenuUpdated}
               </span>
             )}
           </div>
 
           {catalog.groups.length === 0 ? (
-            <p style={{ fontSize: '14px', color: '#6b7280', fontStyle: 'italic' }}>
+            <p className="text-xs text-stone-500 italic font-sans">
               No available offerings listed at this time.
             </p>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className="space-y-8">
               {catalog.groups.map((group, groupIdx) => (
-                <div key={groupIdx}>
-                  <h3
-                    style={{
-                      fontSize: '15px',
-                      fontWeight: '700',
-                      color: '#1f2937',
-                      margin: '0 0 12px 0',
-                      paddingBottom: '6px',
-                      borderBottom: '1px solid #f3f4f6',
-                    }}
-                  >
+                <div key={groupIdx} className="space-y-3">
+                  <h3 className="font-mono text-xs uppercase tracking-wider font-bold text-stone-700 pb-1 border-b border-stone-200">
                     {group.group_name}
                   </h3>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+                  <div className="space-y-3">
                     {group.items.map((item) => (
                       <div
                         key={item.id}
-                        style={{
-                          backgroundColor: '#f9fafb',
-                          border: '1px solid #e5e7eb',
-                          borderRadius: '8px',
-                          padding: '12px 14px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          gap: '8px',
-                        }}
+                        className="p-3.5 rounded-xl border border-stone-200 bg-stone-50/60 hover:bg-stone-50 hover:border-marina-200 transition-colors shadow-paper space-y-1.5"
                       >
-                        <div>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                            <span style={{ fontSize: '14px', fontWeight: '600', color: '#111827' }}>
-                              {item.name}
-                            </span>
-                            <span style={{ fontSize: '14px', fontWeight: '700', color: '#059669', whiteSpace: 'nowrap' }}>
-                              {item.price_display}
-                            </span>
-                          </div>
-
-                          {item.description && (
-                            <p style={{ fontSize: '12px', color: '#6b7280', margin: '4px 0 0 0', lineHeight: '1.4' }}>
-                              {item.description}
-                            </p>
-                          )}
+                        <div className="flex items-baseline justify-between gap-2">
+                          <span className="font-semibold text-sm text-stone-900">
+                            {item.name}
+                          </span>
+                          <span className="flex-1 mx-3 dot-leader h-3 opacity-40 hidden sm:block" />
+                          <span className="font-mono text-sm font-bold text-marina-700 whitespace-nowrap">
+                            {item.price_display}
+                          </span>
                         </div>
 
-                        {/* Metadata tags */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', fontSize: '11px' }}>
-                          {item.diet && (
-                            <span
-                              style={{
-                                padding: '2px 6px',
-                                borderRadius: '4px',
-                                backgroundColor: item.diet === 'veg' ? '#ecfdf5' : '#fef2f2',
-                                color: item.diet === 'veg' ? '#065f46' : '#991b1b',
-                                fontWeight: '600',
-                                textTransform: 'capitalize',
-                              }}
-                            >
-                              {item.diet.replace('_', ' ')}
-                            </span>
-                          )}
+                        {item.description && (
+                          <p className="text-xs text-stone-600 font-sans leading-relaxed">
+                            {item.description}
+                          </p>
+                        )}
 
+                        {/* Metadata tags & duration */}
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
                           {item.duration_min && (
-                            <span style={{ color: '#6b7280' }}>
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-stone-600 border border-stone-200">
                               ⏱ {item.duration_min} mins
                             </span>
                           )}
-
-                          {item.tags && item.tags.length > 0 && (
-                            item.tags.map((tag, tIdx) => (
+                          {item.tags &&
+                            item.tags.map((tag, tagIdx) => (
                               <span
-                                key={tIdx}
-                                style={{
-                                  backgroundColor: '#e5e7eb',
-                                  color: '#374151',
-                                  padding: '2px 6px',
-                                  borderRadius: '4px',
-                                }}
+                                key={tagIdx}
+                                className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-stone-500 border border-stone-200"
                               >
                                 #{tag}
                               </span>
-                            ))
-                          )}
+                            ))}
                         </div>
                       </div>
                     ))}
@@ -494,7 +365,6 @@ export default async function ShopPage(props: ShopPageProps) {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

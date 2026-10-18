@@ -142,15 +142,15 @@ export function McpPlayground() {
   return (
     <div className="space-y-8">
       {/* Tool Selector Tabs */}
-      <div className="flex flex-wrap gap-2 pb-2 border-b border-slate-200">
+      <div className="flex flex-wrap gap-2 pb-2 border-b border-stone-200">
         {TOOL_PRESETS.map((t) => (
           <button
             key={t.name}
             onClick={() => handleToolChange(t)}
             className={`px-3.5 py-2 rounded-xl text-xs font-mono font-semibold transition-all ${
               selectedTool.name === t.name
-                ? 'bg-brand-600 text-white shadow-sm'
-                : 'bg-white border border-slate-200 text-slate-700 hover:border-brand-400'
+                ? 'bg-marina-600 text-white shadow-paper'
+                : 'bg-white border border-stone-200 text-stone-700 hover:border-marina-300 hover:bg-stone-50'
             }`}
           >
             {t.name}()
@@ -162,11 +162,11 @@ export function McpPlayground() {
         {/* Arguments Editor */}
         <div className="lg:col-span-5 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-              <Code2 className="w-4 h-4 text-brand-600" />
+            <span className="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5 font-mono">
+              <Code2 className="w-4 h-4 text-marina-600" />
               Tool Arguments (JSON)
             </span>
-            <Badge variant="outline" className="text-[10px] font-mono">
+            <Badge variant="outline" className="text-[10px] font-mono border-stone-300 text-stone-600">
               readOnlyHint: true
             </Badge>
           </div>
@@ -176,12 +176,12 @@ export function McpPlayground() {
               rows={11}
               value={argsJson}
               onChange={(e) => setArgsJson(e.target.value)}
-              className="w-full font-mono text-xs p-4 bg-surface-950 text-emerald-400 rounded-2xl border border-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-inner"
+              className="w-full font-mono text-xs p-4 bg-stone-900 text-marina-300 rounded-2xl border border-stone-800 focus:outline-none focus:ring-2 focus:ring-marina-500 shadow-inner"
               spellCheck={false}
             />
           </div>
 
-          <p className="text-xs text-slate-500 leading-relaxed">
+          <p className="text-xs text-stone-500 leading-relaxed font-sans">
             {selectedTool.description}
           </p>
 
@@ -189,7 +189,7 @@ export function McpPlayground() {
             onClick={executeTool}
             disabled={loading}
             variant="primary"
-            className="w-full py-2.5 font-semibold"
+            className="w-full py-2.5 font-semibold bg-marina-600 hover:bg-marina-700 text-white rounded-xl shadow-paper"
           >
             <Play className="w-3.5 h-3.5 mr-1.5 fill-current" />
             <span>{loading ? 'Executing on /mcp...' : `Call ${selectedTool.name}`}</span>
@@ -199,23 +199,23 @@ export function McpPlayground() {
         {/* Live Response Viewer */}
         <div className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-              <Terminal className="w-4 h-4 text-slate-500" />
+            <span className="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5 font-mono">
+              <Terminal className="w-4 h-4 text-stone-500" />
               Live Server Response
             </span>
             {latencyMs !== null && (
-              <Badge variant="success" className="text-[10px] font-mono">
+              <Badge variant="success" className="text-[10px] font-mono bg-status-open/10 text-status-open border-status-open/20">
                 <Clock className="w-3 h-3" /> {latencyMs} ms
               </Badge>
             )}
           </div>
 
           <div className="relative">
-            <pre className="font-mono text-xs p-4 bg-surface-950 text-slate-200 rounded-2xl border border-slate-800 min-h-[260px] max-h-[380px] overflow-auto shadow-inner">
+            <pre className="font-mono text-xs p-4 bg-stone-900 text-stone-200 rounded-2xl border border-stone-800 min-h-[260px] max-h-[380px] overflow-auto shadow-inner">
               {result ? (
                 result
               ) : (
-                <span className="text-slate-500 italic">
+                <span className="text-stone-500 italic">
                   {"// Click 'Call " + selectedTool.name + "' to execute a real JSON-RPC call against the live MCP endpoint..."}
                 </span>
               )}
@@ -224,10 +224,10 @@ export function McpPlayground() {
             {result && (
               <button
                 onClick={() => copyConfig(result)}
-                className="absolute top-3 right-3 p-1.5 rounded-lg bg-surface-900 border border-slate-700 text-slate-300 hover:text-white text-xs transition-colors"
+                className="absolute top-3 right-3 p-1.5 rounded-lg bg-stone-800 border border-stone-700 text-stone-300 hover:text-white text-xs transition-colors"
                 title="Copy response JSON"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-status-open" /> : <Copy className="w-3.5 h-3.5" />}
               </button>
             )}
           </div>
