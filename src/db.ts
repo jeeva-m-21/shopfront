@@ -6,11 +6,16 @@ let pool: pg.Pool | null = null;
 export function getPool(): pg.Pool {
   if (!pool) {
     const config = getConfig();
+    const isLocal =
+      config.DATABASE_URL.includes('localhost') ||
+      config.DATABASE_URL.includes('127.0.0.1');
+
     pool = new pg.Pool({
       connectionString: config.DATABASE_URL,
-      max: 20,
+      ssl: isLocal ? false : { rejectUnauthorized: false },
+      max: process.env.NODE_ENV === 'production' ? 10 : 20,
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 5000,
+      connectionTimeoutMillis: 10000,
     });
 
     pool.on('error', (err) => {

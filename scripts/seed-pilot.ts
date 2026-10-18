@@ -850,7 +850,13 @@ export const PILOT_SHOPS: PilotShopDef[] = [
 
 async function seedPilotData() {
   const config = getConfig();
-  const pool = new pg.Pool({ connectionString: config.DATABASE_URL });
+  const isLocal =
+    config.DATABASE_URL.includes('localhost') ||
+    config.DATABASE_URL.includes('127.0.0.1');
+  const pool = new pg.Pool({
+    connectionString: config.DATABASE_URL,
+    ssl: isLocal ? false : { rejectUnauthorized: false },
+  });
   const client = await pool.connect();
 
   try {
@@ -883,7 +889,7 @@ async function seedPilotData() {
            data_source_note, owner_id
          )
          VALUES (
-           $1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326),
+           $1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7::float8, $8::float8), 4326)::geography,
            $9, $10, 'whatsapp', 'set', 'live', FALSE,
            'Pilot onboarding verified with owner consent', $11
          )

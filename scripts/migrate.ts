@@ -14,7 +14,13 @@ import { getConfig } from '../src/config.js';
 
 async function runMigrations() {
   const config = getConfig();
-  const pool = new pg.Pool({ connectionString: config.DATABASE_URL });
+  const isLocal =
+    config.DATABASE_URL.includes('localhost') ||
+    config.DATABASE_URL.includes('127.0.0.1');
+  const pool = new pg.Pool({
+    connectionString: config.DATABASE_URL,
+    ssl: isLocal ? false : { rejectUnauthorized: false },
+  });
 
   const client = await pool.connect();
   try {
