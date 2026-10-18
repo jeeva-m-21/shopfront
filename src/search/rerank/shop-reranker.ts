@@ -1,4 +1,4 @@
-import { parseConfig } from '@/config';
+import { parseConfig } from '../../config.js';
 import {
   buildJevState,
   callJevDecisionsApi,

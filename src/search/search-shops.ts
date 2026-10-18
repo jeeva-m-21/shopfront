@@ -95,7 +95,7 @@ export type SearchShopsResult =
 
 export async function searchShops(
   rawInput: SearchShopsInput,
-  channel: 'mcp' | 'web'
+  channel: 'mcp' | 'web' = 'web'
 ): Promise<SearchShopsResult> {
   const startTime = Date.now();
   let localityId: number | null = null;
