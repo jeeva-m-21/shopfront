@@ -1,4 +1,5 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { executeGetShopInfo } from '@/mcp/tools/get-shop-info';
@@ -10,6 +11,27 @@ export const dynamic = 'force-dynamic';
 
 interface ShopPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata(props: ShopPageProps): Promise<Metadata> {
+  const { slug } = await props.params;
+  const shopRes = await executeGetShopInfo({ shop_slug: slug });
+  if (!shopRes.success) {
+    return {
+      title: 'Shop Not Found — Shopfront Chennai',
+    };
+  }
+  const shop = shopRes.data;
+  return {
+    title: `${shop.name} — ${shop.locality}, Chennai | Shopfront`,
+    description: shop.description,
+    openGraph: {
+      title: `${shop.name} | Verified Local Business in ${shop.locality}, Chennai`,
+      description: shop.description,
+      type: 'website',
+      locale: 'en_IN',
+    },
+  };
 }
 
 export default async function ShopPage(props: ShopPageProps) {
@@ -90,8 +112,32 @@ export default async function ShopPage(props: ShopPageProps) {
       })
     : null;
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: shop.name,
+    description: shop.description,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: shop.address,
+      addressLocality: shop.locality,
+      addressRegion: 'Tamil Nadu',
+      addressCountry: 'IN',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: shop.lat,
+      longitude: shop.lng,
+    },
+    telephone: shop.contact.phone,
+  };
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', padding: '24px 16px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         
         {/* Navigation Breadcrumb */}
