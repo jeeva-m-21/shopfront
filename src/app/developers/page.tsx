@@ -12,10 +12,12 @@ export const metadata: Metadata = {
 };
 
 export default function DevelopersPage() {
+  const baseUrl = process.env.APP_BASE_URL || 'https://shopfront.vercel.app';
+
   const claudeDesktopConfig = `{
   "mcpServers": {
     "shopfront": {
-      "url": "http://localhost:3000/mcp"
+      "url": "${baseUrl}/mcp"
     }
   }
 }`;
@@ -24,7 +26,7 @@ export default function DevelopersPage() {
   "mcpServers": {
     "shopfront": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "http://localhost:3000/mcp"]
+      "args": ["-y", "mcp-remote", "${baseUrl}/mcp"]
     }
   }
 }`;
